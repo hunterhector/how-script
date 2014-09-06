@@ -79,7 +79,6 @@ def format_output(out, all_categories, all_step_listings):
     doc = etree.SubElement(root,'document')
 
     categories = etree.SubElement(doc,'categories')
-    steps = etree.SubElement(doc,'steps')
 
     for cs in all_categories:
         category = etree.SubElement(categories,'category')
@@ -88,8 +87,10 @@ def format_output(out, all_categories, all_step_listings):
             ontology.text = c
 
     for sls in all_step_listings:
-        step = etree.SubElement(steps,'step')
+        steps = etree.SubElement(doc,'steps')
+
         for s in sls:
+            step = etree.SubElement(steps,'step')
             em = etree.SubElement(step, 'em')
             em.text = s[0]
 
