@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <document>
+    <categories>
+      <category>
+        <c>Food and Entertaining</c>
+        <c>Dining Etiquette</c>
+      </category>
+    </categories>
+    <steps>
+      <step>
+        <em>Bring a detailed list of acceptable and prohibited foods with you to the restaurant.</em>
+        <details>
+          <d> Create a laminated list of foods that contain gluten for easy reference.
+</d>
+          <d>
+            <l>Keeping this list on you at all times will ensure that you are ready to provide anyone with information about Celiac disease or gluten sensitivity</l>
+          </d>
+          <d>
+</d>
+        </details>
+        <em>Go online and check the menu.</em>
+        <details>
+          <d> Some restaurants actually have gluten free options. But, this, of course, depends on the type of restaurant and food.</d>
+        </details>
+        <em>Ask for a hamburger with no bun!</em>
+        <details>
+          <d> You can do this at almost any place, just like asking for no mayo!</d>
+        </details>
+        <em>Ask about gluten-free options and ingredients.</em>
+        <details/>
+      </step>
+    </steps>
+  </document>
+</root>
