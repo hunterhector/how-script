@@ -7,70 +7,84 @@
         <c>Dining Out</c>
       </category>
     </categories>
-    <steps>
+    <method>
       <step>
         <em>Choose a lively dining spot with food you like that has quick service.</em>
         <details>
-          <d>
-</d>
+          <text>
+</text>
         </details>
       </step>
       <step>
         <em>Ask for a seat at the counter or bar.</em>
         <details>
-          <d> In addition to ordering a drink, the bar tender can often show you the menu. It's very common for those eating alone to sit at a counter or bar.
-</d>
+          <text> In addition to ordering a drink, the bar tender can often show you the menu. It's very common for those eating alone to sit at a counter or bar.
+</text>
         </details>
       </step>
       <step>
         <em>If no bar or counter is available or you simply prefer a table, ask the hostess to seat you.</em>
         <details>
-          <d> Just say "table for one please" or "it's just me this evening." Smile. It's OK, they want to serve you and are happy you came. If there is a seat by a performer, such as a piano player, ask to be seated near the entertainment.
-</d>
+          <text> Just say "table for one please" or "it's just me this evening." Smile. It's OK, they want to serve you and are happy you came. If there is a seat by a performer, such as a piano player, ask to be seated near the entertainment.
+</text>
         </details>
       </step>
       <step>
         <em>Engage the waiter if you are looking for conversation.</em>
         <details>
-          <d> Ask them to recommend a dish or ask about the local weather.
-</d>
+          <text> Ask them to recommend a dish or ask about the local weather.
+</text>
         </details>
       </step>
       <step>
         <em>Bring a book, magazine, or newspaper to read while you are waiting for your meal.</em>
         <details>
-          <d> This will put you at ease.
-</d>
+          <text> This will put you at ease.
+</text>
         </details>
       </step>
       <step>
         <em>Enjoy your meal.</em>
         <details>
-          <d> When the waiter comes by and asks you how everything is, tell them fine and ask for the check even if you are not finished eating. This way you won't have to prolong the time you sit at the table alone.
-</d>
+          <text> When the waiter comes by and asks you how everything is, tell them fine and ask for the check even if you are not finished eating. This way you won't have to prolong the time you sit at the table alone.
+</text>
         </details>
       </step>
       <step>
         <em>Relax, enjoy yourself and do some people watching.</em>
         <details>
-          <d> If you catch someone's eye, just smile.
-</d>
+          <text> If you catch someone's eye, just smile.
+</text>
         </details>
       </step>
       <step>
         <em>Let the waiter know you'll be right back if you get up during your meal to use the restroom so they don't clear your plate by mistake.</em>
         <details>
-          <d>
-</d>
+          <text>
+</text>
         </details>
       </step>
       <step>
         <em>Pay your bill and tip your waiter and thank the host on the way out.</em>
         <details>
-          <d>
-</d>
+          <text>
+</text>
         </details>
       </step>
-    </steps>
+    </method>
+    <tips>
+      <tip>
+        <text>The more casual the restaurant the more likely you will see diners eating alone.</text>
+      </tip>
+      <tip>
+        <text>One of the worst things is getting a less than desirable table. Make a table request such as "by the window" or "a booth if you have it" so you get a better table than the dreaded dusty one in the back by the kitchen.</text>
+      </tip>
+      <tip>
+        <text>If you are a woman traveling alone on business and you feel uncomfortable walking out to your car or over to the hotel, ask the host or hostess to escort you or at least keep an eye out for you if possible.</text>
+      </tip>
+      <tip>
+        <text>If eating alone is terribly uncomfortable, consider the alternatives: invite a friend/coworker to dine with you, order carry-out and take it to your room, order delivery or room service.</text>
+      </tip>
+    </tips>
   </document>
 </root>

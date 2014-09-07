@@ -6,50 +6,58 @@
         <c>Food and Entertaining</c>
       </category>
     </categories>
-    <steps>
+    <method>
       <step>
         <em>Find a suitable location to set up an outdoor dining area.</em>
         <details>
-          <d> Ideal features of an outdoor eating area include:
-</d>
-          <d>
-            <l>Sheltered from winds and fierce sun</l>
-            <l>Spacious so that a large group of people can be accommodated where possible (not always necessary but a nice touch)</l>
-            <l>Comfortable and pleasant - try to avoid facing blank, dull features such as a concrete wall. If you have problem walls, etc., try to enhance these or cover them with plants, decorative items, etc.</l>
-            <l>Near the kitchen for ease of bringing out the food, or at least accessible easily via a pathway, etc.</l>
-          </d>
-          <d>
-</d>
+          <text> Ideal features of an outdoor eating area include:
+</text>
+          <ul>
+            <li>Sheltered from winds and fierce sun</li>
+            <li>Spacious so that a large group of people can be accommodated where possible (not always necessary but a nice touch)</li>
+            <li>Comfortable and pleasant - try to avoid facing blank, dull features such as a concrete wall. If you have problem walls, etc., try to enhance these or cover them with plants, decorative items, etc.</li>
+            <li>Near the kitchen for ease of bringing out the food, or at least accessible easily via a pathway, etc.</li>
+          </ul>
+          <text>
+</text>
         </details>
       </step>
       <step>
         <em>Choose a suitable table and chair setting.</em>
         <details>
-          <d> The table and chairs should be capable of resisting weather elements such as rain and sun.
-</d>
+          <text> The table and chairs should be capable of resisting weather elements such as rain and sun.
+</text>
         </details>
       </step>
       <step>
         <em>Decorate simply.</em>
         <details>
-          <d> A tablecloth, some flowers, a lantern, etc. are the types of items suitable for decorating an outdoor table. Remember that you will have to cart all these items from the inside to outdoors and vice versa, so minimise this by being smart about your decoration choices. Even grabbing a pot plant from outside and placing it on a clean saucer for a feature piece can work well and it's easier to restore to its place after the meal.
-</d>
+          <text> A tablecloth, some flowers, a lantern, etc. are the types of items suitable for decorating an outdoor table. Remember that you will have to cart all these items from the inside to outdoors and vice versa, so minimise this by being smart about your decoration choices. Even grabbing a pot plant from outside and placing it on a clean saucer for a feature piece can work well and it's easier to restore to its place after the meal.
+</text>
         </details>
       </step>
       <step>
         <em>Select the food.</em>
         <details>
-          <d> Cold food is often an easier choice than hot food, unless you have a barbecue or warming pad near to the table. A mixture of barbecued food with salads, sliced vegetables/fruit, pasta, cheeses, pâtés, etc., works well for al fresco dining.
-</d>
+          <text> Cold food is often an easier choice than hot food, unless you have a barbecue or warming pad near to the table. A mixture of barbecued food with salads, sliced vegetables/fruit, pasta, cheeses, pâtés, etc., works well for al fresco dining.
+</text>
         </details>
       </step>
       <step>
         <em>Use insect deterrents.</em>
         <details>
-          <d> Place insect repellent herbs near the dining area (e.g., lavender, tansy, pyrethrum, etc.) and burn citronella candles or oil to keep the insects at bay.
-</d>
+          <text> Place insect repellent herbs near the dining area (e.g., lavender, tansy, pyrethrum, etc.) and burn citronella candles or oil to keep the insects at bay.
+</text>
         </details>
       </step>
-    </steps>
+    </method>
+    <tips>
+      <tip>
+        <text>Make the most of the natural setting and rely on it to provide most of the interest for your al fresco dining.</text>
+      </tip>
+      <tip>
+        <text>Candles placed in glass lanterns can be a romantic way to light the area in the evening without having the flames burn out. Many outdoor furniture and house wares stores sell these types of lanterns.</text>
+      </tip>
+    </tips>
   </document>
 </root>

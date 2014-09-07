@@ -7,35 +7,43 @@
         <c>Dining Etiquette</c>
       </category>
     </categories>
-    <steps>
+    <method>
       <step>
         <em>Bring a detailed list of acceptable and prohibited foods with you to the restaurant.</em>
         <details>
-          <d> Create a laminated list of foods that contain gluten for easy reference.
-</d>
-          <d>
-            <l>Keeping this list on you at all times will ensure that you are ready to provide anyone with information about Celiac disease or gluten sensitivity</l>
-          </d>
-          <d>
-</d>
+          <text> Create a laminated list of foods that contain gluten for easy reference.
+</text>
+          <ul>
+            <li>Keeping this list on you at all times will ensure that you are ready to provide anyone with information about Celiac disease or gluten sensitivity</li>
+          </ul>
+          <text>
+</text>
         </details>
       </step>
       <step>
         <em>Go online and check the menu.</em>
         <details>
-          <d> Some restaurants actually have gluten free options. But, this, of course, depends on the type of restaurant and food.</d>
+          <text> Some restaurants actually have gluten free options. But, this, of course, depends on the type of restaurant and food.</text>
         </details>
       </step>
       <step>
         <em>Ask for a hamburger with no bun!</em>
         <details>
-          <d> You can do this at almost any place, just like asking for no mayo!</d>
+          <text> You can do this at almost any place, just like asking for no mayo!</text>
         </details>
       </step>
       <step>
         <em>Ask about gluten-free options and ingredients.</em>
         <details/>
       </step>
-    </steps>
+    </method>
+    <tips>
+      <tip>
+        <text>Call a restaurant twice before you visit with your gluten sensitive child. Make the first call several days ahead to see if the restaurant is a viable choice for your family, and call once again on the day you will be dining at the restaurant.</text>
+      </tip>
+      <tip>
+        <text>Notify the restaurant in advance about which day you will be eating out so that the management can be sure that gluten-free menu ingredients are available.</text>
+      </tip>
+    </tips>
   </document>
 </root>

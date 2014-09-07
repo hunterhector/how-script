@@ -8,42 +8,43 @@
         <c>Teaching Children Skills</c>
       </category>
     </categories>
-    <steps>
+    <method>
       <step>
         <em>Be compassionate yourself and your compassion apply to your children as well.</em>
         <details>
-          <d> Be there for them and love them unconditionally.
-</d>
+          <text> Be there for them and love them unconditionally.
+</text>
         </details>
       </step>
       <step>
         <em>Find ways to be compassionate daily.</em>
         <details>
-          <d> Let your children see you acting in a compassionate way with other people and learn from your example.
-</d>
+          <text> Let your children see you acting in a compassionate way with other people and learn from your example.
+</text>
         </details>
       </step>
       <step>
         <em>Find positive acts that your children can participate in with you that demonstrate compassionate behavior.</em>
         <details>
-          <d> For example, perhaps you've found a stray dog and have taken it home. Have your children help clean and feed the dog, take it to the vet with you, and give it a new home. This will help teach your children that everyone deserves love and care.
-</d>
+          <text> For example, perhaps you've found a stray dog and have taken it home. Have your children help clean and feed the dog, take it to the vet with you, and give it a new home. This will help teach your children that everyone deserves love and care.
+</text>
         </details>
       </step>
       <step>
         <em>Read stories about compassionate deeds with your children.</em>
         <details>
-          <d> These can be drawn from your faith, your spiritual sources, your general beliefs, and stories you've loved yourself.
-</d>
+          <text> These can be drawn from your faith, your spiritual sources, your general beliefs, and stories you've loved yourself.
+</text>
         </details>
       </step>
       <step>
         <em>Volunteer with your children.</em>
         <details>
-          <d> Find a suitable volunteer opportunity and get involved in it as a family.
-</d>
+          <text> Find a suitable volunteer opportunity and get involved in it as a family.
+</text>
         </details>
       </step>
-    </steps>
+    </method>
+    <tips/>
   </document>
 </root>
