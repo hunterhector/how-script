@@ -83,18 +83,36 @@
     </methods>
     <tips>
       <tip>
-        <text n="li">The more casual the restaurant the more likely you will see diners eating alone.</text>
+        <ul>
+          <li>The more casual the restaurant the more likely you will see diners eating alone.</li>
+          <li>One of the worst things is getting a less than desirable table. Make a table request such as "by the window" or "a booth if you have it" so you get a better table than the dreaded dusty one in the back by the kitchen.</li>
+          <li>If you are a woman traveling alone on business and you feel uncomfortable walking out to your car or over to the hotel, ask the host or hostess to escort you or at least keep an eye out for you if possible.</li>
+          <li>If eating alone is terribly uncomfortable, consider the alternatives: invite a friend/coworker to dine with you, order carry-out and take it to your room, order delivery or room service.</li>
+        </ul>
       </tip>
       <tip>
-        <text n="li">One of the worst things is getting a less than desirable table. Make a table request such as "by the window" or "a booth if you have it" so you get a better table than the dreaded dusty one in the back by the kitchen.</text>
+        <text n="div">Ad</text>
       </tip>
       <tip>
-        <text n="li">If you are a woman traveling alone on business and you feel uncomfortable walking out to your car or over to the hotel, ask the host or hostess to escort you or at least keep an eye out for you if possible.</text>
-      </tip>
-      <tip>
-        <text n="li">If eating alone is terribly uncomfortable, consider the alternatives: invite a friend/coworker to dine with you, order carry-out and take it to your room, order delivery or room service.</text>
+        <text n="div">
+
+		&lt;!--
+		
+			document.write('&lt;i' + 'ns class="adsbygoogle" style="display:inline-block;width:607px;height:180px" data-ad-client="ca-pub-9543332082073187" data-ad-slot="2533130178"&gt; &lt;/i' + 'ns&gt;');
+
+			(adsbygoogle = window.adsbygoogle || []).push({
+				params: {google_max_num_ads: 3,
+					 google_override_format: true,
+                                         google_ad_channel: "9206048113+7733764704+1640266093+5860073694+2490795108+0782835788+7122150828" + gchans + xchannels}
+			});
+		//--&gt;
+	
+</text>
       </tip>
     </tips>
+    <warnings/>
+    <things/>
+    <ingredients/>
     <related_pages>
       <a href="/Get-VIP-Service-from-a-Restaurant">How to Get VIP Service from a Restaurant</a>
       <a href="/Find-a-Washroom-in-a-Restaurant">How to Find a Washroom in a Restaurant</a>

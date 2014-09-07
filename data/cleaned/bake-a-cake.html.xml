@@ -354,33 +354,75 @@
     </methods>
     <tips>
       <tip>
-        <text n="li">Double check your measurements before adding them to mixing bowls. A few tablespoons of missing or extra flour can have dramatic and undesired effects on the finished cake.</text>
+        <ul>
+          <li>Double check your measurements before adding them to mixing bowls. A few tablespoons of missing or extra flour can have dramatic and undesired effects on the finished cake.</li>
+          <li>If there is salt in the recipe, be very careful. A quarter of a teaspoon extra salt can make it more salty than it should be.</li>
+          <li>When recipes calls for cold ingredients such as butter or cream cheese to be at room temperature, unwrap the item and leave it in a bowl on the counter for a few hours to soften. You can test the softness by poking a fork in it.</li>
+          <li>Do not ice the cake before it cools. This will cause the frosting to run to the sides or slide off the cake.</li>
+          <li>If you're using a different recipe, follow the directions you find in it.</li>
+          <li>If you like moist cakes, substitute the oil for yogurt.</li>
+          <li>Use high quality, heavy duty aluminum baking pans for even heating and best results.</li>
+          <li>If you attempt to remove a hot cake from the pan, it may crack and fall apart.</li>
+          <li>Always wash your hands before baking.</li>
+        </ul>
       </tip>
       <tip>
-        <text n="li">If there is salt in the recipe, be very careful. A quarter of a teaspoon extra salt can make it more salty than it should be.</text>
+        <text n="div">Ad</text>
       </tip>
       <tip>
-        <text n="li">When recipes calls for cold ingredients such as butter or cream cheese to be at room temperature, unwrap the item and leave it in a bowl on the counter for a few hours to soften. You can test the softness by poking a fork in it.</text>
-      </tip>
-      <tip>
-        <text n="li">Do not ice the cake before it cools. This will cause the frosting to run to the sides or slide off the cake.</text>
-      </tip>
-      <tip>
-        <text n="li">If you're using a different recipe, follow the directions you find in it.</text>
-      </tip>
-      <tip>
-        <text n="li">If you like moist cakes, substitute the oil for yogurt.</text>
-      </tip>
-      <tip>
-        <text n="li">Use high quality, heavy duty aluminum baking pans for even heating and best results.</text>
-      </tip>
-      <tip>
-        <text n="li">If you attempt to remove a hot cake from the pan, it may crack and fall apart.</text>
-      </tip>
-      <tip>
-        <text n="li">Always wash your hands before baking.</text>
+        <text n="div">
+
+		&lt;!--
+		
+			document.write('&lt;i' + 'ns class="adsbygoogle" style="display:inline-block;width:607px;height:180px" data-ad-client="ca-pub-9543332082073187" data-ad-slot="2533130178"&gt; &lt;/i' + 'ns&gt;');
+
+			(adsbygoogle = window.adsbygoogle || []).push({
+				params: {google_max_num_ads: 3,
+					 google_override_format: true,
+                                         google_ad_channel: "9206048113+7733764704+1640266093+5860073694+5820473342+6754085577+2490795108+0782835788+7122150828" + gchans + xchannels}
+			});
+		//--&gt;
+	
+</text>
       </tip>
     </tips>
+    <warnings>
+      <warning>
+        <ul>
+          <li>Oven temperatures vary, so keep a close eye on your cake to make sure it doesn't over-bake.</li>
+          <li>Always wear oven mitts or protective gloves when retrieving the cake from the oven to avoid burning.</li>
+          <li>Be sure to keep small children and pets out of the way when opening a hot oven.</li>
+          <li>Also try to be conservative to prevent waste of ingredients and money.</li>
+        </ul>
+      </warning>
+    </warnings>
+    <things>
+      <thing>
+        <ul>
+          <li>Cake recipe
+</li>
+          <li>All ingredients listed in the recipe
+</li>
+          <li>Measuring implements
+</li>
+          <li>Mixer
+</li>
+          <li>Baking pans
+</li>
+          <li>Tooth pick (or wooden skewer)
+</li>
+          <li>Butter knife
+</li>
+          <li>Oven
+</li>
+          <li>Oven mitts or protective gloves
+</li>
+          <li>Cooling rack
+</li>
+        </ul>
+      </thing>
+    </things>
+    <ingredients/>
     <related_pages>
       <a href="/Make-Soul-Cakes">How to Make Soul Cakes</a>
       <a href="/Clean-Wire-Oven-Shelves">How to Clean Wire Oven Shelves</a>

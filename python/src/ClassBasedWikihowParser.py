@@ -139,22 +139,31 @@ def parse_step_listings(step_listings):
     return methods
 
 
-def parse_tip(tag):
+def parse_listed_point(tag):
     tips = []
-    for tip in tag(lambda t : t.name == 'li'):
+    for tip in tag.children:
         n = parse_text(tip)
         if n is not None:
             tips.append(n)
     return tips
 
 
-def parse_tips(tips_divs):
-    tips_node = etree.Element('tips')
+def parse_listed_points(tips_divs,group_name,item_name):
+    tips_node = etree.Element(group_name)
     for tips in tips_divs:
-        for tip in parse_tip(tips):
-            tip_node = etree.SubElement(tips_node, 'tip')
+        for tip in parse_listed_point(tips):
+            tip_node = etree.SubElement(tips_node, item_name)
             tip_node.append(tip)
     return tips_node
+
+
+def parse_warnings(warnings_divs):
+    warnings_node = etree.Element('warnings')
+    for warnings in warnings_divs:
+        for warning in parse_warning(warnings):
+            warning_node = etree.SubElement(warnings_node, 'warning')
+            warning_node.append(warning)
+    return warnings_node
 
 
 def parse_related_wikihow(related_wikihow_tags):
@@ -236,13 +245,14 @@ def find_general_paragraphs(soup):
 
 def parse_wiki_how(wikihow_page):
     #a few todos:
-    #1. get general text
-#3. link to language
 
     soup = BeautifulSoup(wikihow_page)
     all_categories = parse_categories(soup('ul', id='breadcrumb'))
     all_step_listings = parse_step_listings(soup('ol', class_=is_steps_list_class))
-    all_tips = parse_tips(soup('div', id='tips'))
+    all_tips = parse_listed_points(soup('div', id='tips'),'tips','tip')
+    warnings = parse_listed_points(soup('div', id='warnings'),'warnings','warning')
+    things_you_ll_need = parse_listed_points(soup('div',id='thingsyoullneed'),'things','thing')
+    ingredients = parse_listed_points(soup('div',id='ingredients'),'ingredients','igredient')
     meta = parse_meta(soup('meta'))
     related = parse_related_wikihow(soup('div', id='relatedwikihows'))
     alternatives = parse_alternate_links(soup('link'))
@@ -256,6 +266,9 @@ def parse_wiki_how(wikihow_page):
     doc.append(general)
     doc.append(all_step_listings)
     doc.append(all_tips)
+    doc.append(warnings)
+    doc.append(things_you_ll_need)
+    doc.append(ingredients)
     doc.append(related)
     return root
 
