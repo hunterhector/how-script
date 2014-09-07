@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from bs4.element import NavigableString
+from bs4.element import Comment
 import os
 import codecs
 import lxml.etree as etree
@@ -46,7 +47,8 @@ def create_text_node(s,name = None):
 
 def parse_text(tag):
     if type(tag) is NavigableString:
-        return create_text_node(unicode(tag.string))
+        if not type(tag) is Comment: 
+            return create_text_node(unicode(tag.string))
     elif type(tag) is Tag:
         if tag.name == 'ul':
             return parse_ul_text(tag)
@@ -67,7 +69,6 @@ def get_text_from_tag_group(tags):
     last_tag_name = None
     for tag in tags:
         current_tag_name = 'NavigableString' if type(tag) is NavigableString else tag.name
-
         if last_tag_name == None:
             n = parse_text(tag)
             if n is not None:
@@ -79,6 +80,8 @@ def get_text_from_tag_group(tags):
         elif current_tag_name == 'a' and (last_tag_name == 'NavigableString' or last_tag_name == 'a'):
             n = parse_text(tag)
             s.append(n)
+        elif current_tag_name == 'script':
+            pass
     return s
 
 
@@ -245,6 +248,7 @@ def find_general_paragraphs(soup):
 
 def parse_wiki_how(wikihow_page):
     #a few todos:
+    #get rid of script code
 
     soup = BeautifulSoup(wikihow_page)
     all_categories = parse_categories(soup('ul', id='breadcrumb'))
