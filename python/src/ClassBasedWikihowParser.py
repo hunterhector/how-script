@@ -155,12 +155,14 @@ def parse_tips(soup):
     return map(lambda tips : parse_tip(tips), soup.find_all(is_tips_div))
 
 
-def parse_wiki_how(soup)
+def parse_wiki_how(wikihow_page):
 #a few todos:
 #1. title
 #2. other meta
 #3. link to language
 #4. relevant pages
+    
+    soup = BeautifulSoup(wikihow_page)
     all_categories = parse_categories(soup)
     all_step_listings = parse_step_listings(soup)
     all_tips = parse_tips(soup)
@@ -181,8 +183,7 @@ def main():
         if not wikihow_page_path.endswith(".html"):
             continue
         wikihow_page = open(os.path.join(input_path, wikihow_page_path))
-        soup = BeautifulSoup(wikihow_page)
-        et = etree.ElementTree(root)
+        et = etree.ElementTree(parse_wiki_how(wikihow_page))
         et.write(os.path.join(output_path , wikihow_page_path + ".xml") ,xml_declaration=True, encoding='utf-8',pretty_print=True)
 
 if __name__ == "__main__":
