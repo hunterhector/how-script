@@ -155,50 +155,26 @@ def parse_tips(soup):
     return map(lambda tips : parse_tip(tips), soup.find_all(is_tips_div))
 
 
-def format_output(out, all_categories, all_step_listings, all_tips):
+def parse_wiki_how(soup)
+#a few todos:
+#1. title
+#2. other meta
+#3. link to language
+#4. relevant pages
+    all_categories = parse_categories(soup)
+    all_step_listings = parse_step_listings(soup)
+    all_tips = parse_tips(soup)
     root = etree.Element('root')
-   
     doc = etree.SubElement(root,'document')
-
     doc.append(all_categories)
-   # categories = etree.SubElement(doc,'categories')
-
-   # for cs in all_categories:
-   #     category = etree.SubElement(categories,'category')
-   #     for c in cs:
-   #         ontology = etree.SubElement(category,'c')
-   #         ontology.text = c
-
     doc.append(all_step_listings)
-
-#   methods = etree.SubElement(doc,'methods')
-#    for sls in all_step_listings:
-#        steps = etree.SubElement(methods,'method')
-
-   #     for s in sls:
-    #        step = etree.SubElement(steps,'step')
-      #      em = etree.SubElement(step, 'em')
-       #     em.text = s[0]
-
-        #    details = etree.SubElement(step,'details')
-         #   for detail_stuff in s[1]:
-          #      detail = etree.SubElement(details,'d')
-           #     if isinstance(detail_stuff,list):
-            #        for l in detail_stuff:
-                #        li = etree.SubElement(detail,'l')
-                 #       li.text = l
-              #  else:
-               #     detail.text = detail_stuff
-    
-
     tipsNode = etree.SubElement(doc,'tips')
     for tips in all_tips:
         for tip in tips:
             tipNode = etree.SubElement(tipsNode,'tip')
             tipNode.append(tip)
+    return root
 
-    et = etree.ElementTree(root)
-    et.write(out,xml_declaration=True, encoding='utf-8',pretty_print=True)
 
 def main():
     for wikihow_page_path in os.listdir(input_path):
@@ -206,7 +182,8 @@ def main():
             continue
         wikihow_page = open(os.path.join(input_path, wikihow_page_path))
         soup = BeautifulSoup(wikihow_page)
-        format_output(os.path.join(output_path, wikihow_page_path + ".xml"), parse_categories(soup), parse_step_listings(soup), parse_tips(soup))
+        et = etree.ElementTree(root)
+        et.write(os.path.join(output_path , wikihow_page_path + ".xml") ,xml_declaration=True, encoding='utf-8',pretty_print=True)
 
 if __name__ == "__main__":
     main()
