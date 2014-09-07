@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
   <document>
+    <meta>
+      <description>How to Teach Children Compassion. Children can learn compassion just by watching and participating in your own activities. Be compassionate yourself and your compassion apply to your children as well. Be there for them and love them...</description>
+      <keywords>WikiHow, Teach Children Compassion, wiki, how to articles, how to instructions, DIY, tips, howto, learn, how do I</keywords>
+      <title>How to Teach Children Compassion</title>
+      <type>article</type>
+      <url>http://www.wikihow.com/Teach-Children-Compassion</url>
+    </meta>
+    <alter_lang/>
     <categories>
       <category>
         <c>Family Life</c>
@@ -8,43 +16,55 @@
         <c>Teaching Children Skills</c>
       </category>
     </categories>
-    <method>
-      <step>
-        <em>Be compassionate yourself and your compassion apply to your children as well.</em>
-        <details>
-          <text> Be there for them and love them unconditionally.
+    <general>
+      <summary>
+        <text>Children can learn compassion just by watching and participating in your own activities.</text>
+      </summary>
+    </general>
+    <methods>
+      <method>
+        <step>
+          <em>Be compassionate yourself and your compassion apply to your children as well.</em>
+          <details>
+            <text> Be there for them and love them unconditionally.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Find ways to be compassionate daily.</em>
-        <details>
-          <text> Let your children see you acting in a compassionate way with other people and learn from your example.
+          </details>
+        </step>
+        <step>
+          <em>Find ways to be compassionate daily.</em>
+          <details>
+            <text> Let your children see you acting in a compassionate way with other people and learn from your example.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Find positive acts that your children can participate in with you that demonstrate compassionate behavior.</em>
-        <details>
-          <text> For example, perhaps you've found a stray dog and have taken it home. Have your children help clean and feed the dog, take it to the vet with you, and give it a new home. This will help teach your children that everyone deserves love and care.
+          </details>
+        </step>
+        <step>
+          <em>Find positive acts that your children can participate in with you that demonstrate compassionate behavior.</em>
+          <details>
+            <text> For example, perhaps you've found a stray dog and have taken it home. Have your children help clean and feed the dog, take it to the vet with you, and give it a new home. This will help teach your children that everyone deserves love and care.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Read stories about compassionate deeds with your children.</em>
-        <details>
-          <text> These can be drawn from your faith, your spiritual sources, your general beliefs, and stories you've loved yourself.
+          </details>
+        </step>
+        <step>
+          <em>Read stories about compassionate deeds with your children.</em>
+          <details>
+            <text> These can be drawn from your faith, your spiritual sources, your general beliefs, and stories you've loved yourself.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Volunteer with your children.</em>
-        <details>
-          <text> Find a suitable volunteer opportunity and get involved in it as a family.
+          </details>
+        </step>
+        <step>
+          <em>Volunteer with your children.</em>
+          <details>
+            <text> Find a suitable volunteer opportunity and get involved in it as a family.
 </text>
-        </details>
-      </step>
-    </method>
+          </details>
+        </step>
+      </method>
+    </methods>
     <tips/>
+    <related_pages>
+      <a href="/Help-Children-Learn-Conservative-Christian-Values">How to Help Children Learn Conservative Christian Values</a>
+      <a href="/Grocery-Shop-With-Kids">How to Grocery Shop With Kids</a>
+      <a href="/Teach-a-Child-Honesty">How to Teach a Child Honesty</a>
+    </related_pages>
   </document>
 </root>

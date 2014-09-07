@@ -1,77 +1,70 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
   <document>
+    <meta>
+      <description>How to Dine at Home. Here are some steps guiding you how to dine at your home. Turn off the television and radio, and talk to each other while dining. </description>
+      <keywords>WikiHow, Dine at Home, wiki, how to articles, how to instructions, DIY, tips, howto, learn, how do I</keywords>
+      <title>How to Dine at Home</title>
+      <type>article</type>
+      <url>http://www.wikihow.com/Dine-at-Home</url>
+    </meta>
+    <alter_lang/>
     <categories>
       <category>
         <c>Food and Entertaining</c>
         <c>Dining Etiquette</c>
       </category>
     </categories>
-    <method>
-      <step>
-        <em>Turn off the television and radio, and talk to each other while dining.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Wait until all have been seated and served before eating.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Do not place cartons and containers on the table.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Say "No, thank you" when offered food you dislike or seconds you do not want.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>If possible, wait for everyone to finish eating before getting up from the table or asking to be excused.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Only clear the table when everyone is through eating.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>If you are able, take your dishes to the kitchen sink, rinse the dishes, and place them in the dishwasher.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Do not scrape or stack dishes at the table.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Thank those who prepared the meal.</em>
-        <details>
-          <text>
-</text>
-        </details>
-      </step>
-    </method>
+    <general>
+      <summary>
+        <text>Here are some steps guiding you how to dine at your home.</text>
+      </summary>
+    </general>
+    <methods>
+      <method>
+        <step>
+          <em>Turn off the television and radio, and talk to each other while dining.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Wait until all have been seated and served before eating.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Do not place cartons and containers on the table.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Say "No, thank you" when offered food you dislike or seconds you do not want.</em>
+          <details/>
+        </step>
+        <step>
+          <em>If possible, wait for everyone to finish eating before getting up from the table or asking to be excused.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Only clear the table when everyone is through eating.</em>
+          <details/>
+        </step>
+        <step>
+          <em>If you are able, take your dishes to the kitchen sink, rinse the dishes, and place them in the dishwasher.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Do not scrape or stack dishes at the table.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Thank those who prepared the meal.</em>
+          <details/>
+        </step>
+      </method>
+    </methods>
     <tips/>
+    <related_pages>
+      <a href="/Buy-Dessert-Wine">How to Buy Dessert Wine</a>
+      <a href="/Buy-Wine">How to Buy Wine</a>
+      <a href="/Avoid-Awkward-Moments-During-Meals">How to Avoid Awkward Moments During Meals</a>
+    </related_pages>
   </document>
 </root>

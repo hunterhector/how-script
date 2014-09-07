@@ -1,6 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
   <document>
+    <meta>
+      <description>How to Bake a Cake. There's nothing like the taste of a cake you made in your own kitchen. Baking a cake is as simple as measuring ingredients, mixing them in the right order, and remembering to take the cake out of the oven before it...</description>
+      <keywords>WikiHow, Bake a Cake, wiki, how to articles, how to instructions, DIY, tips, howto, learn, how do I</keywords>
+      <title>How to Bake a Cake</title>
+      <type>article</type>
+      <url>http://www.wikihow.com/Bake-a-Cake</url>
+    </meta>
+    <alter_lang>
+      <lang href="http://de.wikihow.com/Wie-man-einen-Kuchen-backt">de</lang>
+      <lang href="http://fr.wikihow.com/cuire-un-g%C3%A2teau">fr</lang>
+      <lang href="http://it.wikihow.com/Preparare-una-Torta">it</lang>
+      <lang href="http://pt.wikihow.com/Assar-um-Bolo">pt</lang>
+      <lang href="http://es.wikihow.com/cocinar-un-pastel">es</lang>
+      <lang href="http://nl.wikihow.com/een-cake-bakken">nl</lang>
+      <lang href="http://ru.wikihow.com/%D0%BF%D1%80%D0%B8%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-%D1%82%D0%BE%D1%80%D1%82">ru</lang>
+      <lang href="http://zh.wikihow.com/%E7%83%98%E7%84%99%E8%9B%8B%E7%B3%95">zh</lang>
+    </alter_lang>
     <categories>
       <category>
         <c>Food and Entertaining</c>
@@ -9,115 +26,369 @@
         <c>Cakes</c>
       </category>
     </categories>
-    <method>
-      <step>
-        <em>Start by reading the ingredient list and directions before you begin.</em>
-        <details>
-          <text> It's important to have every ingredient you need ready to go. You don't want to be running to the grocery store during preparation. The final product can flop if a key ingredient is left out.</text>
-        </details>
-      </step>
-      <step>
-        <em>Prepare your cake pans.</em>
-        <details>
-          <text> Be sure to have the correct size or shape of the pan. </text>
-          <a href="/Make-a-Strawberry-Bundt-Cake" title="Make a Strawberry Bundt Cake">Bundt cakes</a>
-          <text> require bundt pans, while others can be baked in a variety of sizes. Grease pans to avoid sticking. Use about a half of tablespoon of </text>
-          <a href="/Make-Butter-by-Whipping" title="Make Butter by Whipping">butter</a>
-          <text> or vegetable shortening on a paper towel and rub the inside of the pan. Sprinkle about a tablespoon or two of </text>
-          <a href="/Make-Flour" title="Make Flour">flour</a>
-          <text> on top. Flour the pans on the sides to help the cake adhere to the sides as it bakes. This will ensure that the top is flatter, which is important for layered cakes. Shake and dump out any excess flour and set the pans to the side.
+    <general>
+      <method_toc>
+        <text n="span">Four Methods:</text>
+        <a href="#Making_Chocolate_Cake_sub" title="">Making Chocolate Cake</a>
+        <a href="#Making_Apple_Cake_sub" title="">Making Apple Cake</a>
+        <a href="#Making_Vanilla_Pound_Cake_sub" title="">Making Vanilla Pound Cake</a>
+        <a href="#Following_Cake_Recipes_sub" title="">Following Cake Recipes</a>
+      </method_toc>
+      <summary>
+        <text>There's nothing like the taste of a cake you made in your own kitchen. Baking a cake is as simple as measuring ingredients, mixing them in the right order, and remembering to take the cake out of the oven before it burns. Read on to learn how to bake three basic cakes: chocolate cake, apple cake, and vanilla pound cake. Scroll to the bottom for tips on how to follow a cake recipe.</text>
+      </summary>
+    </general>
+    <methods>
+      <method>
+        <step>
+          <em>Gather your ingredients.</em>
+          <details>
+            <ul>
+              <li>3/4 cup unsalted butter, room temperature</li>
+              <li>3/4 cup unsweetened cocoa powder</li>
+              <li>3/4 cup flour</li>
+              <li>1/4 teaspoon salt</li>
+              <li>1/2 teaspoon baking powder</li>
+              <li>1 cup sugar</li>
+              <li>3 eggs</li>
+              <li>1 teaspoon vanilla extract</li>
+              <li>1/2 cup buttermilk or sour cream</li>
+            </ul>
+          </details>
+        </step>
+        <step>
+          <em>Preheat the oven to 350 degrees.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Grease your cake pan.</em>
+          <details>
+            <text> You can use a round standard cake pan, a square baking dish, a loaf pan, a bundt cake pan, or whatever you have on hand. Make sure to grease it well with butter or cooking spray so the cake won't stick to the pan when it's baked.</text>
+          </details>
+        </step>
+        <step>
+          <em>Mix the wet ingredients in a large bowl.</em>
+          <details>
+            <text> Place the butter, eggs, vanilla extract, sugar, and buttermilk in a bowl. Use a whisk or a hand mixer to blend the ingredients well.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Preheat the oven</em>
-        <details/>
-      </step>
-      <step>
-        <em>Measure ingredients</em>
-        <details/>
-      </step>
-      <step>
-        <em>Mix the cake batter as specified on the recipe.</em>
-        <details>
-          <text> Some recipes can be mixed with a stand or </text>
-          <a href="/Remove-Stuck-Beaters-on-a-Mixer" title="Remove Stuck Beaters on a Mixer">hand mixer</a>
-          <text>. Be cautious as steps can instruct to fold in flour or other ingredients with a rubber spatula. While mixing, stop occasionally to scrape down the sides of the bowl with a spatula or spoon to ensure that everything is mixed thoroughly.
+            <ul>
+              <li>The "wet ingredients" in cake recipes are generally those that have moisture. Sugar is often listed as a wet ingredient, too, even though it isn't actually wet.</li>
+              <li>The wet ingredients are usually mixed first in a large bowl. The dry ingredients are mixed separately and added later.</li>
+              <li>It's important to follow instructions regarding the texture of the butter in cake recipes. If you use melted butter where softened butter is called for, the cake could come out ruined. In this case the recipe calls for room temperature butter. You can plan ahead by setting the butter out while you get the rest of the ingredients ready, so it has time to come to room temperature.</li>
+            </ul>
+          </details>
+        </step>
+        <step>
+          <em>Mix the dry ingredients in a separate bowl.</em>
+          <details>
+            <text> Place the flour, salt, cocoa powder, and baking powder in a small bowl. Stir them together until they are well incorporated. </text>
+            <text n="sup">[1]</text>
+          </details>
+        </step>
+        <step>
+          <em>Add the dry mixture to the wet mixture.</em>
+          <details>
+            <text> Beat the mixture on low until the batter comes together and no white bits of flour remain.</text>
+          </details>
+        </step>
+        <step>
+          <em>Pour the batter into the cake pan.</em>
+          <details>
+            <text> Use a spoon or spatula to scrape the sides of the bowl so every bit of batter makes it into the pan.</text>
+          </details>
+        </step>
+        <step>
+          <em>Put the pan in the oven and bake the cake for 30 minutes.</em>
+          <details>
+            <text> Check the cake's progress every so often to make sure it doesn't burn. The cake is ready when a toothpick inserted into the middle comes out clean, rather than coated with batter.</text>
+          </details>
+        </step>
+        <step>
+          <em>Take the cake from the oven and let it cool.</em>
+          <details>
+            <text> Set it on the counter and let it cool for about 5 minutes before handling it.</text>
+          </details>
+        </step>
+        <step>
+          <em>Invert the cake onto a plate.</em>
+          <details>
+            <text> Use whatever plate you're planning on using to serve the cake.</text>
+          </details>
+        </step>
+        <step>
+          <em>Let the cake cool completely before frosting.</em>
+          <details>
+            <text> If you try to add frosting to the cake while it's still warm, the frosting will melt and run off the sides. When the cake is cool and ready to frost, mix up this frosting recipe and use a knife to spread it evenly over the cake:
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Pour the batter evenly into the prepared pans.</em>
-        <details>
-          <text> Fill the pans 2/3 of the way full, as the cake will rise during baking. Gently tap the cake pan on the counter top to release any large air bubbles in the batter.
+            <ul>
+              <li>1 3/4 cups confectioners' sugar</li>
+              <li>1/2 unsweetened cocoa powder</li>
+              <li>6 tablespoons unsalted butter, room temperature</li>
+              <li>1/4 cup milk</li>
+              <li>1 teaspoons vanilla extract</li>
+            </ul>
+          </details>
+        </step>
+      </method>
+      <method>
+        <step>
+          <em>Gather your ingredients.</em>
+          <details>
+            <text> Here's what you'll need for apple cake:
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Place the pans on the center rack of the preheated oven.</em>
-        <details>
-          <text> Do not allow pans to touch each other or the oven wall.
+            <ul>
+              <li>3/4 cup flour</li>
+              <li>3/4 teaspoon baking powder</li>
+              <li>4 apples</li>
+              <li>2 eggs</li>
+              <li>3/4 cup sugar</li>
+              <li>Pinch of salt</li>
+              <li>1/2 teaspoon vanilla extract</li>
+              <li>1/2 cup unsalted butter, melted</li>
+            </ul>
+          </details>
+        </step>
+        <step>
+          <em>Preheat the oven to 350 degrees.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Grease your cake pan.</em>
+          <details>
+            <text> For this recipe you can use a standard cake pan or a springform pan, which has removable sides and is nice if you're serving the cake at a party.</text>
+          </details>
+        </step>
+        <step>
+          <em>Melt the butter and allow it to cool.</em>
+          <details>
+            <text> It should come to room temperature before you incorporate it with the other ingredients.</text>
+          </details>
+        </step>
+        <step>
+          <em>Stir the dry ingredients in a small bowl.</em>
+          <details>
+            <text> Place the flour, salt and baking powder in a bowl and whisk them together.</text>
+          </details>
+        </step>
+        <step>
+          <em>Prepare the apples.</em>
+          <details>
+            <text> Use a knife or a vegetable peeler to peel the apples, then remove their cores. Slice the apples into bite-sized chunks.</text>
+          </details>
+        </step>
+        <step>
+          <em>Blend the wet ingredients.</em>
+          <details>
+            <text> Mix together the sugar, eggs, butter, and vanilla.</text>
+          </details>
+        </step>
+        <step>
+          <em>Add the dry mixture to the wet mixture.</em>
+          <details>
+            <text> Stir until the batter is smooth and creamy.</text>
+          </details>
+        </step>
+        <step>
+          <em>Fold in the apples.</em>
+          <details>
+            <text> Use a spatula to gently incorporate the apples into the batter. Don't over mix the batter, since this will lead to a dense, stiff cake.</text>
+          </details>
+        </step>
+        <step>
+          <em>Pour the batter into the pan.</em>
+          <details>
+            <text> Use the spatula to smooth the top of the batter so it's even.</text>
+          </details>
+        </step>
+        <step>
+          <em>Bake the cake for about 50 minutes.</em>
+          <details>
+            <text> It's ready when the top is golden brown and a toothpick inserted into the cake comes out clean.</text>
+          </details>
+        </step>
+        <step>
+          <em>Serve the cake with whipped cream.</em>
+          <details>
+            <text n="sup">[2]</text>
+          </details>
+        </step>
+      </method>
+      <method>
+        <step>
+          <em>Gather your ingredients.</em>
+          <details>
+            <text> Pound cake is one of the simplest cakes to bake. Here's what you'll need:
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Close the oven door and immediately set a timer to the specified baking time.</em>
-        <details>
-          <text> If there's a time range, use the median or middle number (bake it for 35 minutes for a range of 34 to 36 minutes or 53 minutes for a range of 50 to 55 minutes). Using the median will ensure that the cake won't under or over cook. Resist the urge to open the oven door during baking, as the heat will escape and may cause the cake to cook unevenly. If applicable, turn the oven light on and view through the oven window.
+            <ul>
+              <li>1 cup unsalted butter, softened</li>
+              <li>1 cup sugar</li>
+              <li>Pinch of salt</li>
+              <li>2 teaspoons vanilla extract</li>
+              <li>5 eggs</li>
+              <li>2 cups cake flour</li>
+            </ul>
+          </details>
+        </step>
+        <step>
+          <em>Preheat the oven to 325 degrees.</em>
+          <details/>
+        </step>
+        <step>
+          <em>Grease a cake pan.</em>
+          <details>
+            <text> Pound cakes are best baked in deep pans, such as loaf pans or bundt pans.</text>
+          </details>
+        </step>
+        <step>
+          <em>Cream the butter and sugar.</em>
+          <details>
+            <text> Place the butter and sugar in a mixing bowl and beat them together until the mixture is light, fluffy and creamy.</text>
+          </details>
+        </step>
+        <step>
+          <em>Add the eggs and vanilla.</em>
+          <details>
+            <text> Keep beating the mixture until the eggs are completely incorporated.</text>
+          </details>
+        </step>
+        <step>
+          <em>Stir in the cake flour.</em>
+          <details>
+            <text> Keep the hand mixer on low or use a wooden spoon to stir the flour in a bit at a time until it's just incorporated. Be careful not to overmix it.</text>
+          </details>
+        </step>
+        <step>
+          <em>Pour the batter into the pan.</em>
+          <details>
+            <text> Use a spatula to scrape down the sides of the bowl.</text>
+          </details>
+        </step>
+        <step>
+          <em>Bake the cake for an hour and 15 minutes.</em>
+          <details>
+            <text> The cake is finished when a toothpick inserted in the center comes out clean.</text>
+          </details>
+        </step>
+      </method>
+      <method>
+        <step>
+          <em>Start by reading the ingredient list and directions before you begin.</em>
+          <details>
+            <text> It's important to have every ingredient you need ready to go. You don't want to be running to the grocery store during preparation. The final product can flop if a key ingredient is left out.</text>
+          </details>
+        </step>
+        <step>
+          <em>Prepare your cake pans.</em>
+          <details>
+            <text> Be sure to have the correct size or shape of the pan. </text>
+            <a href="/Make-a-Strawberry-Bundt-Cake" title="Make a Strawberry Bundt Cake">Bundt cakes</a>
+            <text> require bundt pans, while others can be baked in a variety of sizes. Grease pans to avoid sticking. Use about a half of tablespoon of </text>
+            <a href="/Make-Butter-by-Whipping" title="Make Butter by Whipping">butter</a>
+            <text> or vegetable shortening on a paper towel and rub the inside of the pan. Sprinkle about a tablespoon or two of </text>
+            <a href="/Make-Flour" title="Make Flour">flour</a>
+            <text> on top. Flour the pans on the sides to help the cake adhere to the sides as it bakes. This will ensure that the top is flatter, which is important for layered cakes. Shake and dump out any excess flour and set the pans to the side.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Check for cake doneness</em>
-        <details/>
-      </step>
-      <step>
-        <em>Place the pan on a wire rack to cool for 15 to 30 minutes.</em>
-        <details>
-          <text> Run a butter knife around the pan edges to loosen the sides. Place the wire rack over the top of the pan, invert it, and tap it lightly to remove the cake.
+          </details>
+        </step>
+        <step>
+          <em>Preheat the oven</em>
+          <details/>
+        </step>
+        <step>
+          <em>Measure ingredients</em>
+          <details/>
+        </step>
+        <step>
+          <em>Mix the cake batter as specified on the recipe.</em>
+          <details>
+            <text> Some recipes can be mixed with a stand or </text>
+            <a href="/Remove-Stuck-Beaters-on-a-Mixer" title="Remove Stuck Beaters on a Mixer">hand mixer</a>
+            <text>. Be cautious as steps can instruct to fold in flour or other ingredients with a rubber spatula. While mixing, stop occasionally to scrape down the sides of the bowl with a spatula or spoon to ensure that everything is mixed thoroughly.
 </text>
-        </details>
-      </step>
-      <step>
-        <em>Let it cool completely before decorating since the heat will melt frosting and icing.</em>
-        <details>
-          <text> </text>
-          <a href="/Frost-a-Cake" title="Frost a Cake">Frost</a>
-          <text> and </text>
-          <a href="/Decorate-a-Stunning-Cake" title="Decorate a Stunning Cake">decorate</a>
-          <text> as desired.
+          </details>
+        </step>
+        <step>
+          <em>Pour the batter evenly into the prepared pans.</em>
+          <details>
+            <text> Fill the pans 2/3 of the way full, as the cake will rise during baking. Gently tap the cake pan on the counter top to release any large air bubbles in the batter.
 </text>
-        </details>
-      </step>
-    </method>
+          </details>
+        </step>
+        <step>
+          <em>Place the pans on the center rack of the preheated oven.</em>
+          <details>
+            <text> Do not allow pans to touch each other or the oven wall.
+</text>
+          </details>
+        </step>
+        <step>
+          <em>Close the oven door and immediately set a timer to the specified baking time.</em>
+          <details>
+            <text> If there's a time range, use the median or middle number (bake it for 35 minutes for a range of 34 to 36 minutes or 53 minutes for a range of 50 to 55 minutes). Using the median will ensure that the cake won't under or over cook. Resist the urge to open the oven door during baking, as the heat will escape and may cause the cake to cook unevenly. If applicable, turn the oven light on and view through the oven window.
+</text>
+          </details>
+        </step>
+        <step>
+          <em>Check for cake doneness</em>
+          <details/>
+        </step>
+        <step>
+          <em>Place the pan on a wire rack to cool for 15 to 30 minutes.</em>
+          <details>
+            <text> Run a butter knife around the pan edges to loosen the sides. Place the wire rack over the top of the pan, invert it, and tap it lightly to remove the cake.
+</text>
+          </details>
+        </step>
+        <step>
+          <em>Let it cool completely before decorating since the heat will melt frosting and icing.</em>
+          <details>
+            <a href="/Frost-a-Cake" title="Frost a Cake">Frost</a>
+            <text> and </text>
+            <a href="/Decorate-a-Stunning-Cake" title="Decorate a Stunning Cake">decorate</a>
+            <text> as desired.
+</text>
+          </details>
+        </step>
+      </method>
+      <method/>
+    </methods>
     <tips>
       <tip>
-        <text>Double check your measurements before adding them to mixing bowls. A few tablespoons of missing or extra flour can have dramatic and undesired effects on the finished cake.</text>
+        <text n="li">Double check your measurements before adding them to mixing bowls. A few tablespoons of missing or extra flour can have dramatic and undesired effects on the finished cake.</text>
       </tip>
       <tip>
-        <text>If there is salt in the recipe, be very careful. A quarter of a teaspoon extra salt can make it more salty than it should be.</text>
+        <text n="li">If there is salt in the recipe, be very careful. A quarter of a teaspoon extra salt can make it more salty than it should be.</text>
       </tip>
       <tip>
-        <text>When recipes calls for cold ingredients such as butter or cream cheese to be at room temperature, unwrap the item and leave it in a bowl on the counter for a few hours to soften. You can test the softness by poking a fork in it.</text>
+        <text n="li">When recipes calls for cold ingredients such as butter or cream cheese to be at room temperature, unwrap the item and leave it in a bowl on the counter for a few hours to soften. You can test the softness by poking a fork in it.</text>
       </tip>
       <tip>
-        <text>Do not ice the cake before it cools. This will cause the frosting to run to the sides or slide off the cake.</text>
+        <text n="li">Do not ice the cake before it cools. This will cause the frosting to run to the sides or slide off the cake.</text>
       </tip>
       <tip>
-        <text>If you're using a different recipe, follow the directions you find in it.</text>
+        <text n="li">If you're using a different recipe, follow the directions you find in it.</text>
       </tip>
       <tip>
-        <text>If you like moist cakes, substitute the oil for yogurt.</text>
+        <text n="li">If you like moist cakes, substitute the oil for yogurt.</text>
       </tip>
       <tip>
-        <text>Use high quality, heavy duty aluminum baking pans for even heating and best results.</text>
+        <text n="li">Use high quality, heavy duty aluminum baking pans for even heating and best results.</text>
       </tip>
       <tip>
-        <text>If you attempt to remove a hot cake from the pan, it may crack and fall apart.</text>
+        <text n="li">If you attempt to remove a hot cake from the pan, it may crack and fall apart.</text>
       </tip>
       <tip>
-        <text>Always wash your hands before baking.</text>
+        <text n="li">Always wash your hands before baking.</text>
       </tip>
     </tips>
+    <related_pages>
+      <a href="/Make-Soul-Cakes">How to Make Soul Cakes</a>
+      <a href="/Clean-Wire-Oven-Shelves">How to Clean Wire Oven Shelves</a>
+      <a href="/Freeze-Cakes">How to Freeze Cakes</a>
+      <a href="/Fix-Cake-Disasters">How to Fix Cake Disasters</a>
+      <a href="/Make-a-Single-Serving-Cake">How to Make a Single Serving Cake</a>
+      <a href="/Make-a-Cake-in-the-Crockpot">How to Make a Cake in the Crockpot</a>
+      <a href="/Make-a-Cake-Using-a-Pressure-Cooker">How to Make a Cake Using a Pressure Cooker</a>
+    </related_pages>
   </document>
 </root>

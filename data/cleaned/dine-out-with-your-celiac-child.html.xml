@@ -1,49 +1,66 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
   <document>
+    <meta>
+      <description>How to Dine out With Your Celiac Child. Parents who have children who suffer from Celiac disease may be hard pressed to find restaurants that offer healthy options for their children to safely consume. If a child with a gluten allergy...</description>
+      <keywords>WikiHow, Dine out With Your Celiac Child, wiki, how to articles, how to instructions, DIY, tips, howto, learn, how do I</keywords>
+      <title>How to Dine out With Your Celiac Child</title>
+      <type>article</type>
+      <url>http://www.wikihow.com/Dine-out-With-Your-Celiac-Child</url>
+    </meta>
+    <alter_lang/>
     <categories>
       <category>
         <c>Food and Entertaining</c>
         <c>Dining Etiquette</c>
       </category>
     </categories>
-    <method>
-      <step>
-        <em>Bring a detailed list of acceptable and prohibited foods with you to the restaurant.</em>
-        <details>
-          <text> Create a laminated list of foods that contain gluten for easy reference.
+    <general>
+      <summary>
+        <text>Parents who have children who suffer from Celiac disease may be hard pressed to find restaurants that offer healthy options for their children to safely consume. If a child with a gluten allergy consumes wheat, even in small doses, either intentionally or accidentally, it can cause serious health problems.</text>
+      </summary>
+    </general>
+    <methods>
+      <method>
+        <step>
+          <em>Bring a detailed list of acceptable and prohibited foods with you to the restaurant.</em>
+          <details>
+            <text> Create a laminated list of foods that contain gluten for easy reference.
 </text>
-          <ul>
-            <li>Keeping this list on you at all times will ensure that you are ready to provide anyone with information about Celiac disease or gluten sensitivity</li>
-          </ul>
-          <text>
-</text>
-        </details>
-      </step>
-      <step>
-        <em>Go online and check the menu.</em>
-        <details>
-          <text> Some restaurants actually have gluten free options. But, this, of course, depends on the type of restaurant and food.</text>
-        </details>
-      </step>
-      <step>
-        <em>Ask for a hamburger with no bun!</em>
-        <details>
-          <text> You can do this at almost any place, just like asking for no mayo!</text>
-        </details>
-      </step>
-      <step>
-        <em>Ask about gluten-free options and ingredients.</em>
-        <details/>
-      </step>
-    </method>
+            <ul>
+              <li>Keeping this list on you at all times will ensure that you are ready to provide anyone with information about Celiac disease or gluten sensitivity</li>
+            </ul>
+          </details>
+        </step>
+        <step>
+          <em>Go online and check the menu.</em>
+          <details>
+            <text> Some restaurants actually have gluten free options. But, this, of course, depends on the type of restaurant and food.</text>
+          </details>
+        </step>
+        <step>
+          <em>Ask for a hamburger with no bun!</em>
+          <details>
+            <text> You can do this at almost any place, just like asking for no mayo!</text>
+          </details>
+        </step>
+        <step>
+          <em>Ask about gluten-free options and ingredients.</em>
+          <details/>
+        </step>
+      </method>
+    </methods>
     <tips>
       <tip>
-        <text>Call a restaurant twice before you visit with your gluten sensitive child. Make the first call several days ahead to see if the restaurant is a viable choice for your family, and call once again on the day you will be dining at the restaurant.</text>
+        <text n="li">Call a restaurant twice before you visit with your gluten sensitive child. Make the first call several days ahead to see if the restaurant is a viable choice for your family, and call once again on the day you will be dining at the restaurant.</text>
       </tip>
       <tip>
-        <text>Notify the restaurant in advance about which day you will be eating out so that the management can be sure that gluten-free menu ingredients are available.</text>
+        <text n="li">Notify the restaurant in advance about which day you will be eating out so that the management can be sure that gluten-free menu ingredients are available.</text>
       </tip>
     </tips>
+    <related_pages>
+      <a href="/Eat-Out-with-a-Toddler">How to Eat Out with a Toddler</a>
+      <a href="/Eat-out-With-a-Gluten-Allergy">How to Eat out With a Gluten Allergy</a>
+    </related_pages>
   </document>
 </root>
