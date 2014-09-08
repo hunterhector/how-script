@@ -8,9 +8,11 @@ import os
 import codecs
 import lxml.etree as etree
 import lxml.builder
+import logging
+import logging.handlers
 
-input_path = "../../data/html_sample"
-output_path = "../../data/cleaned"
+input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
+output_base_path = "/Users/hector/Documents/data/wikihow_xml"
 
 
 def is_category_link(tag):
@@ -46,6 +48,7 @@ def create_text_node(s,name = None):
 
 
 def parse_text(tag):
+    #get immediate text form this tag, do not go deeper
     if type(tag) is NavigableString:
         if not type(tag) is Comment: 
             return create_text_node(unicode(tag.string))
@@ -60,33 +63,40 @@ def parse_text(tag):
             anchor.set('title', title)
             anchor.text = tag.get_text()
             return anchor
+        elif tag.name == 'div':
+            if len(tag('script')) > 0:
+                return None
+            elif tag.has_attr('class'):
+                for c in tag['class']:
+                    if c.startswith('ad_label'):
+                        return None
+                else:
+                    return create_text_node(tag.get_text())
+            else:
+                return create_text_node(tag.get_text())
         else:
             return create_text_node(tag.get_text(),tag.name)
 
 
 def get_text_from_tag_group(tags):
+    #get text for each tag
     s = []
     last_tag_name = None
     for tag in tags:
         current_tag_name = 'NavigableString' if type(tag) is NavigableString else tag.name
-        if last_tag_name == None:
+        if type(tag) is NavigableString:
             n = parse_text(tag)
             if n is not None:
                 s.append(n)
-        elif current_tag_name == 'NavigableString' and last_tag_name == 'NavigableString':
-            n = parse_text(tag)
-            if n is not None:
-                s.append(n)
-        elif current_tag_name == 'a' and (last_tag_name == 'NavigableString' or last_tag_name == 'a'):
+        elif tag.name != 'script': 
             n = parse_text(tag)
             s.append(n)
-        elif current_tag_name == 'script':
-            pass
     return s
 
 
 def get_all_children_text(tag):
     return get_text_from_tag_group(tag.children)
+
 
 def parse_category(tag):
     c_nodes = []
@@ -247,17 +257,22 @@ def find_general_paragraphs(soup):
 
 
 def parse_wiki_how(wikihow_page):
-    #a few todos:
-    #get rid of script code
-
     soup = BeautifulSoup(wikihow_page)
-    all_categories = parse_categories(soup('ul', id='breadcrumb'))
-    all_step_listings = parse_step_listings(soup('ol', class_=is_steps_list_class))
-    all_tips = parse_listed_points(soup('div', id='tips'),'tips','tip')
+    
+    # get rid of irrelevant articles by type
+    meta = parse_meta(soup('meta'))
+    article_type  = meta.xpath("type")
+    if article_type and article_type[0].text == 'article':
+        pass
+    else:
+        return None
+
+    categories = parse_categories(soup('ul', id='breadcrumb'))
+    methods = parse_step_listings(soup('ol', class_=is_steps_list_class))
+    tips = parse_listed_points(soup('div', id='tips'),'tips','tip')
     warnings = parse_listed_points(soup('div', id='warnings'),'warnings','warning')
     things_you_ll_need = parse_listed_points(soup('div',id='thingsyoullneed'),'things','thing')
     ingredients = parse_listed_points(soup('div',id='ingredients'),'ingredients','igredient')
-    meta = parse_meta(soup('meta'))
     related = parse_related_wikihow(soup('div', id='relatedwikihows'))
     alternatives = parse_alternate_links(soup('link'))
     general = parse_general_description(find_general_paragraphs(soup))
@@ -266,10 +281,10 @@ def parse_wiki_how(wikihow_page):
     doc = etree.SubElement(root, 'document')
     doc.append(meta)
     doc.append(alternatives)
-    doc.append(all_categories)
+    doc.append(categories)
     doc.append(general)
-    doc.append(all_step_listings)
-    doc.append(all_tips)
+    doc.append(methods)
+    doc.append(tips)
     doc.append(warnings)
     doc.append(things_you_ll_need)
     doc.append(ingredients)
@@ -277,18 +292,63 @@ def parse_wiki_how(wikihow_page):
     return root
 
 
+def create_category_dir(categories):
+    path_seg = []
+    for category in categories.iter():
+        c = category.text
+        if not c is None:
+            path_seg.append(category.text)
+    return os.path.join(path_seg)
+
+
+class warningFilter(logging.Filter):
+    def filter(self,record):
+        return record.levelno == logging.WARNING
+
 def main():
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    if not os.path.exists(output_base_path):
+        os.makedirs(output_base_path)
+   
+    logger = logging.getLogger('wikihow_parser_logger')
+    formatter = logging.Formatter('%(asctime)s | %(name)s |  %(levelname)s: %(message)s')
+    logger.setLevel(logging.WARNING)
+
+    logFilePath = 'parsing_error.log'
+    errorLogger = logging.handlers.TimedRotatingFileHandler(filename = logFilePath, when = 'midnight', backupCount = 30)
+    errorLogger.setFormatter(formatter)
+    errorLogger.setLevel(logging.ERROR)
+
+    logFilePath = 'parsing_warning.log'
+    warningLogger = logging.handlers.TimedRotatingFileHandler(filename = logFilePath, when = 'midnight', backupCount = 30)
+    warningLogger.setFormatter(formatter)
+    warningLogger.setLevel(logging.WARNING)
+    warningLogger.addFilter(warningFilter())
+
+    logger.addHandler(errorLogger)
+    logger.addHandler(warningLogger)
 
     for wikihow_page_path in os.listdir(input_path):
-        if not wikihow_page_path.endswith(".html"):
-            continue
-        wikihow_page = open(os.path.join(input_path, wikihow_page_path))
-        et = etree.ElementTree(parse_wiki_how(wikihow_page))
-        et.write(os.path.join(output_path, wikihow_page_path + ".xml"), xml_declaration=True, encoding='utf-8',
-                 pretty_print=True)
-
+        try:
+            if not wikihow_page_path.endswith(".html"):
+                continue
+            wikihow_page = open(os.path.join(input_path, wikihow_page_path))
+            parse_result = parse_wiki_how(wikihow_page)
+            if parse_result is None:
+                logger.warning('['+wikihow_page_path + '] might not be a wikihow page, not parsed')
+                #might not be a wikihow article
+                continue
+            et = etree.ElementTree(parse_result)
+            subpath = ''
+            categories = et.xpath("//categories")
+            if categories:
+                subpath = os.path.join('',*create_category_dir(categories[0]))
+            output_path = os.path.join(output_base_path,subpath)
+            if not os.path.exists(output_path):
+                os.makedirs(output_path)
+            et.write(os.path.join(output_path, wikihow_page_path + ".xml"), xml_declaration=True, encoding='utf-8',
+                     pretty_print=True)
+        except Exception:
+            logger.exception('Error when processing ' + wikihow_page_path)  
 
 if __name__ == "__main__":
     main()
