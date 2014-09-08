@@ -14,6 +14,8 @@ import logging.handlers
 input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
 output_base_path = "/Users/hector/Documents/data/wikihow_xml"
 
+#input_path = "../../data/html_sample/"
+#output_base_path = "../../data/cleaned/"
 
 def is_category_link(tag):
     return tag.name == 'a' and tag.has_attr('title') and tag['title'] != "Main Page" and not tag['title'].startswith(
@@ -50,7 +52,7 @@ def create_text_node(s,name = None):
 def parse_text(tag):
     #get immediate text form this tag, do not go deeper
     if type(tag) is NavigableString:
-        if not type(tag) is Comment: 
+        if not type(tag) is Comment:
             return create_text_node(unicode(tag.string))
     elif type(tag) is Tag:
         if tag.name == 'ul':
@@ -81,16 +83,16 @@ def parse_text(tag):
 def get_text_from_tag_group(tags):
     #get text for each tag
     s = []
-    last_tag_name = None
     for tag in tags:
         current_tag_name = 'NavigableString' if type(tag) is NavigableString else tag.name
         if type(tag) is NavigableString:
             n = parse_text(tag)
-            if n is not None:
+            if not n is None:
                 s.append(n)
         elif tag.name != 'script': 
             n = parse_text(tag)
-            s.append(n)
+            if not n is None:
+                s.append(n)
     return s
 
 
@@ -136,7 +138,6 @@ def parse_step_listing(tag):
         details = etree.SubElement(step, 'details')
         for detail in parse_step_details(step_em_tag.next_sibling):
             details.append(detail)
-
         steps.append(step)
 
     return steps
