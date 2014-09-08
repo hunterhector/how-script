@@ -11,11 +11,11 @@ import lxml.builder
 import logging
 import logging.handlers
 
-input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
-output_base_path = "/Users/hector/Documents/data/wikihow_xml"
+#input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
+#output_base_path = "/Users/hector/Documents/data/wikihow_xml"
 
-#input_path = "../../data/html_sample/"
-#output_base_path = "../../data/cleaned/"
+input_path = "../../data/html_sample/"
+output_base_path = "../../data/cleaned/"
 
 def is_category_link(tag):
     return tag.name == 'a' and tag.has_attr('title') and tag['title'] != "Main Page" and not tag['title'].startswith(
@@ -30,69 +30,110 @@ def is_clear_div(tag):
     return tag.name == 'div' and tag.has_attr('class') and tag['class'][0] == 'clearall'
 
 
+def valid_xml_char_ordinal(c):
+    codepoint = ord(c)
+    # conditions ordered by presumed frequency
+    return (
+        0x20 <= codepoint <= 0xD7FF or
+        codepoint in (0x9, 0xA, 0xD) or
+        0xE000 <= codepoint <= 0xFFFD or
+        0x10000 <= codepoint <= 0x10FFFF
+        )
+
+
+def clean_xml_string(s):
+    return ''.join(c for c in s if valid_xml_char_ordinal(c))
+
+
+def set_lxml_node_text(n,t):
+    try:
+        n.text = t
+    except:
+        try:
+            n.text = clean_xml_string(t)
+        except Exception, e:
+            pass
+
+
 def parse_ul_text(tag):
     ls = etree.Element('ul')
     for l in tag(lambda t: t.name == 'li'):
         li = etree.SubElement(ls, "li")
-        li.text = l.get_text()
+        set_lxml_node_text(li,unicode(l.get_text()))
 
     return ls
 
 
-def create_text_node(s,name = None):
+def create_text_node(tag):
+    s = ""
+    name = None
+    if type(tag) is NavigableString:
+        s = tag.string
+    else:
+        s = tag.get_text()
+        name = tag.name
+
     if not s or s.isspace():
         return None
     n = etree.Element('text')
-    n.text = s
+    set_lxml_node_text(n,s)
     if not name is None:
         n.set('n',name)
     return n
+
+
+def create_anchor_node(tag,node_name = 'a'):
+    ref = tag['href'] if tag.has_attr('href') else ''
+    title = tag['title'] if tag.has_attr('title') else ''
+    anchor = etree.Element(node_name)
+    anchor.set('href', ref)
+    anchor.set('title', title)
+    return anchor 
 
 
 def parse_text(tag):
     #get immediate text form this tag, do not go deeper
     if type(tag) is NavigableString:
         if not type(tag) is Comment:
-            return create_text_node(unicode(tag.string))
+            return create_text_node(tag)
     elif type(tag) is Tag:
         if tag.name == 'ul':
             return parse_ul_text(tag)
         elif tag.name == 'a':
-            ref = tag['href'] if tag.has_attr('href') else ''
-            title = tag['title'] if tag.has_attr('title') else ''
-            anchor = etree.Element('a')
-            anchor.set('href', ref)
-            anchor.set('title', title)
-            anchor.text = tag.get_text()
+            anchor = create_anchor_node(tag)
+            set_lxml_node_text(anchor,unicode(tag.get_text()))
             return anchor
         elif tag.name == 'div':
-            if len(tag('script')) > 0:
-                return None
-            elif tag.has_attr('class'):
-                for c in tag['class']:
-                    if c.startswith('ad_label'):
-                        return None
-                else:
-                    return create_text_node(tag.get_text())
-            else:
-                return create_text_node(tag.get_text())
+            #if len(tag('script')) > 0:
+            #    return None
+            #elif tag.has_attr('class'):
+            #    for c in tag['class']:
+            #        if c.startswith('ad_label'):
+            #            return None
+            #    else:
+            #        return create_text_node(tag)
+            #else:
+                return create_text_node(tag)
         else:
-            return create_text_node(tag.get_text(),tag.name)
+            return create_text_node(tag)
+
+
+def get_text_from_tag(tag):
+    #might return None
+    if tag.name == 'script':
+        return None
+    
+    n = parse_text(tag)
+    return n 
 
 
 def get_text_from_tag_group(tags):
     #get text for each tag
     s = []
     for tag in tags:
-        current_tag_name = 'NavigableString' if type(tag) is NavigableString else tag.name
-        if type(tag) is NavigableString:
-            n = parse_text(tag)
-            if not n is None:
-                s.append(n)
-        elif tag.name != 'script': 
-            n = parse_text(tag)
-            if not n is None:
-                s.append(n)
+        tn = get_text_from_tag(tag)
+        if not tn is None:
+            s.append(tn)
     return s
 
 
@@ -104,7 +145,7 @@ def parse_category(tag):
     c_nodes = []
     for a in tag(is_category_link):
         c = etree.Element('c')
-        c.text = a.get_text()
+        set_lxml_node_text(c,unicode(a.get_text()))
         c_nodes.append(c)
     return c_nodes
 
@@ -120,24 +161,49 @@ def parse_categories(category_tags):
     return categories
 
 
-def parse_step_details(tag):
+def tags_until_clear(tag):
     tags_to_parse = []
     while not tag is None and not is_clear_div(tag):
         tags_to_parse.append(tag)
         tag = tag.next_sibling
-    return get_text_from_tag_group(tags_to_parse)
+    return tags_to_parse
 
 
 def parse_step_listing(tag):
     steps = []
-    for step_em_tag in tag('b', class_='whb'):
-        step = etree.Element('step')
-        em = etree.SubElement(step, 'em')
-        em.text = step_em_tag.get_text()
 
-        details = etree.SubElement(step, 'details')
-        for detail in parse_step_details(step_em_tag.next_sibling):
-            details.append(detail)
+    for step_num_tag in tag('div',class_='step_num'):
+        step = etree.Element('step')
+        details = etree.Element('details')
+        for step_tag in  tags_until_clear(step_num_tag.next_sibling):
+            em_tag = None
+            if step_tag.name == 'b' and step_tag.has_attr('class'):
+                for c in step_tag['class']:
+                    if c == 'whb':
+                        em_tag = step_tag
+                    
+            if em_tag == None:
+                if type(step_tag) == Tag:
+                    sub_em_tags = step_tag('b',class_='whb')
+                    if sub_em_tags:
+                        em_tag = sub_em_tags[0]
+
+            if not em_tag is None:
+                step_em_tag = em_tag
+                em_parent = step_em_tag.parent
+                em = None
+                if not em_parent is None and em_parent.name == 'a':
+                    #lazy, only check one level up
+                    em = create_anchor_node(em_parent,'em')
+                else:
+                    em = etree.Element('em')
+                step.append(em)
+                em.text = unicode(step_em_tag.get_text())
+            else:
+                tn = get_text_from_tag(step_tag)
+                if not tn is None:
+                    details.append(tn)
+        step.append(details)
         steps.append(step)
 
     return steps
@@ -145,7 +211,6 @@ def parse_step_listing(tag):
 
 def parse_step_listings(step_listings):
     methods = etree.Element('methods')
-
     for listing in step_listings:
         method = etree.SubElement(methods, 'method')
         for s in parse_step_listing(listing):
@@ -192,7 +257,7 @@ def parse_related_wikihow(related_wikihow_tags):
                         href = related_wikihow_anchor['href']
             
             related_page_node = etree.SubElement(related_pages_node,'a')
-            related_page_node.text = unicode(related_wikihow_text.get_text())
+            set_lxml_node_text(related_page_node,unicode(related_wikihow_text.get_text()))
             related_page_node.set('href',href)
 
     return related_pages_node
@@ -203,16 +268,26 @@ def parse_meta(metas):
     for meta in metas:
         if meta.has_attr('name'):
             if meta['name'] == 'description':
-                etree.SubElement(meta_node, 'description').text = meta['content'] if meta.has_attr('content') else ''
+                n = etree.SubElement(meta_node, 'description')
+                t = meta['content'] if meta.has_attr('content') else ''
+                set_lxml_node_text(n,t)
             if meta['name'] == 'keywords':
-                etree.SubElement(meta_node, 'keywords').text = meta['content'] if meta.has_attr('content') else ''
+                n = etree.SubElement(meta_node, 'keywords') 
+                t = meta['content'] if meta.has_attr('content') else ''
+                set_lxml_node_text(n,t)
         if meta.has_attr('property'):
             if meta['property'] == 'og:type':
-                etree.SubElement(meta_node, 'type').text = meta['content'] if meta.has_attr('content') else ''
+                n = etree.SubElement(meta_node, 'type')
+                t = meta['content'] if meta.has_attr('content') else ''
+                set_lxml_node_text(n,t)
             if meta['property'] == 'og:url':
-                etree.SubElement(meta_node, 'url').text =  meta['content'] if meta.has_attr('content') else ''
+                n = etree.SubElement(meta_node, 'url')
+                t =  meta['content'] if meta.has_attr('content') else ''
+                set_lxml_node_text(n,t)
             if meta['property'] == 'og:title':
-                etree.SubElement(meta_node, 'title').text = meta['content'] if meta.has_attr('content') else ''
+                n = etree.SubElement(meta_node, 'title')
+                t = meta['content'] if meta.has_attr('content') else ''
+                set_lxml_node_text(n,t)
 
     return meta_node
 
@@ -222,7 +297,8 @@ def parse_alternate_links(links):
     for link in links:
         if link.has_attr('rel') and link.has_attr('hreflang') and link.has_attr('href'):
             lang_node = etree.SubElement(links_node,'lang')
-            lang_node.text = link['hreflang']
+            set_lxml_node_text(lang_node,link['hreflang'])
+            #lang_node.text = link['hreflang']
             lang_node.set('href',link['href'])
     return links_node
    
@@ -259,7 +335,7 @@ def find_general_paragraphs(soup):
 
 def parse_wiki_how(wikihow_page):
     soup = BeautifulSoup(wikihow_page)
-    
+
     # get rid of irrelevant articles by type
     meta = parse_meta(soup('meta'))
     article_type  = meta.xpath("type")
@@ -267,6 +343,17 @@ def parse_wiki_how(wikihow_page):
         pass
     else:
         return None
+
+    # clear invisible units
+    for hidden in soup.select( '[style~="visibility:hidden"]' ):
+        hidden.decompose()
+    for hidden in soup.select( '[style~="display:none"]' ):
+        hidden.decompose()
+    # clear script and advertisement
+    for script in soup('script'):
+        script.decompose()
+    for ad in soup.select( '[class~=ad_label]'):
+        ad.decompose()
 
     categories = parse_categories(soup('ul', id='breadcrumb'))
     methods = parse_step_listings(soup('ol', class_=is_steps_list_class))
@@ -302,9 +389,12 @@ def create_category_dir(categories):
     return os.path.join(path_seg)
 
 
-class warningFilter(logging.Filter):
-    def filter(self,record):
-        return record.levelno == logging.WARNING
+class levelFilter(logging.Filter):
+    def __init__(self,level):
+        self.__level = level 
+
+    def filter(self,logRecord):
+        return logRecord.levelno <= self.__level
 
 def main():
     if not os.path.exists(output_base_path):
@@ -312,7 +402,7 @@ def main():
    
     logger = logging.getLogger('wikihow_parser_logger')
     formatter = logging.Formatter('%(asctime)s | %(name)s |  %(levelname)s: %(message)s')
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.INFO)
 
     logFilePath = 'parsing_error.log'
     errorLogger = logging.handlers.TimedRotatingFileHandler(filename = logFilePath, when = 'midnight', backupCount = 30)
@@ -323,11 +413,21 @@ def main():
     warningLogger = logging.handlers.TimedRotatingFileHandler(filename = logFilePath, when = 'midnight', backupCount = 30)
     warningLogger.setFormatter(formatter)
     warningLogger.setLevel(logging.WARNING)
-    warningLogger.addFilter(warningFilter())
+    warningLogger.addFilter(levelFilter(logging.WARNING))
+
+
+    logFilePath = 'progress.log'
+    progressLogger = logging.handlers.TimedRotatingFileHandler(filename = logFilePath, when = 'midnight', backupCount = 30)
+    progressLogger.setFormatter(formatter)
+    progressLogger.setLevel(logging.INFO)
+    progressLogger.addFilter(levelFilter(logging.INFO))
 
     logger.addHandler(errorLogger)
     logger.addHandler(warningLogger)
+    logger.addHandler(progressLogger)
 
+    counter = 0
+    progress_num = 10000
     for wikihow_page_path in os.listdir(input_path):
         try:
             if not wikihow_page_path.endswith(".html"):
@@ -338,6 +438,8 @@ def main():
                 logger.warning('['+wikihow_page_path + '] might not be a wikihow page, not parsed')
                 #might not be a wikihow article
                 continue
+            
+            
             et = etree.ElementTree(parse_result)
             subpath = ''
             categories = et.xpath("//categories")
@@ -348,6 +450,11 @@ def main():
                 os.makedirs(output_path)
             et.write(os.path.join(output_path, wikihow_page_path + ".xml"), xml_declaration=True, encoding='utf-8',
                      pretty_print=True)
+            
+            counter += 1
+            if counter % progress_num == 0: 
+                logger.info("Finished %d files."%counter)
+
         except Exception:
             logger.exception('Error when processing ' + wikihow_page_path)  
 

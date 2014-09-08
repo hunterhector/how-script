@@ -291,12 +291,22 @@
           </details>
         </step>
         <step>
-          <em>Preheat the oven</em>
-          <details/>
+          <em href="/Preheat-an-Oven" title="Preheat an Oven">Preheat the oven</em>
+          <details>
+            <text> to the required temperature from the recipe.
+</text>
+          </details>
         </step>
         <step>
-          <em>Measure ingredients</em>
-          <details/>
+          <em href="/Use-Measuring-Spoons-and-Cups" title="Use Measuring Spoons and Cups">Measure ingredients</em>
+          <details>
+            <text> as accurately as possible and add them in the order specified. Most cake recipes begin combining dry ingredients (flour, baking powder, cocoa, etc.), then adding wet ingredients (eggs, oil, and milk). Be sure to take special prerequisites such as </text>
+            <a href="/Sift-Flour" title="Sift Flour">sifting</a>
+            <text>, </text>
+            <a href="/Whisk-Eggs" title="Whisk Eggs">whisking</a>
+            <text> or beating, and packing before adding to the main bowl.
+</text>
+          </details>
         </step>
         <step>
           <em>Mix the cake batter as specified on the recipe.</em>
@@ -329,8 +339,11 @@
           </details>
         </step>
         <step>
-          <em>Check for cake doneness</em>
-          <details/>
+          <em href="/Test-a-Cake-to-See-if-it-is-Done" title="Test a Cake to See if it is Done">Check for cake doneness</em>
+          <details>
+            <text>. Gently insert a toothpick or wooden skewer in the center of the cake. If it comes out clean or with a few small crumbs on it, the cake is done. If not, place it back in the oven for another 3-4 minutes. Keep testing for the same amount of time until you get the correct result.
+</text>
+          </details>
         </step>
         <step>
           <em>Place the pan on a wire rack to cool for 15 to 30 minutes.</em>
