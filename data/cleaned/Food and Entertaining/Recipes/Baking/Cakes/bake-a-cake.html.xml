@@ -27,13 +27,9 @@
       </category>
     </categories>
     <general>
-      <method_toc>
-        <text n="span">Four Methods:</text>
-        <a href="#Making_Chocolate_Cake_sub" title="">Making Chocolate Cake</a>
-        <a href="#Making_Apple_Cake_sub" title="">Making Apple Cake</a>
-        <a href="#Making_Vanilla_Pound_Cake_sub" title="">Making Vanilla Pound Cake</a>
-        <a href="#Following_Cake_Recipes_sub" title="">Following Cake Recipes</a>
-      </method_toc>
+      <title>
+        <text n="h1">How to Bake a Cake</text>
+      </title>
       <summary>
         <text>There's nothing like the taste of a cake you made in your own kitchen. Baking a cake is as simple as measuring ingredients, mixing them in the right order, and remembering to take the cake out of the oven before it burns. Read on to learn how to bake three basic cakes: chocolate cake, apple cake, and vanilla pound cake. Scroll to the bottom for tips on how to follow a cake recipe.</text>
       </summary>

@@ -19,11 +19,9 @@
       </category>
     </categories>
     <general>
-      <method_toc>
-        <text n="span">Two Methods:</text>
-        <a href="#Part_One:_Get_Tickets_to_Hell.27s_Kitchen_sub" title="">Get Tickets to Hell's Kitchen</a>
-        <a href="#Part_Two:_Eat_at_Gordon_Ramsay.27s_Restaurants_sub" title="">Eat at Gordon Ramsay's Restaurants</a>
-      </method_toc>
+      <title>
+        <text n="h1">How to Eat at Hell's Kitchen</text>
+      </title>
       <summary>
         <text>If you love watching </text>
         <text n="i">Hell's Kitchen</text>

@@ -15,7 +15,20 @@
     <categories>
       <category/>
     </categories>
-    <general/>
+    <general>
+      <title>
+        <text n="h1">How to Make a Teddy Bear</text>
+      </title>
+      <summary>
+        <text>It's not uncommon to give a teddy bear to a child or a loved one, but it </text>
+        <text n="i">is</text>
+        <text> quite rare to give someone a teddy bear that you made yourself. If you're willing to put your </text>
+        <a href="Hand-Baste-Fabric.html" title="Hand Baste Fabric">sewing</a>
+        <text> skills to work, you can give this traditional </text>
+        <a href="Make-a-Toy-for-a-Toddler.html" title="Make a Toy for a Toddler">toy</a>
+        <text> a personal touch and offer it affectionately to a special person.</text>
+      </summary>
+    </general>
     <methods>
       <method>
         <step>

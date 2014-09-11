@@ -311,25 +311,58 @@ def parse_general_description(ps):
             for t in get_all_children_text(p):
                 toc.append(t)
         else:
-            summary = etree.SubElement(g_node,'summary')
-            for t in get_all_children_text(p):
-                summary.append(t)
+            classes = p["class"] if p.has_attr("class") else []
+            if "firstHeading" in classes:
+                title = etree.SubElement(g_node,'title')
+                tn = get_text_from_tag(p)
+                if not tn is None:
+                    title.append(tn)
+            else:
+                summary = etree.SubElement(g_node,'summary')
+                for t in get_text_from_tag_group(p):
+                    summary.append(t)
     return g_node
 
 
+def checkClassStartsWith(cs, ls):
+    for c in cs:
+        for l in ls:
+            if c.startswith(l):
+                return True
+    return False
+
+
 def find_general_paragraphs(soup):
-    nodes =  soup.select("div.clearall.social_proof")
+    intro_divs = soup("div",id="intro")
+
+    #nodes =  soup.select("div.clearall.social_proof")
     general_paras = []
-    if len(nodes) == 1:
-        n = nodes[0]
-        while not n.next_sibling is None:
-            n = n.next_sibling
-            if n.name == 'p':
-                general_paras.append(n)
-            else:
-                if n.name == "div" and n.has_attr('class'):
-                        if 'clearall' in n['class']:
-                            break
+    if intro_divs:
+        for node in intro_divs[0]:
+            if type(node) is NavigableString:
+                continue
+            elif node.has_attr('class'):
+                cs = node['class']
+                if 'clearall' in cs or 'social_proof' in cs:
+                    continue    
+                if checkClassStartsWith(cs,['edit','sp','ad']):
+                    continue
+            elif node.has_attr('id'):
+                continue
+                
+            general_paras.append(node)
+    return general_paras
+    
+    #if len(nodes) == 1:
+     #   n = nodes[0]
+     #   while not n.next_sibling is None:
+          #  n = n.next_sibling
+          #  if n.name == 'p':
+          #      general_paras.append(n)
+          #  else:
+              #  if n.name == "div" and n.has_attr('class'):
+                     #   if 'clearall' in n['class']:
+                        #    break
     return general_paras
 
 

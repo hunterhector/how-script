@@ -1,0 +1,15 @@
+3 Views:
+
+Learning View:
+	Neural Network Language Modelling
+	Multi-sequence alignment view
+
+Graph View:
+	Graph Predication Problem
+		1. Node Prediction (step or goal)
+		2. Link Prediction (predict step to step linking)
+
+Linguistic View:
+	Script construction
+		1. Hypernym hirearchy
+		2. Subevent hirearchy
