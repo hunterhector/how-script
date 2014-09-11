@@ -11,11 +11,11 @@ import lxml.builder
 import logging
 import logging.handlers
 
-#input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
-#output_base_path = "/Users/hector/Documents/data/wikihow_xml"
+input_path = "/Users/hector/Sites/wikihow/www.wikihow.com"
+output_base_path = "/Users/hector/Documents/data/wikihow_xml"
 
-input_path = "../../data/html_sample/"
-output_base_path = "../../data/cleaned/"
+#input_path = "../../data/html_sample/"
+#output_base_path = "../../data/cleaned/"
 
 def is_category_link(tag):
     return tag.name == 'a' and tag.has_attr('title') and tag['title'] != "Main Page" and not tag['title'].startswith(
