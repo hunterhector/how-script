@@ -23,14 +23,14 @@ import java.util.List;
 public class WikihowPage implements Serializable {
     private final boolean DEBUG;
 
-    public WikihowPage(Element documentNode, File f) {
+    public WikihowPage(Element documentNode, String f) {
         this(documentNode, f, false);
     }
 
-    public WikihowPage(Element documentNode, File f, boolean debug) {
+    public WikihowPage(Element documentNode, String filename, boolean debug) {
         DEBUG = debug;
 
-        this.originalFileName = f.getName();
+        this.originalFileName =filename;
 
         if (DEBUG){
             System.out.println("Processing "+originalFileName);
@@ -114,7 +114,9 @@ public class WikihowPage implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append(title).append("\n");
         builder.append("\t- Summary: " + "\n");
-        builder.append("\t\t- ").append(summary.getAllText()).append("\n");
+        if (summary != null) {
+            builder.append("\t\t- ").append(summary.getAllText()).append("\n");
+        }
         builder.append("\t- Meta: ").append("\n");
         builder.append("\t\t- Keywords: ").append(Joiners.commaJoiner.join(meta.getKeyWords())).append("\n");
         builder.append("\t\t- Title: ").append((meta.getTitle())).append("\n");

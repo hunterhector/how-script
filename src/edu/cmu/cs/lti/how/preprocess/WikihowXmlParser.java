@@ -15,6 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -51,19 +53,19 @@ public class WikihowXmlParser {
         }
     }
 
-    public WikihowPage parseSingleXml(File f) throws IOException, SAXException {
-        Document dom = db.parse(f);
+    public WikihowPage parseSingleXml(Path f) throws IOException, SAXException {
+        Document dom = db.parse(f.toUri().toString());
         Element root = dom.getDocumentElement();
         NodeList nodes = root.getChildNodes();
 
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("document")) {
-                return new WikihowPage( (Element)node, f, DEBUG);
+                return new WikihowPage( (Element)node, f.toString(), DEBUG);
             }
         }
 
-        System.err.println("Error parsing XML : "+f.getAbsolutePath());
+        System.err.println("Error parsing XML : "+f.toAbsolutePath());
         return null;
     }
 
@@ -86,7 +88,7 @@ public class WikihowXmlParser {
         if (iter == null || !iter.hasNext()) {
             throw new IllegalStateException("Nothing to parse!");
         }
-        return parseSingleXml(iter.next());
+        return parseSingleXml(Paths.get(iter.next().getAbsolutePath()));
     }
 
     public boolean hasNext() {
