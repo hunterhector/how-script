@@ -11,4 +11,7 @@ public class GeneralUtils {
         String[] tokens = fileName.split("\\.(?=[^\\.]+$)");
         return tokens[0];
     }
+    public static String replaceMultipleNewlinesWithOne(String str){
+        return str.replaceAll("[\r\n]+", "\n");
+    }
 }

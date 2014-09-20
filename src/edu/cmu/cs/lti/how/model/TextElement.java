@@ -1,5 +1,6 @@
 package edu.cmu.cs.lti.how.model;
 
+import edu.cmu.cs.lti.how.utils.GeneralUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class TextElement implements Serializable {
     public TextElement(Node topNode) {
-        text = topNode.getTextContent().replaceAll("[\r\n]+", "\n") ;
+        text = GeneralUtils.replaceMultipleNewlinesWithOne(topNode.getTextContent());
         annotations = new HashMap<String, String>();
         NamedNodeMap attributes = topNode.getAttributes();
         if (attributes!= null) {

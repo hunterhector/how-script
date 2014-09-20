@@ -61,7 +61,8 @@ public class WikihowXmlParser {
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("document")) {
-                return new WikihowPage( (Element)node, f.toString(), DEBUG);
+//                System.out.println(f.getFileName().toString());
+                return new WikihowPage( (Element)node, f.getFileName().toString(), DEBUG);
             }
         }
 

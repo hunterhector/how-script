@@ -1,12 +1,12 @@
 package edu.cmu.cs.lti.how.model;
 
+import edu.cmu.cs.lti.how.utils.GeneralUtils;
 import edu.cmu.cs.lti.how.utils.Joiners;
 import edu.cmu.cs.lti.how.utils.XmlUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class WikihowPage implements Serializable {
         builder.append("\t- Methods: ").append("\n");
         builder.append("\t\t- Method: ");
         builder.append(Joiners.nlJoiner.join(wikihowMethods)).append("\n");
-        return builder.toString();
+        return GeneralUtils.replaceMultipleNewlinesWithOne(builder.toString());
     }
 
     public WikihowPageMeta getMeta() {
