@@ -40,6 +40,7 @@ public class WikihowXmlParser {
     public WikihowXmlParser(File f) throws ParserConfigurationException {
         this();
         if (f.isDirectory()) {
+            System.out.println("Processing a directory");
             readWholeDirectory(f);
         } else {
             List<File> d = new ArrayList<File>();
@@ -65,7 +66,7 @@ public class WikihowXmlParser {
     }
 
     public void readWholeDirectory(File d) {
-        final String[] SUFFIX = {"xls"};
+        final String[] SUFFIX = {"xml"};
         Collection<File> xmls = FileUtils.listFiles(
                 d,
                 SUFFIX,
