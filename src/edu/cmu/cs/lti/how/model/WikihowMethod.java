@@ -23,7 +23,11 @@ public class WikihowMethod implements Serializable{
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeName().equals("step")) {
-                steps.add(new WikihowStep(child));
+                try{
+                    steps.add(new WikihowStep(child));
+                }catch(Exception e){
+
+                }
             }
         }
     }

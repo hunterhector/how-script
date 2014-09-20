@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Time: 11:16 PM
  */
 public class WikihowStep implements Serializable {
-    public WikihowStep(Node topNode) {
+    public WikihowStep(Node topNode) throws Exception {
         NodeList children = topNode.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
@@ -22,6 +22,10 @@ public class WikihowStep implements Serializable {
             }else if (child.getNodeName().equals("details")){
                 details = new ContentElement(child);
             }
+        }
+
+        if (step == null || details == null){
+            throw new Exception("Step or detail not presented");
         }
     }
 
