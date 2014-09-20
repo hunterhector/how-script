@@ -1,9 +1,13 @@
 package edu.cmu.cs.lti.how.model;
 
+import edu.cmu.cs.lti.how.utils.Joiners;
+import edu.cmu.cs.lti.how.utils.XmlUtils;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,84 +21,68 @@ import java.util.List;
  * Time: 10:12 PM
  */
 public class WikihowPage implements Serializable {
-    public WikihowPage(Node documentNode, File f) {
+    public WikihowPage(Element documentNode, File f) {
         this.originalFileName = f.getName();
 
-        System.out.println("Procesing "+originalFileName);
+        System.out.println("Procesing " + originalFileName);
 
         NodeList nodes = documentNode.getChildNodes();
 
         for (int i = 0; i < nodes.getLength(); i++) {
-            Node rootChild = nodes.item(i);
-
+            Node n = nodes.item(i);
+            Element rootChild;
+            if (n.getNodeType() == Node.ELEMENT_NODE) {
+                rootChild = (Element) n;
+            } else {
+                continue;
+            }
             String nodeName = rootChild.getNodeName();
 
             if (nodeName.equals("meta")) {
                 meta = new WikihowPageMeta(rootChild);
             } else if (nodeName.equals("categories")) {
-                categories = nodeList2Strs(rootChild.getChildNodes());
-            } else if (nodeName.equals("alter_lang")){
-                alternativeLanguages = nodeList2Strs(rootChild.getChildNodes());
-            } else if (nodeName.equals("general")){
+                categories = XmlUtils.elements2Strs(rootChild.getElementsByTagName("c"));
+                System.out.println("" +
+                        "\t- Category: " + Joiners.slashJoiner.join(categories));
+            } else if (nodeName.equals("alter_lang")) {
+                alternativeLanguages = XmlUtils.elements2AnnotatedText(rootChild.getElementsByTagName("lang"));
+            } else if (nodeName.equals("general")) {
                 NodeList generalChildren = rootChild.getChildNodes();
-                for (int j = 0 ; j < generalChildren.getLength(); j++){
+                for (int j = 0; j < generalChildren.getLength(); j++) {
                     Node generalChild = generalChildren.item(j);
-                    String generalChildName  = generalChild.getNodeName();
-                    if (generalChildName.equals("title")){
-                        title = generalChild.getTextContent();
-                    }else if (generalChildName.equals("summary")){
+                    String generalChildName = generalChild.getNodeName();
+                    if (generalChildName.equals("title")) {
+                        title = generalChild.getTextContent().trim();
+                    } else if (generalChildName.equals("summary")) {
                         summary = new ContentElement(generalChild);
                     }
                 }
-            } else if (nodeName.equals("methods")){
+            } else if (nodeName.equals("methods")) {
                 wikihowMethods = new ArrayList<WikihowMethod>();
                 NodeList methodChildren = rootChild.getChildNodes();
-                for (int j = 0 ; j < methodChildren.getLength(); j++) {
+                for (int j = 0; j < methodChildren.getLength(); j++) {
                     Node methodChild = methodChildren.item(j);
-                    wikihowMethods.add( new WikihowMethod(methodChild));
+                    wikihowMethods.add(new WikihowMethod(methodChild));
                 }
-            }else if (nodeName.equals("warnings")){
-                warnings = nodeList2Contents(rootChild.getChildNodes());
-            }else if (nodeName.equals("tips")){
-                tips = nodeList2Contents(rootChild.getChildNodes());
-            }else if (nodeName.equals("ingredients")){
-                ingredients = nodeList2Contents(rootChild.getChildNodes());
-            }else if (nodeName.equals("things")){
-                things = nodeList2Contents(rootChild.getChildNodes());
-            }else if (nodeName.equals("related_pages")){
+            } else if (nodeName.equals("warnings")) {
+                warnings = XmlUtils.elements2Content(rootChild.getChildNodes());
+            } else if (nodeName.equals("tips")) {
+                tips = XmlUtils.elements2Content(rootChild.getChildNodes());
+            } else if (nodeName.equals("ingredients")) {
+                ingredients = XmlUtils.elements2Content(rootChild.getChildNodes());
+            } else if (nodeName.equals("things")) {
+                things = XmlUtils.elements2Content(rootChild.getChildNodes());
+            } else if (nodeName.equals("related_pages")) {
                 relatedPages = new ArrayList<WikihowLink>();
-
                 NodeList pages = rootChild.getChildNodes();
-
-                for (int j = 0; i < pages.getLength(); j++) {
-                    Node page = pages.item(j);
-                    relatedPages.add(new WikihowLink(page));
-                }
+                XmlUtils.elements2Links(pages);
             }
         }
     }
 
-    public  List<String> nodeList2Strs(NodeList nodes){
-        List<String> strs = new ArrayList<String>();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node node = nodes.item(i);
-            strs.add(node.getTextContent());
-        }
-        return strs;
-    }
-
-    public List<ContentElement> nodeList2Contents(NodeList nodes){
-        List<ContentElement> contents = new ArrayList<ContentElement>();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node node = nodes.item(i);
-            contents.add(new ContentElement(node));
-        }
-        return contents;
-    }
-
     private String originalFileName;
     private WikihowPageMeta meta;
-    private List<String> alternativeLanguages;
+    private List<TextElement> alternativeLanguages;
     private List<String> categories;
     private String title;
     private ContentElement summary;
@@ -105,6 +93,29 @@ public class WikihowPage implements Serializable {
     private List<ContentElement> warnings;
     private List<WikihowLink> relatedPages;
 
+    public void prettyPrint(PrintStream out) {
+        out.println(asFormattedStr());
+    }
+
+    public String asFormattedStr() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(title).append("\n");
+        builder.append("\t- Summary: " + "\n");
+        builder.append("\t\t- ").append(summary.getAllText()).append("\n");
+        builder.append("\t- Meta: ").append("\n");
+        builder.append("\t\t- Keywords: ").append(Joiners.commaJoiner.join(meta.getKeyWords())).append("\n");
+        builder.append("\t\t- Title: ").append((meta.getTitle())).append("\n");
+        builder.append("\t\t- Description: ").append((meta.getDescription())).append("\n");
+        builder.append("\t\t- Type: ").append((meta.getType())).append("\n");
+        builder.append("\t\t- URL: ").append((meta.getUrl())).append("\n");
+        builder.append("\t-Alternative language: ").append((Joiners.commaJoiner.join(alternativeLanguages))).append("\n");
+        builder.append("\t- Category: ").append(Joiners.slashJoiner.join(categories));
+        builder.append("\t- Methods: ").append("\n");
+        builder.append("\t\t- Method:").append("\n");
+        builder.append("\t\t\t").append(Joiners.nlJoiner.join(wikihowMethods)).append("\n");
+        return builder.toString();
+    }
+
     public WikihowPageMeta getMeta() {
         return meta;
     }
@@ -113,11 +124,11 @@ public class WikihowPage implements Serializable {
         this.meta = meta;
     }
 
-    public List<String> getAlternativeLanguages() {
+    public List<TextElement> getAlternativeLanguages() {
         return alternativeLanguages;
     }
 
-    public void setAlternativeLanguages(List<String> alternativeLanguages) {
+    public void setAlternativeLanguages(List<TextElement> alternativeLanguages) {
         this.alternativeLanguages = alternativeLanguages;
     }
 

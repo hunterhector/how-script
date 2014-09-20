@@ -1,5 +1,6 @@
 package edu.cmu.cs.lti.how.model;
 
+import edu.cmu.cs.lti.how.utils.Joiners;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * A block of text elements because HTML pages have a lot of tags
  * interwined, but multiple element might actually belongs together,
- * multiple text element need to be used together.
+ * so the text in them should be used together
  * <p/>
  * Created with IntelliJ IDEA.
  * User: zhengzhongliu
@@ -52,5 +53,9 @@ public class ContentElement implements Serializable {
 
     public List<TextBlock> getTextBlocks() {
         return textBlocks;
+    }
+
+    public String toString(){
+        return Joiners.bJoiner.join(textBlocks);
     }
 }

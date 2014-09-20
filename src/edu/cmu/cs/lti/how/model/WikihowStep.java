@@ -43,4 +43,9 @@ public class WikihowStep implements Serializable {
     public void setDetails(ContentElement details) {
         this.details = details;
     }
+
+    @Override
+    public String toString(){
+        return "\t[STEP] "+step+"\n"+"\t[DETAILS] "+details;
+    }
 }

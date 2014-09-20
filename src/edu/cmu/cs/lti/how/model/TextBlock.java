@@ -38,4 +38,8 @@ public class TextBlock implements Serializable {
         }
         return builder.toString();
     }
+
+    public String toString(){
+        return getText();
+    }
 }

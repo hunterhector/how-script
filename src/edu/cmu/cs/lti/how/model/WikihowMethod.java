@@ -1,5 +1,6 @@
 package edu.cmu.cs.lti.how.model;
 
+import edu.cmu.cs.lti.how.utils.Joiners;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -36,4 +37,7 @@ public class WikihowMethod implements Serializable{
         this.steps = steps;
     }
 
+    public String toString(){
+        return Joiners.nlJoiner.join(steps);
+    }
 }

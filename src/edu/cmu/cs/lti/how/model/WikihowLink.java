@@ -1,7 +1,7 @@
 package edu.cmu.cs.lti.how.model;
 
 import edu.cmu.cs.lti.how.utils.GeneralUtils;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,8 +15,8 @@ import java.net.URL;
 public class WikihowLink extends TextElement{
     private String wikihowDomainName = "www.wikihow.com";
 
-    public WikihowLink(Node topNode) {
-        super(topNode);
+    public WikihowLink(Element node) {
+        super(node);
     }
 
     public String getLink(){
@@ -27,6 +27,7 @@ public class WikihowLink extends TextElement{
         return new URL(String.format("%s/%s",wikihowDomainName, GeneralUtils.getBaseName(getLink())));
     }
 
-
-
+    public String toString(){
+        return super.toString()+" ["+getLink()+"]";
+    }
 }

@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * It didn't do much parsing, it just let all the Dom element resolve at each level
  * Created with IntelliJ IDEA.
  * User: zhengzhongliu
  * Date: 9/18/14
@@ -54,14 +55,14 @@ public class WikihowXmlParser {
         Element root = dom.getDocumentElement();
         NodeList nodes = root.getChildNodes();
 
-        for (int i = 0 ;i < nodes.getLength(); i ++){
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
-            if (node.getNodeName().equals("document")){
-                return new WikihowPage(node, f);
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("document")) {
+                return new WikihowPage( (Element)node, f);
             }
         }
 
-        System.err.println("XML not correct!");
+        System.err.println("Error parsing XML : "+f.getAbsolutePath());
         return null;
     }
 
@@ -112,10 +113,10 @@ public class WikihowXmlParser {
                     }
                 }
 
-                FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/" + page.getOriginalFileName()+".txt"), steps);
-            }else{
-
+                page.prettyPrint(System.out);
+                FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/" + page.getOriginalFileName() + ".txt"), steps);
             }
+
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class TextElement implements Serializable {
     public TextElement(Node topNode) {
-        text = topNode.getTextContent();
+        text = topNode.getTextContent().trim();
         annotations = new HashMap<String, String>();
         NamedNodeMap attributes = topNode.getAttributes();
         if (attributes!= null) {
@@ -26,7 +26,7 @@ public class TextElement implements Serializable {
     private String tagName;
 
     public String getText() {
-        return text.trim();
+        return text;
     }
 
     public void setText(String text) {
@@ -51,5 +51,18 @@ public class TextElement implements Serializable {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        String sep = "";
+        for (Map.Entry<String,String> anno: annotations.entrySet()){
+            builder.append(sep);
+            builder.append(anno.getKey()).append(":").append(anno.getValue());
+            sep = " ";
+        }
+        return getText() + " ["+builder.toString()+"]";
     }
 }
