@@ -1,6 +1,8 @@
 package edu.cmu.cs.lti.how.preprocess;
 
+import edu.cmu.cs.lti.how.model.WikihowMethod;
 import edu.cmu.cs.lti.how.model.WikihowPage;
+import edu.cmu.cs.lti.how.model.WikihowStep;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,7 +95,7 @@ public class WikihowXmlParser {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         if (args.length < 2) {
-            System.err.println("Provide the data path and output path as arguments");
+            System.err.println("Provide the data path and base output path as arguments");
             System.exit(1);
         }
 
@@ -106,15 +108,16 @@ public class WikihowXmlParser {
         while (parser.hasNext()) {
             WikihowPage page = parser.parseNext();
             if (page != null) {
-//                List<String> steps = new ArrayList<String>();
-//                for (WikihowMethod method : page.getWikihowMethods()) {
-//                    for (WikihowStep step : method.getSteps()) {
-//                        steps.add(step.getStep().getAllText());
-//                    }
-//                }
+                List<String> steps = new ArrayList<String>();
+                for (WikihowMethod method : page.getWikihowMethods()) {
+                    for (WikihowStep step : method.getSteps()) {
+                        steps.add(step.getStep().getAllText());
+                    }
+                }
 
 //                page.prettyPrint(System.out);
-                FileUtils.write(new File(outputDir.getAbsolutePath() + "/" + page.getOriginalFileName() + ".txt"), page.asFormattedStr());
+                FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/steps_only/" + page.getOriginalFileName() + ".txt"), steps);
+                FileUtils.write(new File(outputDir.getAbsolutePath() + "/full/" + page.getOriginalFileName() + ".txt"), page.asFormattedStr());
             }
 
         }
