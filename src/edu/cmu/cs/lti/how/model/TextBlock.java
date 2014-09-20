@@ -10,11 +10,15 @@ import java.util.List;
 public class TextBlock implements Serializable {
     public TextBlock(Node topNode) {
         list = new ArrayList<TextElement>();
+
         if (topNode.getNodeName().equals("ul")){
             NodeList ul = topNode.getChildNodes();
             for (int i = 0 ; i < ul.getLength() ; i ++){
                 Node li = ul.item(i);
-                list.add(new TextElement(li));
+                if (li.getNodeType() == Node.ELEMENT_NODE && li.getNodeName().equals("li")) {
+                    list.add(new TextElement(li));
+//                    System.out.println(t);
+                }
             }
         }else{
             list.add(new TextElement(topNode));

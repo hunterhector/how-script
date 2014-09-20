@@ -1,8 +1,6 @@
 package edu.cmu.cs.lti.how.preprocess;
 
-import edu.cmu.cs.lti.how.model.WikihowMethod;
 import edu.cmu.cs.lti.how.model.WikihowPage;
-import edu.cmu.cs.lti.how.model.WikihowStep;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,17 +29,18 @@ public class WikihowXmlParser {
 
     private Iterator<File> iter;
 
+    private final boolean DEBUG;
 
     private DocumentBuilder db;
 
-    public WikihowXmlParser() throws ParserConfigurationException {
-        db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    public WikihowXmlParser(File f) throws ParserConfigurationException {
+        this(f,false);
     }
 
-    public WikihowXmlParser(File f) throws ParserConfigurationException {
-        this();
+    public WikihowXmlParser(File f, boolean debug) throws ParserConfigurationException {
+        DEBUG = debug;
+        db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         if (f.isDirectory()) {
-            System.out.println("Processing a directory");
             readWholeDirectory(f);
         } else {
             List<File> d = new ArrayList<File>();
@@ -58,7 +57,7 @@ public class WikihowXmlParser {
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("document")) {
-                return new WikihowPage( (Element)node, f);
+                return new WikihowPage( (Element)node, f, DEBUG);
             }
         }
 
@@ -101,20 +100,21 @@ public class WikihowXmlParser {
         File dataPath = new File(args[0]);
         File outputDir = new File(args[1]);
 
-        WikihowXmlParser parser = new WikihowXmlParser(dataPath);
+        boolean debug = true;
+        WikihowXmlParser parser = new WikihowXmlParser(dataPath,debug);
 
         while (parser.hasNext()) {
             WikihowPage page = parser.parseNext();
             if (page != null) {
-                List<String> steps = new ArrayList<String>();
-                for (WikihowMethod method : page.getWikihowMethods()) {
-                    for (WikihowStep step : method.getSteps()) {
-                        steps.add(step.getStep().getAllText());
-                    }
-                }
+//                List<String> steps = new ArrayList<String>();
+//                for (WikihowMethod method : page.getWikihowMethods()) {
+//                    for (WikihowStep step : method.getSteps()) {
+//                        steps.add(step.getStep().getAllText());
+//                    }
+//                }
 
-                page.prettyPrint(System.out);
-                FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/" + page.getOriginalFileName() + ".txt"), steps);
+//                page.prettyPrint(System.out);
+                FileUtils.write(new File(outputDir.getAbsolutePath() + "/" + page.getOriginalFileName() + ".txt"), page.asFormattedStr());
             }
 
         }

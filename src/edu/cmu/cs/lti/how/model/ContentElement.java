@@ -1,7 +1,6 @@
 package edu.cmu.cs.lti.how.model;
 
 import edu.cmu.cs.lti.how.utils.Joiners;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -30,7 +29,7 @@ public class ContentElement implements Serializable {
         NodeList children = topNode.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
-            if (allowText || child instanceof Element) {
+            if (allowText || child.getNodeType() == Node.ELEMENT_NODE) {
                 textBlocks.add(new TextBlock(child));
             }
         }

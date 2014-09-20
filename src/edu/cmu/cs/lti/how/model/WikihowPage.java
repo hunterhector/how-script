@@ -21,10 +21,20 @@ import java.util.List;
  * Time: 10:12 PM
  */
 public class WikihowPage implements Serializable {
+    private final boolean DEBUG;
+
     public WikihowPage(Element documentNode, File f) {
+        this(documentNode, f, false);
+    }
+
+    public WikihowPage(Element documentNode, File f, boolean debug) {
+        DEBUG = debug;
+
         this.originalFileName = f.getName();
 
-        System.out.println("Procesing " + originalFileName);
+        if (DEBUG){
+            System.out.println("Processing "+originalFileName);
+        }
 
         NodeList nodes = documentNode.getChildNodes();
 
@@ -42,6 +52,7 @@ public class WikihowPage implements Serializable {
                 meta = new WikihowPageMeta(rootChild);
             } else if (nodeName.equals("categories")) {
                 categories = XmlUtils.elements2Strs(rootChild.getElementsByTagName("c"));
+                if (DEBUG)
                 System.out.println("" +
                         "\t- Category: " + Joiners.slashJoiner.join(categories));
             } else if (nodeName.equals("alter_lang")) {
@@ -61,8 +72,10 @@ public class WikihowPage implements Serializable {
                 wikihowMethods = new ArrayList<WikihowMethod>();
                 NodeList methodChildren = rootChild.getChildNodes();
                 for (int j = 0; j < methodChildren.getLength(); j++) {
-                    Node methodChild = methodChildren.item(j);
-                    wikihowMethods.add(new WikihowMethod(methodChild));
+                        Node methodChild = methodChildren.item(j);
+                    if (methodChild.getNodeType() == Node.ELEMENT_NODE && methodChild.getNodeName().equals("method")) {
+                        wikihowMethods.add(new WikihowMethod((Element)methodChild));
+                    }
                 }
             } else if (nodeName.equals("warnings")) {
                 warnings = XmlUtils.elements2Content(rootChild.getChildNodes());
@@ -108,11 +121,11 @@ public class WikihowPage implements Serializable {
         builder.append("\t\t- Description: ").append((meta.getDescription())).append("\n");
         builder.append("\t\t- Type: ").append((meta.getType())).append("\n");
         builder.append("\t\t- URL: ").append((meta.getUrl())).append("\n");
-        builder.append("\t-Alternative language: ").append((Joiners.commaJoiner.join(alternativeLanguages))).append("\n");
-        builder.append("\t- Category: ").append(Joiners.slashJoiner.join(categories));
+        builder.append("\t- Alternative language: ").append((Joiners.commaJoiner.join(alternativeLanguages))).append("\n");
+        builder.append("\t- Category: ").append(Joiners.slashJoiner.join(categories)).append("\n");
         builder.append("\t- Methods: ").append("\n");
-        builder.append("\t\t- Method:").append("\n");
-        builder.append("\t\t\t").append(Joiners.nlJoiner.join(wikihowMethods)).append("\n");
+        builder.append("\t\t- Method: ");
+        builder.append(Joiners.nlJoiner.join(wikihowMethods)).append("\n");
         return builder.toString();
     }
 

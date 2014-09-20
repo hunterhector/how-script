@@ -1,6 +1,7 @@
 package edu.cmu.cs.lti.how.model;
 
 import edu.cmu.cs.lti.how.utils.Joiners;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Time: 11:15 PM
  */
 public class WikihowMethod implements Serializable{
-    public WikihowMethod(Node topNode){
+    public WikihowMethod(Element topNode){
         steps = new ArrayList<WikihowStep>();
 
         NodeList children = topNode.getChildNodes();
@@ -38,6 +39,6 @@ public class WikihowMethod implements Serializable{
     }
 
     public String toString(){
-        return Joiners.nlJoiner.join(steps);
+        return steps.size()+" steps: \n"+Joiners.nlJoiner.join(steps);
     }
 }

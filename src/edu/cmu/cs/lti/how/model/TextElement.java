@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class TextElement implements Serializable {
     public TextElement(Node topNode) {
-        text = topNode.getTextContent().trim();
+        text = topNode.getTextContent().replaceAll("[\r\n]+", "\n") ;
         annotations = new HashMap<String, String>();
         NamedNodeMap attributes = topNode.getAttributes();
         if (attributes!= null) {
