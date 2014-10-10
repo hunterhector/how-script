@@ -5,9 +5,7 @@ from bs4.element import Tag
 from bs4.element import NavigableString
 from bs4.element import Comment
 import os
-import codecs
 import lxml.etree as etree
-import lxml.builder
 import logging
 import logging.handlers
 
@@ -236,15 +234,6 @@ def parse_listed_points(tips_divs,group_name,item_name):
     return tips_node
 
 
-def parse_warnings(warnings_divs):
-    warnings_node = etree.Element('warnings')
-    for warnings in warnings_divs:
-        for warning in parse_warning(warnings):
-            warning_node = etree.SubElement(warnings_node, 'warning')
-            warning_node.append(warning)
-    return warnings_node
-
-
 def parse_related_wikihow(related_wikihow_tags):
     related_pages_node = etree.Element('related_pages')
     for related_wikihow_tag in related_wikihow_tags:
@@ -428,6 +417,7 @@ class levelFilter(logging.Filter):
 
     def filter(self,logRecord):
         return logRecord.levelno <= self.__level
+
 
 def main():
     if not os.path.exists(output_base_path):
