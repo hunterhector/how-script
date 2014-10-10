@@ -105,8 +105,7 @@ public class WikihowXmlParser {
         File dataPath = new File(args[0]);
         File outputDir = new File(args[1]);
 
-        boolean debug = true;
-        WikihowXmlParser parser = new WikihowXmlParser(dataPath,debug);
+        WikihowXmlParser parser = new WikihowXmlParser(dataPath,false);
 
         while (parser.hasNext()) {
             WikihowPage page = parser.parseNext();
