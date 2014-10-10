@@ -38,5 +38,7 @@ public class NumOfStepsCounter {
                 writer.write(url+"\t"+numSteps+"\n");
             }
         }
+
+        writer.close();
     }
 }
