@@ -1,4 +1,4 @@
-package edu.cmu.cs.lti.how.model;
+package edu.cmu.cs.lti.how.model.wikihow;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

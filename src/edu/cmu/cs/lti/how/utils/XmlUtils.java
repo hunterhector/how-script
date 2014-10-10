@@ -1,8 +1,8 @@
 package edu.cmu.cs.lti.how.utils;
 
-import edu.cmu.cs.lti.how.model.ContentElement;
-import edu.cmu.cs.lti.how.model.TextElement;
-import edu.cmu.cs.lti.how.model.WikihowLink;
+import edu.cmu.cs.lti.how.model.wikihow.ContentElement;
+import edu.cmu.cs.lti.how.model.wikihow.TextElement;
+import edu.cmu.cs.lti.how.model.wikihow.WikihowLink;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

@@ -1,4 +1,4 @@
-package edu.cmu.cs.lti.how.model;
+package edu.cmu.cs.lti.how.model.wikihow;
 
 import edu.cmu.cs.lti.how.utils.GeneralUtils;
 import edu.cmu.cs.lti.how.utils.Joiners;

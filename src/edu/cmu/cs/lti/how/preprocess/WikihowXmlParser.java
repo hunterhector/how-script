@@ -1,8 +1,8 @@
 package edu.cmu.cs.lti.how.preprocess;
 
-import edu.cmu.cs.lti.how.model.WikihowMethod;
-import edu.cmu.cs.lti.how.model.WikihowPage;
-import edu.cmu.cs.lti.how.model.WikihowStep;
+import edu.cmu.cs.lti.how.model.wikihow.WikihowMethod;
+import edu.cmu.cs.lti.how.model.wikihow.WikihowPage;
+import edu.cmu.cs.lti.how.model.wikihow.WikihowStep;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -113,6 +113,7 @@ public class WikihowXmlParser {
             if (page != null) {
                 List<String> steps = new ArrayList<String>();
                 for (WikihowMethod method : page.getWikihowMethods()) {
+                    //Note: getStep return the main sentence of step
                     for (WikihowStep step : method.getSteps()) {
                         steps.add(step.getStep().getAllText());
                     }

@@ -1,4 +1,4 @@
-package edu.cmu.cs.lti.how.model;
+package edu.cmu.cs.lti.how.model.wikihow;
 
 import edu.cmu.cs.lti.how.utils.GeneralUtils;
 import org.w3c.dom.Element;
