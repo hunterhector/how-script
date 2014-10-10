@@ -1,5 +1,6 @@
 package edu.cmu.cs.lti.how.preprocess;
 
+import edu.cmu.cs.lti.how.model.wikihow.WikihowMethod;
 import edu.cmu.cs.lti.how.model.wikihow.WikihowPage;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
@@ -33,9 +34,12 @@ public class NumOfStepsCounter {
         while (parser.hasNext()) {
             WikihowPage page = parser.parseNext();
             if (page != null) {
-                int numSteps = page.getWikihowMethods().size();
-                String url = page.getMeta().getUrl().toString();
-                writer.write(url+"\t"+numSteps+"\n");
+                int mid = 0;
+                for (WikihowMethod method : page.getWikihowMethods()) {
+                    int numSteps = method.getSteps().size();
+                    writer.write(String.format("%s\t%d\t%d",page.getMeta().getTitle(), mid, numSteps));
+                    mid++;
+                }
             }
         }
 
