@@ -37,7 +37,7 @@ public class NumOfStepsCounter {
                 int mid = 0;
                 for (WikihowMethod method : page.getWikihowMethods()) {
                     int numSteps = method.getSteps().size();
-                    writer.write(String.format("%s\t%d\t%d",page.getMeta().getTitle(), mid, numSteps));
+                    writer.write(String.format("%s\t%d\t%d\n",page.getMeta().getTitle(), mid, numSteps));
                     mid++;
                 }
             }
