@@ -9,9 +9,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,29 +18,57 @@ import java.util.List;
  * Time: 7:59 PM
  */
 public class NegativeScriptGenerator {
-    public NegativeScriptGenerator(){
+
+
+    boolean doReplace = false;
+    Random rand = new Random();
+
+    public NegativeScriptGenerator(boolean doReplace) {
+        this.doReplace = doReplace;
     }
+
+    enum GenerateMethod {
+        origin, shuffle, replace, remove
+    }
+
 
     public void generate(File dataPath, File outputDir) throws ParserConfigurationException, IOException, SAXException {
         WikihowXmlParser parser = new WikihowXmlParser(dataPath, false);
+        List<String> stepLibrary = new ArrayList<>();
+
+        Map<String, List<String>> stepsByName = new HashMap<>();
 
         while (parser.hasNext()) {
             WikihowPage page = parser.parseNext();
             if (page != null) {
                 int mid = 0;
                 for (WikihowMethod method : page.getWikihowMethods()) {
-                    if (method.getSteps().size() >= 3){
-                        List<String> steps =  toStepText(method);
-                        FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/shuffled/" + page.getOriginalFileName() +"_"+mid+ "_shuffled.txt"), shuffle(steps));
-                        FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/origin/" + page.getOriginalFileName() +"_"+mid+ ".txt"), steps);
+                    String name = page.getOriginalFileName() + "_" + mid;
+                    if (method.getSteps().size() >= 3) {
+                        List<String> steps = toStepText(method);
+                        FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/shuffled/" + name + ".txt"), shuffle(steps));
+                        FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/origin/" + name + ".txt"), steps);
+                        FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/removed/" + name + ".txt"), remove(steps));
+
+                        if (doReplace) {
+                            stepsByName.put(name, steps);
+                            stepLibrary.addAll(steps);
+                        }
                     }
                     mid++;
                 }
             }
         }
+
+        if (doReplace) {
+            for (Map.Entry<String, List<String>> entry : stepsByName.entrySet()) {
+                FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/replaced/" + entry.getKey() + ".txt"), replace(entry.getValue(), stepLibrary));
+            }
+        }
     }
 
-    private List<String> toStepText(WikihowMethod method){
+
+    private List<String> toStepText(WikihowMethod method) {
         List<String> steps = new ArrayList<String>();
         for (WikihowStep step : method.getSteps()) {
             steps.add(step.getStep().getAllText());
@@ -50,16 +76,35 @@ public class NegativeScriptGenerator {
         return steps;
     }
 
+    private List<String> remove(List<String> steps) {
+        //make a new list cuz shuffle is in-place
+        List<String> removedList = new ArrayList<>(steps);
 
-    private List<String> shuffle(List<String> steps){
+        int indexToRemove = rand.nextInt(steps.size());
+
+        removedList.remove(indexToRemove);
+
+        return removedList;
+    }
+
+
+    private List<String> shuffle(List<String> steps) {
         //make a new list cuz shuffle is in-place
         List<String> shuffledList = new ArrayList<>(steps);
-         Collections.shuffle(shuffledList);
+        Collections.shuffle(shuffledList);
         return shuffledList;
     }
 
-    private void replace(List<String> steps){
+    private List<String> replace(List<String> steps, List<String> replacePool) {
+        List<String> replacedList = new ArrayList<>(steps);
 
+        int indexToChoose = rand.nextInt(replacePool.size());
+
+        int indexToReplace = rand.nextInt(steps.size());
+
+        replacedList.set(indexToReplace, replacePool.get(indexToChoose));
+
+        return replacedList;
     }
 
 
@@ -71,9 +116,9 @@ public class NegativeScriptGenerator {
 
         File dataFile = new File(args[0]);
         File outputDir = new File(args[1]);
+        boolean doRepalce = args.length > 2;
 
-        NegativeScriptGenerator generator = new NegativeScriptGenerator();
-
+        NegativeScriptGenerator generator = new NegativeScriptGenerator(doRepalce);
         generator.generate(dataFile, outputDir);
     }
 }

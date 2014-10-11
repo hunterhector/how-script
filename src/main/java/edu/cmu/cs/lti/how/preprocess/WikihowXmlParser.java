@@ -37,6 +37,8 @@ public class WikihowXmlParser {
 
     private DocumentBuilder db;
 
+    private Collection<File> xmls;
+
     public WikihowXmlParser(File f) throws ParserConfigurationException {
         this(f,false);
     }
@@ -47,10 +49,14 @@ public class WikihowXmlParser {
         if (f.isDirectory()) {
             readWholeDirectory(f);
         } else {
-            List<File> d = new ArrayList<File>();
-            d.add(f);
-            makeIterator(d);
+            xmls = new ArrayList<File>();
+            xmls.add(f);
+            makeIterator();
         }
+    }
+
+    public void reset(){
+        makeIterator();
     }
 
     public WikihowPage parseSingleXml(Path f) throws IOException, SAXException {
@@ -72,16 +78,16 @@ public class WikihowXmlParser {
 
     public void readWholeDirectory(File d) {
         final String[] SUFFIX = {"xml"};
-        Collection<File> xmls = FileUtils.listFiles(
+        xmls = FileUtils.listFiles(
                 d,
                 SUFFIX,
                 true
         );
 
-        makeIterator(xmls);
+        makeIterator();
     }
 
-    private void makeIterator(Collection<File> xmls) {
+    private void makeIterator() {
         iter = xmls.iterator();
     }
 
