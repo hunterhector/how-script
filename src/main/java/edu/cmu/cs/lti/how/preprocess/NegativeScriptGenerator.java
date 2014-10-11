@@ -44,8 +44,8 @@ public class NegativeScriptGenerator {
                 int mid = 0;
                 for (WikihowMethod method : page.getWikihowMethods()) {
                     String name = page.getOriginalFileName() + "_" + mid;
-                    if (method.getSteps().size() >= 3) {
-                        List<String> steps = toStepText(method);
+                    List<String> steps = toStepText(method);
+                    if (steps.size() >= 3) {
                         FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/shuffled/" + name + ".txt"), shuffle(steps));
                         FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/origin/" + name + ".txt"), steps);
                         FileUtils.writeLines(new File(outputDir.getAbsolutePath() + "/removed/" + name + ".txt"), remove(steps));
@@ -71,7 +71,10 @@ public class NegativeScriptGenerator {
     private List<String> toStepText(WikihowMethod method) {
         List<String> steps = new ArrayList<String>();
         for (WikihowStep step : method.getSteps()) {
-            steps.add(step.getStep().getAllText());
+            String stepText = step.getStep().getAllText();
+            if (!stepText.trim().equals("")) {
+                steps.add(stepText);
+            }
         }
         return steps;
     }
