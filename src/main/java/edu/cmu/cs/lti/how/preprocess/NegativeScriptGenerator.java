@@ -69,9 +69,9 @@ public class NegativeScriptGenerator {
 
 
     private List<String> toStepText(WikihowMethod method) {
-        List<String> steps = new ArrayList<String>();
+        List<String> steps = new ArrayList<>();
         for (WikihowStep step : method.getSteps()) {
-            String stepText = step.getStep().getAllText();
+            String stepText = step.getStep().getAllText().trim();
             if (!stepText.trim().equals("")) {
                 steps.add(stepText);
             }
