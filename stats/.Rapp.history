@@ -1,0 +1,113 @@
+setdir("/Users/zhengzhongliu/Documents/projects/how-script/stats")
+setwd("/Users/zhengzhongliu/Documents/projects/how-script/stats")
+counts <- read.table("step_num_distribution")
+counts
+counts <- read.table("r")
+counts
+plot(counts)
+counts <- t(counts)
+counts
+counts <- read.table("r")
+counts <- read.table("step_num_distribution")
+counts[,c[2,1]]
+counts[,c(2,1)]
+counts <- counts[,c(2,1)]
+counts
+barplot(counts)
+barplot(counts)
+barplot(as.matrix(counts))
+hist(counts)
+hist(counts$V1)
+plot(counts)
+names(counts) = c("step_num","count")
+counts
+plot(counts)
+text(3,lables="3")
+text(3,labels="3")
+plot(counts)
+text(3,labels="3")
+text(4,labels="4")
+text(3,labels="3")
+plot(counts)
+text(3,1064,labels="3")
+text(3,1067,labels="(3,1064)")
+plot(counts)
+text(3,1067,labels="(3,1064)")
+plot(counts)
+pnt <- identify(x, y, plot = F)#
+pints(x[pnt],y[pnt],col='red')
+pnt <- identify(x,y, plot = F)
+pnt <- identify(counts) plot = F)
+pnt <- identify(counts, plot = F)
+points(x[pnt],y[pnt], col='read')
+points(x[pnt],y[pnt], col='read')
+points(x[pnt],y[pnt], col='read')
+points(x[pnt],y[pnt], col='read')#
+;
+points(x[pnt],y[pnt], col='read')#
+;
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂#
+#
+ç
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂#
+#
+ç
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂#
+#
+ç
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂#
+#
+ç#
+ads#
+dsa
+points(x[pnt],y[pnt], col='read')#
+;#
+#
+∂#
+#
+ç#
+ads#
+dsa
+plot(counts)
+x <- counts.step_num
+counts
+x <- counts[step_num]
+counts(0)
+counts[0]
+counts[1]
+step_num = counts[1]
+appear_count = counts[2]
+plot(step_num, appear_count)
+plot(counts, row=ifelse(count=3,"red","black"))
+plot(counts, row=ifelse(count==3,"red","black"))
+plot(counts, row=ifelse(counts.count==3,"red","black"))
+counts
+plot(counts, row=3)
+plot(counts, col=3)
+plot(counts, col=1:5)
+plot(counts, col=ifelse(counts[2]==3, 'red', 'black'))
+plot(counts, col=ifelse(counts[1]==3, 'red', 'black'))
+plot(counts, col=ifelse(counts[1]==3, 'red', 'black'))
+png(filename="~/Desktop/step_counts.png")
+plot(counts, col=ifelse(counts[1]==3, 'red', 'black'))
+dev.off()
