@@ -34,6 +34,7 @@ public class NegativeScriptGenerator {
 
     public void generate(File dataPath, File outputDir) throws ParserConfigurationException, IOException, SAXException {
         WikihowXmlParser parser = new WikihowXmlParser(dataPath, false);
+        //store all steps in the whole domain, random steps are drawn from this pool
         List<String> stepLibrary = new ArrayList<>();
 
         Map<String, List<String>> stepsByName = new HashMap<>();
