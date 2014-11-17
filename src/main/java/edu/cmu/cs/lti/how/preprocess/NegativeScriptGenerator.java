@@ -111,7 +111,6 @@ public class NegativeScriptGenerator {
         return replacedList;
     }
 
-
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
         if (args.length < 2) {
             System.err.println("Provide the data path and base output path as arguments");
