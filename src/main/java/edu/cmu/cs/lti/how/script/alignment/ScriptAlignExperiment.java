@@ -1,4 +1,4 @@
-package edu.cmu.cs.lti.how.model.script.alignment;
+package edu.cmu.cs.lti.how.script.alignment;
 
 import ch.usi.inf.sape.hac.experiment.Experiment;
 

@@ -1,7 +1,6 @@
 package org.sStu.Neringute.Similarity;
 
 import java.io.PrintStream;
-import java.util.Arrays;
 
 /**
  * This class performs global alignments (with and without
@@ -273,50 +272,35 @@ public class Global
         StringBuffer A2 = new StringBuffer(N);
         StringBuffer AL = new StringBuffer(N);
 
+//        System.out.println("Initial i j, " + i + " " + j);
+
         for (int p = 0; p < N; p++) {
             Switch:
 
             switch (K[p]) {
-                case LEFT: {
-                    String str1 = S1[i++];
-                    A1.append(str1 + " ");
-                    A2.append(fill(str1.length(), '-') + " ");
-                    AL.append(fill(str1.length(), ' ') + " ");
+                case LEFT:
+                    A1.append(i++);
+                    A2.append('-');
+                    AL.append(' ');
                     break;
-                }
-                case UP: {
-                    String str2 = S2[j++];
-
-                    A1.append(str2 + ' ');
-                    A2.append(fill(str2.length(), '-') + " ");
-                    AL.append(fill(str2.length(), ' ') + " ");
+                case UP:
+                    A1.append('-');
+                    A2.append(j++);
+                    AL.append(' ');
                     break;
-                }
-                case UP_LEFT: {
-                    String str1 = S1[i++];
-                    String str2 = S2[j++];
-
-                    int len = str1.length() > str2.length() ? str1.length() : str2.length();
-                    if (!str1.equals(str2)) {
-                        AL.append(fill(len, '.') + " ");
+                case UP_LEFT:
+                    if (!S1[i].equals(S2[j])) {
+                        AL.append('.');
                     } else {
-                        AL.append(fill(len, '|') + " ");
+                        AL.append('|');
                     }
-
-                    A1.append(str1 + fill(len - str1.length(), ' ') + " ");
-                    A2.append(str2 + fill(len - str2.length(), ' ') + " ");
+                    A1.append(i++);
+                    A2.append(j++);
                     break;
-                }
             }
         }
         return new CharSequence[]{
                 A1, AL, A2};
-    }
-
-    private String fill(int n, char c) {
-        char[] charArray = new char[n];
-        Arrays.fill(charArray, c);
-        return new String(charArray);
     }
 
     public org.sStu.Alignment getBestAlignment() {

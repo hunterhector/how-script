@@ -16,7 +16,16 @@ class example {
 
 //    ScoreOnlyAligner aligner = factory.createScoreOnlyAligner();
         AlignmentRangeAligner aligner = factory.createAlignmentRangeAligner();
+        test(aligner);
+        test(aligner);
+        test(aligner);
+        test(aligner);
+        test(aligner);
+        test(aligner);
 
+    }
+
+    private static void test(AlignmentRangeAligner aligner) {
         aligner.setSequence("prepare cut fry stir finish".split(" "), 0);
         aligner.setSequence("prepare bake finish".split(" "), 1);
         aligner.align();
@@ -25,6 +34,7 @@ class example {
             System.out.println(a);
             System.out.println(a.getAlignmentScore());
             System.out.println(aligner.getAlignmentScore());
+            break;
         }
     }
 }
