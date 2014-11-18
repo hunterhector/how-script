@@ -47,19 +47,18 @@ public class ScriptAlignmentCluster {
     }
 
     public ScriptClusterNode hac() {
-        info("Start clustering");
 
         List<String> allScriptNames = new LinkedList<>(filename2Sents.keySet());
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
+        info("Add script nodes");
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Sents.get(scriptName), sent2Rep));
         }
-
+        info("Start clustering");
         while (allScripts.size() != 1) {
             cluster(allScripts);
         }
-
         return allScripts.get(0);
     }
 
@@ -170,7 +169,6 @@ public class ScriptAlignmentCluster {
         }
 
         ScriptAlignmentCluster aligner = new ScriptAlignmentCluster(eventRepreFile, allSentsFile, mappingFile);
-        aligner.info("Start clustering");
         ScriptClusterNode root = aligner.hac();
         SerializationUtils.serialize(root, new FileOutputStream(outputFile));
     }
