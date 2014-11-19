@@ -98,11 +98,8 @@ public class ScriptAlignmentCluster {
         logger.info("Finding best from " + allScripts.size() + " scripts");
 
         for (int i = 0; i < allScripts.size() - 1; i++) {
-//            double progressPercent = i * 1.0 / allScripts.size();
-//            System.err.println(allScripts.get(i));
-//            updateProgress(progressPercent);
+            System.err.print(i + "\r");
             for (int j = i + 1; j < allScripts.size(); j++) {
-                System.err.print(j + "\r");
 
                 double[][] seq0 = allScripts.get(i).getSequence();
                 double[][] seq1 = allScripts.get(j).getSequence();
@@ -136,21 +133,6 @@ public class ScriptAlignmentCluster {
 
         return Triple.of(mergei, mergej, bestAlignment);
     }
-
-
-    private void updateProgress(double progressPercentage) {
-        final int width = 50; // progress bar width in chars
-        System.err.print("\r[");
-        int i = 0;
-        for (; i <= (int) (progressPercentage * width); i++) {
-            System.err.print(".");
-        }
-        for (; i < width; i++) {
-            System.err.print(" ");
-        }
-        System.err.print("]");
-    }
-
 
     private void getAligner() {
         AlignerFactory factory = new AlignerFactory();
