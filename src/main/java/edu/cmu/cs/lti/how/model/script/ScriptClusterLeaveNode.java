@@ -1,5 +1,6 @@
 package edu.cmu.cs.lti.how.model.script;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,5 +53,9 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
     @Override
     public double[][] getSequence() {
         return sequences;
+    }
+
+    public String toString(){
+        return Arrays.toString(events);
     }
 }

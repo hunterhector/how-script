@@ -31,20 +31,6 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
         numOberservations = l.getObservationCount() + r.getObservationCount();
         this.alignScore = alignment.getAlignmentScore();
 
-//        System.out.println(alignScore);
-//
-//        if (l.isLeave()) {
-//            ScriptClusterLeaveNode leaveL = (ScriptClusterLeaveNode) l;
-//            System.out.println(Arrays.toString(leaveL.getEvents()));
-//        }
-//
-//        if (r.isLeave()) {
-//            ScriptClusterLeaveNode leaveR = (ScriptClusterLeaveNode) r;
-//            System.out.println(Arrays.toString(leaveR.getEvents()));
-//        }
-//
-//        System.out.println("Count " + l.getSequence().length + " " + r.getSequence().length);
-
         CharSequence ls = alignment.getSequence(0);
         CharSequence rs = alignment.getSequence(1);
         CharSequence ms = alignment.getMiddleString();
@@ -144,35 +130,13 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
         double weightRight = ((double) cr) / (cl + cr);
 
         double[] seq = l.getSequence()[leftIndex];
-        double[] seqR =r.getSequence()[rightIndex];
+        double[] seqR = r.getSequence()[rightIndex];
 
         for (int i = 0; i < seq.length; i++) {
             seq[i] = seq[i] * weightLeft + seqR[i] * weightRight;
         }
 
         return seq;
-    }
-
-    private String double2Rep(double[] seq) {
-        StringBuilder sb = new StringBuilder();
-        String sep = "";
-        for (double s : seq) {
-            sb.append(sep);
-            sb.append(s);
-            sep = " ";
-        }
-        return sb.toString();
-    }
-
-    private double[] rep2Doulbe(String r) {
-        String[] rs = r.split(" ");
-
-        double[] rep = new double[rs.length];
-
-        for (int i = 0; i < rs.length; i++) {
-            rep[i] = Double.parseDouble(rs[i]);
-        }
-        return rep;
     }
 
     @Override

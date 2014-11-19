@@ -6,6 +6,7 @@ import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNonTerminalNode;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.sStu.AlignerFactory;
 import org.sStu.Alignment;
 import org.sStu.SingleAlingmentAligner;
@@ -47,7 +48,6 @@ public class ScriptAlignmentCluster {
     }
 
     public ScriptClusterNode hac() {
-
         List<String> allScriptNames = new LinkedList<>(filename2Sents.keySet());
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
@@ -56,47 +56,76 @@ public class ScriptAlignmentCluster {
             allScripts.add(new ScriptClusterLeaveNode(filename2Sents.get(scriptName), sent2Rep));
         }
         info("Start clustering");
+        double lastMax = 1;
         while (allScripts.size() != 1) {
-            cluster(allScripts);
+            lastMax = cluster(allScripts, lastMax);
         }
         return allScripts.get(0);
     }
 
-    public void cluster(List<ScriptClusterNode> allScripts) {
+    public double cluster(List<ScriptClusterNode> allScripts, double lastMax) {
+        Triple<Integer, Integer, Alignment> best = findBest(allScripts, lastMax);
+        int mergei = best.getLeft();
+        int mergej = best.getMiddle();
+        Alignment bestAlignment = best.getRight();
+
+        System.err.println();
+        System.err.println("Current best " + bestAlignment.getAlignmentScore());
+        System.err.println(allScripts.get(mergei));
+        System.err.println(allScripts.get(mergej));
+
+        allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
+        allScripts.remove(mergej);
+
+        return bestAlignment.getAlignmentScore();
+    }
+
+    private Triple<Integer, Integer, Alignment> findBest(List<ScriptClusterNode> allScripts, double limit) {
         double maxScore = Double.MIN_VALUE;
         int mergei = -1, mergej = -1;
         Alignment bestAlignment = null;
         logger.info("Finding best from " + allScripts.size() + " scripts");
 
         for (int i = 0; i < allScripts.size() - 1; i++) {
-            double progressPercent = i * 1.0 / allScripts.size();
-            System.err.print(i + "\r");
+//            double progressPercent = i * 1.0 / allScripts.size();
+//            System.err.println(allScripts.get(i));
 //            updateProgress(progressPercent);
             for (int j = i + 1; j < allScripts.size(); j++) {
-//                System.out.print(j + "\r");
+                System.err.print(j + "\r");
+
+                double[][] seq0 = allScripts.get(i).getSequence();
+                double[][] seq1 = allScripts.get(j).getSequence();
 
                 aligner.setSequence(allScripts.get(i).getSequence(), 0);
                 aligner.setSequence(allScripts.get(j).getSequence(), 1);
                 aligner.align();
 
+                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
+
                 //normalize by the length of the aligned string
-                double score = aligner.getAlignmentScore() / aligner.getBestAlignment().getMiddleString().length();
+                double score = aligner.getAlignmentScore() / longerLen;
+//                double score = aligner.getAlignmentScore() ;
+
                 Alignment alignment = aligner.getBestAlignment();
                 if (score > maxScore) {
                     maxScore = score;
                     mergei = i;
                     mergej = j;
                     bestAlignment = alignment;
+//                    System.err.println("Current best " + maxScore);
+//                    System.err.println(allScripts.get(mergei));
+//                    System.err.println(allScripts.get(mergej));
+
+                    if (score == 1) {
+                        return Triple.of(mergei, mergej, bestAlignment);
+                    }
                 }
             }
         }
 
-        //clear the progress bar line
-        System.err.println();
-
-        allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
-        allScripts.remove(mergej);
+        return Triple.of(mergei, mergej, bestAlignment);
     }
+
 
     private void updateProgress(double progressPercentage) {
         final int width = 50; // progress bar width in chars
@@ -137,6 +166,7 @@ public class ScriptAlignmentCluster {
                 continue;
             }
             String[] parts = line.trim().split("\t", 5);
+
             filename2Sents.put(parts[0], parts[4]);
         }
 
