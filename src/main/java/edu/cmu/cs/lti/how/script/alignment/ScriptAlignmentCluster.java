@@ -60,13 +60,9 @@ public class ScriptAlignmentCluster {
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
-        int limit = 0;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
-            limit++;
-            if (limit > 10) {
-                break;
-            }
+
         }
 
         info("Start clustering");
