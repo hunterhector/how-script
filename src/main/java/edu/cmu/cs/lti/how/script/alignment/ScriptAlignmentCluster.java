@@ -7,7 +7,7 @@ import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNonTerminalNode;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SerializationUtils;
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.Pair;
 import org.sStu.AlignerFactory;
 import org.sStu.Alignment;
 import org.sStu.SingleAlingmentAligner;
@@ -75,23 +75,24 @@ public class ScriptAlignmentCluster {
     }
 
     public double cluster(List<ScriptClusterNode> allScripts, double lastMax) {
-        Triple<Integer, Integer, Alignment> best = findBest(allScripts, lastMax);
-        int mergei = best.getLeft();
-        int mergej = best.getMiddle();
-        Alignment bestAlignment = best.getRight();
+        Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = findBest(allScripts, lastMax);
+        int mergei = best.getKey().getLeft();
+        int mergej = best.getKey().getLeft();
+        Alignment bestAlignment = best.getValue().getLeft();
+        double score = best.getValue().getRight();
 
         System.err.println();
-        System.err.println("Current best " + bestAlignment.getAlignmentScore());
+        System.err.println("Current best " + score);
         System.err.println("[Script " + mergei + "]" + allScripts.get(mergei));
         System.err.println("[Script " + mergej + "]" + allScripts.get(mergej));
 
         allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
         allScripts.remove(mergej);
 
-        return bestAlignment.getAlignmentScore();
+        return score;
     }
 
-    private Triple<Integer, Integer, Alignment> findBest(List<ScriptClusterNode> allScripts, double limit) {
+    private Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> findBest(List<ScriptClusterNode> allScripts, double limit) {
         double maxScore = Double.MIN_VALUE;
         int mergei = -1, mergej = -1;
         Alignment bestAlignment = null;
@@ -110,9 +111,8 @@ public class ScriptAlignmentCluster {
 
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
 
-                //normalize by the length of the aligned string
+                //normalize by the length of the longer string
                 double score = aligner.getAlignmentScore() / longerLen;
-//                double score = aligner.getAlignmentScore() ;
 
                 Alignment alignment = aligner.getBestAlignment();
                 if (score > maxScore) {
@@ -120,18 +120,14 @@ public class ScriptAlignmentCluster {
                     mergei = i;
                     mergej = j;
                     bestAlignment = alignment;
-//                    System.err.println("Current best " + maxScore);
-//                    System.err.println(allScripts.get(mergei));
-//                    System.err.println(allScripts.get(mergej));
-
-                    if (score == 1) {
-                        return Triple.of(mergei, mergej, bestAlignment);
+                    if (score >= limit) {
+                        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, score));
                     }
                 }
             }
         }
 
-        return Triple.of(mergei, mergej, bestAlignment);
+        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, maxScore));
     }
 
     private void getAligner() {
