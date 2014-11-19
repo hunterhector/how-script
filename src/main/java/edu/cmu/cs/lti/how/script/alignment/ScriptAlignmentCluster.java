@@ -1,6 +1,7 @@
 package edu.cmu.cs.lti.how.script.alignment;
 
 import com.google.common.collect.ArrayListMultimap;
+import edu.cmu.cs.lti.how.model.script.ScriptCluster;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterLeaveNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNonTerminalNode;
@@ -36,18 +37,24 @@ public class ScriptAlignmentCluster {
 
     private Map<String, double[]> sent2Rep;
 
+    private double cutoff = 0.5;
+
     //fast aligner for hac
     private SingleAlingmentAligner aligner;
 
-    public ScriptAlignmentCluster(File eventRepreFile, File allSentsFile, File mappingFile) throws IOException {
+    public ScriptAlignmentCluster(File eventRepreFile, File allSentsFile, File mappingFile, double cutoff) throws IOException {
         logger.setLevel(Level.INFO);
         info("Loading data");
         loadALlEventRepre(eventRepreFile, allSentsFile, mappingFile);
         info("Prepare aligner");
         getAligner();
+
+        if (cutoff > 0) {
+            this.cutoff = cutoff;
+        }
     }
 
-    public ScriptClusterNode hac() {
+    public ScriptCluster hac() {
         List<String> allScriptNames = new LinkedList<>(filename2Sents.keySet());
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
@@ -57,10 +64,13 @@ public class ScriptAlignmentCluster {
         }
         info("Start clustering");
         double lastMax = 1;
-        while (allScripts.size() != 1) {
+
+        while (lastMax < cutoff) {
             lastMax = cluster(allScripts, lastMax);
         }
-        return allScripts.get(0);
+        info("Cut off at " + lastMax);
+
+        return new ScriptCluster(allScripts);
     }
 
     public double cluster(List<ScriptClusterNode> allScripts, double lastMax) {
@@ -205,13 +215,14 @@ public class ScriptAlignmentCluster {
         File allSentsFile = new File(args[1]);
         File mappingFile = new File(args[2]);
         File outputFile = new File(args[3]);
+        double cutoff = Double.parseDouble(args[4]);
 
         if (!outputFile.getParentFile().exists()) {
             outputFile.getParentFile().mkdirs();
         }
 
-        ScriptAlignmentCluster aligner = new ScriptAlignmentCluster(eventRepreFile, allSentsFile, mappingFile);
-        ScriptClusterNode root = aligner.hac();
+        ScriptAlignmentCluster aligner = new ScriptAlignmentCluster(eventRepreFile, allSentsFile, mappingFile, cutoff);
+        ScriptCluster root = aligner.hac();
         SerializationUtils.serialize(root, new FileOutputStream(outputFile));
     }
 }
