@@ -77,7 +77,7 @@ public class ScriptAlignmentCluster {
     public double cluster(List<ScriptClusterNode> allScripts, double lastMax) {
         Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = findBest(allScripts, lastMax);
         int mergei = best.getKey().getLeft();
-        int mergej = best.getKey().getLeft();
+        int mergej = best.getKey().getRight();
         Alignment bestAlignment = best.getValue().getLeft();
         double score = best.getValue().getRight();
 
