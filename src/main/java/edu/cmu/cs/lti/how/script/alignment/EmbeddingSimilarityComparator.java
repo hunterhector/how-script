@@ -10,8 +10,8 @@ import org.sStu.StringComparator;
  */
 public class EmbeddingSimilarityComparator extends StringComparator {
     @Override
-    public double compare(String a, String b) {
-        return cosine(rep2Double(a), rep2Double(b));
+    public double compare(double[] a, double[] b) {
+        return cosine(a, b);
     }
 
     private double[] rep2Double(String r) {

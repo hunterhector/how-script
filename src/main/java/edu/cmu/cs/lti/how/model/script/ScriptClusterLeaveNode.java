@@ -13,11 +13,11 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
     private static final long serialVersionUID = -7941927533152785871L;
 
     String[] events;
-    String[] sequences;
+    double[][] sequences;
 
-    public ScriptClusterLeaveNode(List<String> events, Map<String, String> sent2Rep) {
+    public ScriptClusterLeaveNode(List<String> events, Map<String, double[]> sent2Rep) {
         this.events = events.toArray(new String[events.size()]);
-        sequences = new String[events.size()];
+        sequences = new double[events.size()][];
         for (int i = 0; i < events.size(); i++) {
             sequences[i] = sent2Rep.get(events.get(i));
         }
@@ -50,7 +50,7 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
 
 
     @Override
-    public String[] getSequence() {
+    public double[][] getSequence() {
         return sequences;
     }
 }

@@ -21,7 +21,7 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
 
     private final double alignScore;
 
-    private String[] mergedSequences;
+    private double[][] mergedSequences;
 
     private List<Pair<Integer, Integer>> source;
 
@@ -50,7 +50,7 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
         CharSequence ms = alignment.getMiddleString();
 
         CharSequence longerSeq;
-        String[] longerSeqContent;
+        double[][] longerSeqContent;
 
         boolean leftLonger = true;
         if (ls.length() > rs.length()) {
@@ -73,7 +73,7 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
 
 //        System.out.println("Merged length " + mergedLength);
 
-        mergedSequences = new String[mergedLength];
+        mergedSequences = new double[mergedLength][];
 
 //        System.out.println(alignment);
 
@@ -136,23 +136,21 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
 //        System.out.println(mergedSequences.length);
     }
 
-    private String weightedAverageSequences(ScriptClusterNode l, ScriptClusterNode r, int leftIndex, int rightIndex) {
+    private double[] weightedAverageSequences(ScriptClusterNode l, ScriptClusterNode r, int leftIndex, int rightIndex) {
         int cl = l.getObservationCount();
         int cr = r.getObservationCount();
 
         double weightLeft = ((double) cl) / (cl + cr);
         double weightRight = ((double) cr) / (cl + cr);
 
-
-        double[] seq = rep2Doulbe(l.getSequence()[leftIndex]);
-        double[] seqR = rep2Doulbe(r.getSequence()[rightIndex]);
+        double[] seq = l.getSequence()[leftIndex];
+        double[] seqR =r.getSequence()[rightIndex];
 
         for (int i = 0; i < seq.length; i++) {
             seq[i] = seq[i] * weightLeft + seqR[i] * weightRight;
         }
 
-
-        return double2Rep(seq);
+        return seq;
     }
 
     private String double2Rep(double[] seq) {
@@ -198,7 +196,7 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
     }
 
     @Override
-    public String[] getSequence() {
+    public double[][] getSequence() {
         return mergedSequences;
     }
 

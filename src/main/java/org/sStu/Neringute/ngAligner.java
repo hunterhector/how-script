@@ -24,10 +24,10 @@ public class ngAligner {
      * numeration is from
      * one, the first character is not used.
      */
-    public String[] toStringArray(String[] x) {
-        String[] c;
-        c = new String[x.length + 1];
-        c[0] = NULL_POSITION;
+    public double[][] appendFirstPosition(double[][] x) {
+        double[][] c;
+        c = new double[x.length + 1][];
+        c[0] = new double[0];
         int p = 1;
         for (int i = 0; i < x.length; i++) {
             c[p++] = x[i];

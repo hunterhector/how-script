@@ -31,7 +31,7 @@ public class ScoreMatrixComparator extends StringComparator {
      * If one or both the chars are outside the score matrix size
      * returns DefaultMatchValue if they are equal, DefaultMismatchValue otherwise.
      */
-    public double compare(String a, String b) throws ArrayIndexOutOfBoundsException {
+    public double compare(double[] a, double[] b) throws ArrayIndexOutOfBoundsException {
         try {
             return matrix.get(a, b);
         } catch (ArrayIndexOutOfBoundsException ex) {

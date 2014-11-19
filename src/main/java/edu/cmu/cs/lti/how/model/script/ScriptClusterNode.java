@@ -17,5 +17,5 @@ public interface ScriptClusterNode extends Serializable {
 
     public boolean isLeave();
 
-    public String[] getSequence();
+    public double[][] getSequence();
 }

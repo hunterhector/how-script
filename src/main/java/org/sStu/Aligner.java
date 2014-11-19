@@ -35,6 +35,6 @@ public interface Aligner {
    * parameter can only take values 0 and 1. Optimizations and pre-processing are
    * implemented supposing that the sequence 0 is longer and more frequently used.
    */
-  public void setSequence(String[] seq, int number);
+  public void setSequence(double[][] seq, int number);
 
 }

@@ -33,7 +33,7 @@ public class ScriptAlignmentCluster {
 
     private ArrayListMultimap<String, String> filename2Sents;
 
-    private Map<String, String> sent2Rep;
+    private Map<String, double[]> sent2Rep;
 
     //fast aligner for hac
     private SingleAlingmentAligner aligner;
@@ -70,8 +70,11 @@ public class ScriptAlignmentCluster {
 
         for (int i = 0; i < allScripts.size() - 1; i++) {
             double progressPercent = i * 1.0 / allScripts.size();
-            updateProgress(progressPercent);
+            System.err.print(i + "\r");
+//            updateProgress(progressPercent);
             for (int j = i + 1; j < allScripts.size(); j++) {
+//                System.out.print(j + "\r");
+
                 aligner.setSequence(allScripts.get(i).getSequence(), 0);
                 aligner.setSequence(allScripts.get(j).getSequence(), 1);
                 aligner.align();
@@ -141,12 +144,21 @@ public class ScriptAlignmentCluster {
         List<String> allSents = FileUtils.readLines(allSentsFile);
         List<String> allReps = FileUtils.readLines(eventRepreFile);
         for (int i = 0; i < allReps.size(); i++) {
-            String repLine = allReps.get(i);
             String sentLine = allSents.get(i).trim().split("\t", 3)[2];
-//            double[] v = loadVector(repLine);
-            sent2Rep.put(sentLine, repLine);
+            String repLine = allReps.get(i);
+            double[] v = loadVector(repLine);
+            sent2Rep.put(sentLine, v);
         }
         info("Finish loading");
+    }
+
+    private double[] loadVector(String repLine) {
+        String[] vectorStrs = repLine.split(" ");
+        double[] v = new double[vectorStrs.length];
+        for (int i = 0; i < vectorStrs.length; i++) {
+            v[i] = Double.parseDouble(vectorStrs[i]);
+        }
+        return v;
     }
 
     private void info(String msg) {

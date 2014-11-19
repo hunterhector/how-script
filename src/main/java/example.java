@@ -1,5 +1,4 @@
 import org.sStu.AlignerFactory;
-import org.sStu.Alignment;
 import org.sStu.AlignmentRangeAligner;
 
 class example {
@@ -26,15 +25,15 @@ class example {
     }
 
     private static void test(AlignmentRangeAligner aligner) {
-        aligner.setSequence("prepare cut fry stir finish".split(" "), 0);
-        aligner.setSequence("prepare bake finish".split(" "), 1);
-        aligner.align();
-        for (Alignment a : aligner.getAlignments()) {
-            System.out.println("Alignment result:");
-            System.out.println(a);
-            System.out.println(a.getAlignmentScore());
-            System.out.println(aligner.getAlignmentScore());
-            break;
-        }
+//        aligner.setSequence("prepare cut fry stir finish".split(" "), 0);
+//        aligner.setSequence("prepare bake finish".split(" "), 1);
+//        aligner.align();
+//        for (Alignment a : aligner.getAlignments()) {
+//            System.out.println("Alignment result:");
+//            System.out.println(a);
+//            System.out.println(a.getAlignmentScore());
+//            System.out.println(aligner.getAlignmentScore());
+//            break;
+//        }
     }
 }

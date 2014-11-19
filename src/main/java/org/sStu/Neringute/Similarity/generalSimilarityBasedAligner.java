@@ -65,12 +65,12 @@ public abstract class generalSimilarityBasedAligner
      * The first sequence. The numeration is from
      * one, the first character is not used.
      */
-    public String[] S1;
+    public double[][] S1;
     /**
      * The second sequence. The numeration is from
      * one, the first character is not used.
      */
-    public String[] S2;
+    public double[][] S2;
 
     /**
      * Length of S1
@@ -101,14 +101,14 @@ public abstract class generalSimilarityBasedAligner
      * Some implementations may call preprocessing routines after
      * the main sequence is set.
      */
-    public void setSequence(String[] seq, int number) {
+    public void setSequence(double[][] seq, int number) {
         switch (number) {
             case 0:
-                S1 = toStringArray(seq);
+                S1 = appendFirstPosition(seq);
                 m = seq.length;
                 break;
             case 1:
-                S2 = toStringArray(seq);
+                S2 = appendFirstPosition(seq);
                 n = seq.length;
                 break;
             default:
