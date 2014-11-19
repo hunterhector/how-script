@@ -51,6 +51,7 @@ public class ScriptAlignmentCluster {
 
         if (cutoff > 0) {
             this.cutoff = cutoff;
+            info("Setting cutoff as " + cutoff);
         }
     }
 
@@ -65,7 +66,7 @@ public class ScriptAlignmentCluster {
         info("Start clustering");
         double lastMax = 1;
 
-        while (lastMax < cutoff) {
+        while (lastMax > cutoff) {
             lastMax = cluster(allScripts, lastMax);
         }
         info("Cut off at " + lastMax);
