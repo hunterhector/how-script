@@ -82,8 +82,8 @@ public class ScriptAlignmentCluster {
 
         System.err.println();
         System.err.println("Current best " + bestAlignment.getAlignmentScore());
-        System.err.println(allScripts.get(mergei));
-        System.err.println(allScripts.get(mergej));
+        System.err.println("[Script " + mergei + "]" + allScripts.get(mergei));
+        System.err.println("[Script " + mergej + "]" + allScripts.get(mergej));
 
         allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
         allScripts.remove(mergej);
@@ -98,7 +98,7 @@ public class ScriptAlignmentCluster {
         logger.info("Finding best from " + allScripts.size() + " scripts");
 
         for (int i = 0; i < allScripts.size() - 1; i++) {
-            System.err.print(i + "\r");
+            System.err.print("Iter: " + i + "\r");
             for (int j = i + 1; j < allScripts.size(); j++) {
 
                 double[][] seq0 = allScripts.get(i).getSequence();
