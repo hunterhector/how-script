@@ -33,9 +33,9 @@ import java.util.logging.Logger;
 public class ScriptAlignmentCluster {
     Logger logger = Logger.getLogger(ScriptAlignmentCluster.class.getName());
 
-    private ArrayListMultimap<String, String> filename2Sents;
+    private ArrayListMultimap<String, String> filename2Events;
 
-    private Map<String, double[]> sent2Rep;
+    private Map<String, double[]> event2Rep;
 
     private double cutoff = 0.5;
 
@@ -49,24 +49,30 @@ public class ScriptAlignmentCluster {
         info("Prepare aligner");
         getAligner();
 
-        if (cutoff > 0) {
+        if (cutoff >= 0) {
             this.cutoff = cutoff;
             info("Setting cutoff as " + cutoff);
         }
     }
 
     public ScriptCluster hac() {
-        List<String> allScriptNames = new LinkedList<>(filename2Sents.keySet());
+        List<String> allScriptNames = new LinkedList<>(filename2Events.keySet());
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
+        int limit = 0;
         for (String scriptName : allScriptNames) {
-            allScripts.add(new ScriptClusterLeaveNode(filename2Sents.get(scriptName), sent2Rep));
+            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+            limit++;
+            if (limit > 10) {
+                break;
+            }
         }
+
         info("Start clustering");
         double lastMax = 1;
 
-        while (lastMax > cutoff) {
+        while (lastMax > cutoff && allScripts.size() > 1) {
             lastMax = cluster(allScripts, lastMax);
         }
         info("Cut off at " + lastMax);
@@ -101,7 +107,6 @@ public class ScriptAlignmentCluster {
         for (int i = 0; i < allScripts.size() - 1; i++) {
             System.err.print("Iter: " + i + "\r");
             for (int j = i + 1; j < allScripts.size(); j++) {
-
                 double[][] seq0 = allScripts.get(i).getSequence();
                 double[][] seq1 = allScripts.get(j).getSequence();
 
@@ -144,8 +149,8 @@ public class ScriptAlignmentCluster {
     }
 
     private void loadALlEventRepre(File eventRepreFile, File allSentsFile, File mappingFile) throws IOException {
-        filename2Sents = ArrayListMultimap.create();
-        sent2Rep = new HashMap<>();
+        filename2Events = ArrayListMultimap.create();
+        event2Rep = new HashMap<>();
 
         info("Loading filename to argument event string mapping...");
         List<String> mappingStrs = FileUtils.readLines(mappingFile);
@@ -156,17 +161,17 @@ public class ScriptAlignmentCluster {
             }
             String[] parts = line.trim().split("\t", 5);
 
-            filename2Sents.put(parts[0], parts[4]);
+            filename2Events.put(parts[0], parts[4]);
         }
 
         info("Loading representations by sentences...");
         List<String> allSents = FileUtils.readLines(allSentsFile);
         List<String> allReps = FileUtils.readLines(eventRepreFile);
         for (int i = 0; i < allReps.size(); i++) {
-            String sentLine = allSents.get(i).trim().split("\t", 3)[2];
+            String eventStr = allSents.get(i).trim().split("\t", 3)[2];
             String repLine = allReps.get(i);
             double[] v = loadVector(repLine);
-            sent2Rep.put(sentLine, v);
+            event2Rep.put(eventStr, v);
         }
         info("Finish loading");
     }

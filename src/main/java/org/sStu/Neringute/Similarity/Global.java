@@ -272,20 +272,18 @@ public class Global
         StringBuffer A2 = new StringBuffer(N);
         StringBuffer AL = new StringBuffer(N);
 
-//        System.out.println("Initial i j, " + i + " " + j);
-
         for (int p = 0; p < N; p++) {
             Switch:
 
             switch (K[p]) {
                 case LEFT:
-                    A1.append(i++);
+                    A1.append((char) ('a' + (i++ - 1)));
                     A2.append('-');
                     AL.append(' ');
                     break;
                 case UP:
                     A1.append('-');
-                    A2.append(j++);
+                    A2.append((char) ('a' + (j++ - 1)));
                     AL.append(' ');
                     break;
                 case UP_LEFT:
@@ -294,8 +292,8 @@ public class Global
                     } else {
                         AL.append('|');
                     }
-                    A1.append(i++);
-                    A2.append(j++);
+                    A1.append((char) ('a' + (i++ - 1)));
+                    A2.append((char) ('a' + (j++ - 1)));
                     break;
             }
         }

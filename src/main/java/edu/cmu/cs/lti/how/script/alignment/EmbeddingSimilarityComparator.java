@@ -14,17 +14,6 @@ public class EmbeddingSimilarityComparator extends StringComparator {
         return cosine(a, b);
     }
 
-    private double[] rep2Double(String r) {
-        String[] rs = r.split(" ");
-
-        double[] rep = new double[rs.length];
-
-        for (int i = 0; i < rs.length; i++) {
-            rep[i] = Double.parseDouble(rs[i]);
-        }
-        return rep;
-    }
-
     private double cosine(double[] rep1, double[] rep2) {
         double prod = 0;
         double len1 = 0;
