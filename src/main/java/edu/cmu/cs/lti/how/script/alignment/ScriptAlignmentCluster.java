@@ -64,13 +64,8 @@ public class ScriptAlignmentCluster {
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
-        int limit = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
-            limit--;
-            if (limit == 0) {
-                break;
-            }
         }
 
         boolean[] deleted = new boolean[allScripts.size()];
