@@ -163,7 +163,9 @@ public class ScriptAlignmentCluster {
         logger.info("Calculate pairwise alignment score all " + allScripts.size() + " scripts");
         allAlignments = new Alignment[allScripts.size()][allScripts.size()];
         for (int i = 0; i < allScripts.size() - 1; i++) {
-            DebugUtils.printMemInfo(logger, "Iter: " + i);
+            if (i % 100 == 0) {
+                DebugUtils.printMemInfo(logger, "Iter: " + i);
+            }
             for (int j = i + 1; j < allScripts.size(); j++) {
                 Alignment alignment = align(allScripts.get(i), allScripts.get(j));
                 allAlignments[i][j] = alignment;
