@@ -5,6 +5,7 @@ import edu.cmu.cs.lti.how.model.script.ScriptCluster;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterLeaveNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNonTerminalNode;
+import edu.cmu.cs.lti.utils.DebugUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -17,10 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,7 +73,6 @@ public class ScriptAlignmentCluster {
         info("Start clustering");
         double lastMax = 1;
 
-
         info("Calculate all pairwise similarity and store...");
         calAllPair(allScripts);
 
@@ -84,7 +81,15 @@ public class ScriptAlignmentCluster {
         }
         info("Cut off at " + lastMax);
 
-        return new ScriptCluster(allScripts);
+
+        List<ScriptClusterNode> clusteredNodes = new ArrayList<ScriptClusterNode>();
+        for (int i = 0; i < allScripts.size(); i++) {
+            if (!deleted[i]) {
+                clusteredNodes.add(allScripts.get(i));
+            }
+        }
+
+        return new ScriptCluster(clusteredNodes);
     }
 
     public double cluster(List<ScriptClusterNode> allScripts, double lastMax, boolean[] deleted) {
@@ -103,8 +108,7 @@ public class ScriptAlignmentCluster {
 
         allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
         deleted[mergej] = true;
-        updateAlignment(allScripts, mergei);
-
+        updateAlignment(allScripts, mergei, deleted);
         return score;
     }
 
@@ -141,15 +145,17 @@ public class ScriptAlignmentCluster {
         return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, maxScore));
     }
 
-    private void updateAlignment(List<ScriptClusterNode> allScripts, int indexToUpdate) {
+    private void updateAlignment(List<ScriptClusterNode> allScripts, int indexToUpdate, boolean[] deleted) {
         logger.info("Update pairwise related to " + indexToUpdate);
 
         for (int i = 0; i < indexToUpdate; i++) {
-            allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
+            if (!deleted[i])
+                allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
         }
 
         for (int j = indexToUpdate + 1; j < allScripts.size(); j++) {
-            allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
+            if (!deleted[j])
+                allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
         }
     }
 
@@ -157,7 +163,7 @@ public class ScriptAlignmentCluster {
         logger.info("Calculate pairwise alignment score all " + allScripts.size() + " scripts");
         allAlignments = new Alignment[allScripts.size()][allScripts.size()];
         for (int i = 0; i < allScripts.size() - 1; i++) {
-            System.err.print("Iter: " + i + "\r");
+            DebugUtils.printMemInfo(logger, "Iter: " + i);
             for (int j = i + 1; j < allScripts.size(); j++) {
                 Alignment alignment = align(allScripts.get(i), allScripts.get(j));
                 allAlignments[i][j] = alignment;
