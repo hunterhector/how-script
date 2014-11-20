@@ -187,16 +187,16 @@ public class ScriptAlignmentCluster {
     private double[] loadVector(String repLine) {
         String[] vectorStrs = repLine.split(" ");
         double[] v = new double[vectorStrs.length];
-        double length = 0;
+//        double length = 0;
         for (int i = 0; i < vectorStrs.length; i++) {
             double vi = Double.parseDouble(vectorStrs[i]);
             v[i] = vi;
-            length += vi * vi;
+//            length += vi * vi;
         }
-        length = Math.sqrt(length);
-        for (int i = 0; i < vectorStrs.length; i++) {
-            v[i] = v[i] / length;
-        }
+//        length = Math.sqrt(length);
+//        for (int i = 0; i < vectorStrs.length; i++) {
+//            v[i] = v[i] / length;
+//        }
 
         return v;
     }
