@@ -64,11 +64,17 @@ public class ScriptAlignmentCluster {
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
+        int limit = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+            limit--;
+            if (limit == 0) {
+                break;
+            }
         }
 
         boolean[] deleted = new boolean[allScripts.size()];
+        int numDeleted = 0;
 
         info("Start clustering");
         double lastMax = 1;
@@ -76,11 +82,14 @@ public class ScriptAlignmentCluster {
         info("Calculate all pairwise similarity and store...");
         calAllPair(allScripts);
 
-        while (lastMax > cutoff && allScripts.size() > 1) {
+        while (lastMax > cutoff && numDeleted < allScripts.size() - 1) {
             lastMax = cluster(allScripts, lastMax, deleted);
+            //we delete one at a time;
+            numDeleted++;
         }
         info("Cut off at " + lastMax);
 
+        System.out.println("Number of deleted nodes  " + numDeleted);
 
         List<ScriptClusterNode> clusteredNodes = new ArrayList<ScriptClusterNode>();
         for (int i = 0; i < allScripts.size(); i++) {
@@ -88,6 +97,9 @@ public class ScriptAlignmentCluster {
                 clusteredNodes.add(allScripts.get(i));
             }
         }
+
+        System.out.println("Number of remaining clusters " + clusteredNodes.size());
+
 
         return new ScriptCluster(clusteredNodes);
     }
