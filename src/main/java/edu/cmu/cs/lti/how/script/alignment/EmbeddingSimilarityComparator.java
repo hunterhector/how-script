@@ -11,7 +11,15 @@ import org.sStu.StringComparator;
 public class EmbeddingSimilarityComparator extends StringComparator {
     @Override
     public double compare(double[] a, double[] b) {
-        return cosine(a, b);
+        return dotprod(a, b);
+    }
+
+    private double dotprod(double[] rep1, double[] rep2) {
+        double prod = 0;
+        for (int i = 0; i < rep1.length; i++) {
+            prod += rep1[i] * rep2[i];
+        }
+        return prod;
     }
 
     private double cosine(double[] rep1, double[] rep2) {

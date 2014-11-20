@@ -181,4 +181,22 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
     public List<Pair<Integer, Integer>> getSource() {
         return source;
     }
+
+
+//    public boolean equals(Object obj){
+//        if (obj == null) { return false; }
+//        if (obj == this) { return true; }
+//        if (obj.getClass() != getClass()) {
+//            return false;
+//        }
+//        ScriptClusterNonTerminalNode rhs = (ScriptClusterNonTerminalNode) obj;
+//        return new EqualsBuilder()
+//                .append(field1, rhs.field1)
+//                .append(field2, rhs.field2)
+//                .append(field3, rhs.field3)
+//                .isEquals();
+//    }
+//    public int hashCode(){
+//
+//    }
 }

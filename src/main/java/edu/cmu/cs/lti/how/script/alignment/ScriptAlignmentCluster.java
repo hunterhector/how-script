@@ -1,6 +1,8 @@
 package edu.cmu.cs.lti.how.script.alignment;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import edu.cmu.cs.lti.how.model.script.ScriptCluster;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterLeaveNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
@@ -37,6 +39,8 @@ public class ScriptAlignmentCluster {
 
     private Map<String, double[]> event2Rep;
 
+    private Table<ScriptClusterNode, ScriptClusterNode, Alignment> alignmentCache;
+
     private double cutoff = 0.5;
 
     //fast aligner for hac
@@ -48,6 +52,8 @@ public class ScriptAlignmentCluster {
         loadALlEventRepre(eventRepreFile, allSentsFile, mappingFile);
         info("Prepare aligner");
         getAligner();
+
+        alignmentCache = HashBasedTable.create();
 
         if (cutoff >= 0) {
             this.cutoff = cutoff;
@@ -62,7 +68,6 @@ public class ScriptAlignmentCluster {
         info("Add script nodes");
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
-
         }
 
         info("Start clustering");
@@ -102,20 +107,27 @@ public class ScriptAlignmentCluster {
 
         for (int i = 0; i < allScripts.size() - 1; i++) {
             System.err.print("Iter: " + i + "\r");
+
             for (int j = i + 1; j < allScripts.size(); j++) {
+                ScriptClusterNode scriptNodeI = allScripts.get(i);
+                ScriptClusterNode scriptNodeJ = allScripts.get(j);
+
+                Alignment alignment = alignmentCache.get(scriptNodeI, scriptNodeJ);
+
+                if (alignment == null) {
+                    aligner.setSequence(allScripts.get(i).getSequence(), 0);
+                    aligner.setSequence(allScripts.get(j).getSequence(), 1);
+                    aligner.align();
+                    alignment = aligner.getBestAlignment();
+                    alignmentCache.put(scriptNodeI, scriptNodeJ, alignment);
+                }
+
                 double[][] seq0 = allScripts.get(i).getSequence();
                 double[][] seq1 = allScripts.get(j).getSequence();
-
-                aligner.setSequence(allScripts.get(i).getSequence(), 0);
-                aligner.setSequence(allScripts.get(j).getSequence(), 1);
-                aligner.align();
-
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
-
                 //normalize by the length of the longer string
-                double score = aligner.getAlignmentScore() / longerLen;
+                double score = alignment.getAlignmentScore() / longerLen;
 
-                Alignment alignment = aligner.getBestAlignment();
                 if (score > maxScore) {
                     maxScore = score;
                     mergei = i;
@@ -175,9 +187,17 @@ public class ScriptAlignmentCluster {
     private double[] loadVector(String repLine) {
         String[] vectorStrs = repLine.split(" ");
         double[] v = new double[vectorStrs.length];
+        double length = 0;
         for (int i = 0; i < vectorStrs.length; i++) {
-            v[i] = Double.parseDouble(vectorStrs[i]);
+            double vi = Double.parseDouble(vectorStrs[i]);
+            v[i] = vi;
+            length += vi * vi;
         }
+        length = Math.sqrt(length);
+        for (int i = 0; i < vectorStrs.length; i++) {
+            v[i] = v[i] / length;
+        }
+
         return v;
     }
 

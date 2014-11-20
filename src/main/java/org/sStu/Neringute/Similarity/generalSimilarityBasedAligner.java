@@ -3,6 +3,8 @@ package org.sStu.Neringute.Similarity;
 import org.sStu.Neringute.ngAligner;
 import org.sStu.StringComparator;
 
+import java.util.Arrays;
+
 /**
  * <p>Title: Sequences study</p>
  * <p>Description: Package for working with sequences</p>
@@ -133,7 +135,7 @@ public abstract class generalSimilarityBasedAligner
         }
 
         // else use default comparison:
-        if (S1[i].equals(S2[j])) {
+        if (Arrays.equals(S1[i], S2[j])) {
             return MATCH_WEIGHT;
         } else {
             return MISMATCH_WEIGHT;

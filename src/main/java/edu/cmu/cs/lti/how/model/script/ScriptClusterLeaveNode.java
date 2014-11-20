@@ -49,7 +49,6 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
         return events;
     }
 
-
     @Override
     public double[][] getSequence() {
         return sequences;
@@ -58,4 +57,13 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
     public String toString(){
         return Arrays.toString(events);
     }
+
+
+//    public boolean equals(Object obj){
+//
+//    }
+//
+//    public int hashCode();
+
+
 }
