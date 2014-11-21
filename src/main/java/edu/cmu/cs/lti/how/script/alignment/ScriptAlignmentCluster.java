@@ -1,6 +1,8 @@
 package edu.cmu.cs.lti.how.script.alignment;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Ordering;
+import edu.cmu.cs.lti.collections.ValueComparableMap;
 import edu.cmu.cs.lti.how.model.script.ScriptCluster;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterLeaveNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
@@ -35,11 +37,12 @@ public class ScriptAlignmentCluster {
 
     private Map<String, double[]> event2Rep;
 
-//    private Table<ScriptClusterNode, ScriptClusterNode, Alignment> alignmentCache = HashBasedTable.create();
+//    private Alignment[][] allAlignments;
 
-    private Alignment[][] allAlignments;
+    private TreeMap<Pair<Integer, Integer>, Pair<Double, Alignment>> sortedAlignments = new ValueComparableMap<>(Ordering.natural().reverse());
 
-//    private PriorityQueue<Triple<Double, Integer, Integer>> bestAlignments;
+
+//    private PriorityQueue<Alignment>[] allAlignments;
 
     private double cutoff = 0.5;
 
@@ -64,8 +67,13 @@ public class ScriptAlignmentCluster {
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
+        int temp = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+            temp--;
+            if (temp < 0) {
+                break;
+            }
         }
 
         boolean[] deleted = new boolean[allScripts.size()];
@@ -78,13 +86,14 @@ public class ScriptAlignmentCluster {
         calAllPair(allScripts);
 
         while (lastMax > cutoff && numDeleted < allScripts.size() - 1) {
-            lastMax = cluster(allScripts, lastMax, deleted);
+            lastMax = cluster(allScripts, deleted);
             //we delete one at a time;
             numDeleted++;
+            info("Number of deleted nodes " + numDeleted);
         }
         info("Cut off at " + lastMax);
 
-        System.out.println("Number of deleted nodes  " + numDeleted);
+        info("Number of deleted nodes  " + numDeleted);
 
         List<ScriptClusterNode> clusteredNodes = new ArrayList<ScriptClusterNode>();
         for (int i = 0; i < allScripts.size(); i++) {
@@ -93,22 +102,19 @@ public class ScriptAlignmentCluster {
             }
         }
 
-        System.out.println("Number of remaining clusters " + clusteredNodes.size());
-
+        info("Number of remaining clusters " + clusteredNodes.size());
 
         return new ScriptCluster(clusteredNodes);
     }
 
-    public double cluster(List<ScriptClusterNode> allScripts, double lastMax, boolean[] deleted) {
-//        Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = findBest(allScripts, lastMax);
-        Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = linearBest(allScripts, deleted, lastMax);
+    public double cluster(List<ScriptClusterNode> allScripts, boolean[] deleted) {
+//        Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = linearBest(allScripts, deleted, lastMax);
+        Map.Entry<Pair<Integer, Integer>, Pair<Double, Alignment>> best = sortedAlignments.pollFirstEntry();
 
         int mergei = best.getKey().getLeft();
         int mergej = best.getKey().getRight();
-        Alignment bestAlignment = best.getValue().getLeft();
-        double score = best.getValue().getRight();
-
-        System.err.println();
+        Alignment bestAlignment = best.getValue().getRight();
+        double score = best.getValue().getLeft();
         System.err.println("Current best " + score);
         System.err.println("[Script " + mergei + "]" + allScripts.get(mergei));
         System.err.println("[Script " + mergej + "]" + allScripts.get(mergej));
@@ -116,104 +122,26 @@ public class ScriptAlignmentCluster {
         allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
         deleted[mergej] = true;
         updateAlignment(allScripts, mergei, deleted);
+
         return score;
     }
 
-    private Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> linearBest(List<ScriptClusterNode> allScripts, boolean[] deleted, double limit) {
-        double maxScore = Double.MIN_VALUE;
-        int mergei = -1, mergej = -1;
-        Alignment bestAlignment = null;
-        for (int i = 0; i < allAlignments.length - 1; i++) {
-            if (deleted[i]) {
-                continue;
-            }
-            for (int j = i + 1; j < allAlignments.length; j++) {
-                if (deleted[j]) {
-                    continue;
-                }
-
-                Alignment alignment = allAlignments[i][j];
-                double[][] seq0 = allScripts.get(i).getSequence();
-                double[][] seq1 = allScripts.get(j).getSequence();
-                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
-                double score = alignment.getAlignmentScore() / longerLen;
-
-                if (score > maxScore) {
-                    maxScore = score;
-                    mergei = i;
-                    mergej = j;
-                    bestAlignment = alignment;
-                    if (score >= limit) {
-                        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, score));
-                    }
-                }
-            }
-        }
-        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, maxScore));
-    }
-
-    private void updateAlignment(List<ScriptClusterNode> allScripts, int indexToUpdate, boolean[] deleted) {
-        logger.info("Update pairwise related to " + indexToUpdate);
-
-        for (int i = 0; i < indexToUpdate; i++) {
-            if (!deleted[i])
-                allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
-        }
-
-        for (int j = indexToUpdate + 1; j < allScripts.size(); j++) {
-            if (!deleted[j])
-                allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
-        }
-    }
-
-    private void calAllPair(List<ScriptClusterNode> allScripts) {
-        logger.info("Calculate pairwise alignment score all " + allScripts.size() + " scripts");
-        allAlignments = new Alignment[allScripts.size()][allScripts.size()];
-        for (int i = 0; i < allScripts.size() - 1; i++) {
-            if (i % 100 == 0) {
-                DebugUtils.printMemInfo(logger, "Iter: " + i);
-            }
-            for (int j = i + 1; j < allScripts.size(); j++) {
-                Alignment alignment = align(allScripts.get(i), allScripts.get(j));
-                allAlignments[i][j] = alignment;
-            }
-        }
-    }
-
-    private Alignment align(ScriptClusterNode nodei, ScriptClusterNode nodej) {
-        aligner.setSequence(nodei.getSequence(), 0);
-        aligner.setSequence(nodej.getSequence(), 1);
-        aligner.align();
-        return aligner.getBestAlignment();
-    }
-
-//    private Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> findBest(List<ScriptClusterNode> allScripts, double limit) {
+//    private Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> linearBest(List<ScriptClusterNode> allScripts, boolean[] deleted, double limit) {
 //        double maxScore = Double.MIN_VALUE;
 //        int mergei = -1, mergej = -1;
 //        Alignment bestAlignment = null;
-//        logger.info("Finding best from " + allScripts.size() + " scripts");
-//
-//        for (int i = 0; i < allScripts.size() - 1; i++) {
-//            System.err.print("Iter: " + i + "\r");
-//
-//            for (int j = i + 1; j < allScripts.size(); j++) {
-//                ScriptClusterNode scriptNodeI = allScripts.get(i);
-//                ScriptClusterNode scriptNodeJ = allScripts.get(j);
-//
-//                Alignment alignment = alignmentCache.get(scriptNodeI, scriptNodeJ);
-//
-//                if (alignment == null) {
-//                    aligner.setSequence(allScripts.get(i).getSequence(), 0);
-//                    aligner.setSequence(allScripts.get(j).getSequence(), 1);
-//                    aligner.align();
-//                    alignment = aligner.getBestAlignment();
-//                    alignmentCache.put(scriptNodeI, scriptNodeJ, alignment);
+//        for (int i = 0; i < allAlignments.length - 1; i++) {
+//            if (deleted[i]) {
+//                continue;
+//            }
+//            for (int j = i + 1; j < allAlignments.length; j++) {
+//                if (deleted[j]) {
+//                    continue;
 //                }
-//
+//                Alignment alignment = allAlignments[i][j];
 //                double[][] seq0 = allScripts.get(i).getSequence();
 //                double[][] seq1 = allScripts.get(j).getSequence();
 //                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
-//                //normalize by the length of the longer string
 //                double score = alignment.getAlignmentScore() / longerLen;
 //
 //                if (score > maxScore) {
@@ -227,9 +155,66 @@ public class ScriptAlignmentCluster {
 //                }
 //            }
 //        }
-//
 //        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, maxScore));
 //    }
+
+    private void updateAlignment(List<ScriptClusterNode> allScripts, int indexToUpdate, boolean[] deleted) {
+        logger.info("Update pairwise related to " + indexToUpdate);
+
+        for (int i = 0; i < indexToUpdate; i++) {
+            if (!deleted[i]) {
+                Alignment alignment = align(allScripts.get(i), allScripts.get(indexToUpdate));
+                double[][] seq0 = allScripts.get(i).getSequence();
+                double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
+                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
+                double score = alignment.getAlignmentScore() / longerLen;
+
+                sortedAlignments.put(Pair.of(i, indexToUpdate), Pair.of(score, alignment));
+//            allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
+            }
+        }
+
+        for (int j = indexToUpdate + 1; j < allScripts.size(); j++) {
+            if (!deleted[j]) {
+                Alignment alignment = align(allScripts.get(indexToUpdate), allScripts.get(j));
+                double[][] seq0 = allScripts.get(indexToUpdate).getSequence();
+                double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
+                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
+                double score = alignment.getAlignmentScore() / longerLen;
+
+                sortedAlignments.put(Pair.of(indexToUpdate, j), Pair.of(score, alignment));
+//                allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
+            }
+        }
+    }
+
+    private void calAllPair(List<ScriptClusterNode> allScripts) {
+        logger.info("Calculate pairwise alignment score all " + allScripts.size() + " scripts");
+//        allAlignments = new Alignment[allScripts.size()][allScripts.size()];
+        for (int i = 0; i < allScripts.size() - 1; i++) {
+            if (i % 100 == 0) {
+                DebugUtils.printMemInfo(logger, "Iter: " + i);
+            }
+            for (int j = i + 1; j < allScripts.size(); j++) {
+                Alignment alignment = align(allScripts.get(i), allScripts.get(j));
+
+                double[][] seq0 = allScripts.get(i).getSequence();
+                double[][] seq1 = allScripts.get(j).getSequence();
+                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
+                double score = alignment.getAlignmentScore() / longerLen;
+
+                sortedAlignments.put(Pair.of(i, j), Pair.of(score, alignment));
+//                allAlignments[i][j] = alignment;
+            }
+        }
+    }
+
+    private Alignment align(ScriptClusterNode nodei, ScriptClusterNode nodej) {
+        aligner.setSequence(nodei.getSequence(), 0);
+        aligner.setSequence(nodej.getSequence(), 1);
+        aligner.align();
+        return aligner.getBestAlignment();
+    }
 
     private void getAligner() {
         AlignerFactory factory = new AlignerFactory();

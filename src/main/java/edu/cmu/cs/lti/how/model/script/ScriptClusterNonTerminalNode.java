@@ -58,12 +58,11 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
                 mergedLength += 1;
             }
         }
-//
+
 //        System.out.println("Sequence");
 //        System.out.println(ls);
 //        System.out.println(ms);
 //        System.out.println(rs);
-//
 //        System.out.println("Merged length " + mergedLength);
 
         mergedSequences = new double[mergedLength][];
@@ -114,13 +113,18 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
                 rightPointer = rs.charAt(i) - 'a';
 
                 mergedSequences[index] = weightedAverageSequences(l, r, leftPointer, rightPointer);
-
                 source.add(Pair.of(leftPointer, rightPointer));
             }
         }
 
-        //after aligned
-        int lastIndex = (longerSeq.charAt(longerSeq.length() - 1) - 'a') + 1;
+        int lastIndex;
+        if (leftLonger) {
+            lastIndex = leftPointer + 1;
+        } else {
+            lastIndex = rightPointer + 1;
+        }
+//        int lastIndex = (longerSeq.charAt(longerSeq.length() - 1) - 'a') + 1;
+
         for (int i = lastIndex; i < longerSeqContent.length; i++) {
             mergedSequences[index + 1 + i - lastIndex] = longerSeqContent[i];
             if (leftLonger) {
@@ -130,6 +134,8 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
             }
 //            System.out.println("Adding after from  " + i + " to " + (index + 1 + i - lastIndex));
         }
+
+//        System.out.println(source);
     }
 
     private double[] weightedAverageSequences(ScriptClusterNode l, ScriptClusterNode r, int leftIndex, int rightIndex) {
@@ -181,22 +187,4 @@ public class ScriptClusterNonTerminalNode implements ScriptClusterNode {
     public List<Pair<Integer, Integer>> getSource() {
         return source;
     }
-
-
-//    public boolean equals(Object obj){
-//        if (obj == null) { return false; }
-//        if (obj == this) { return true; }
-//        if (obj.getClass() != getClass()) {
-//            return false;
-//        }
-//        ScriptClusterNonTerminalNode rhs = (ScriptClusterNonTerminalNode) obj;
-//        return new EqualsBuilder()
-//                .append(field1, rhs.field1)
-//                .append(field2, rhs.field2)
-//                .append(field3, rhs.field3)
-//                .isEquals();
-//    }
-//    public int hashCode(){
-//
-//    }
 }

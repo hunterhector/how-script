@@ -14,4 +14,5 @@ public class GeneralUtils {
     public static String replaceMultipleNewlinesWithOne(String str){
         return str.replaceAll("[\r\n]+", "\n");
     }
+
 }
