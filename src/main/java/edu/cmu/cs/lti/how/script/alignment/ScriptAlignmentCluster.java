@@ -1,8 +1,7 @@
 package edu.cmu.cs.lti.how.script.alignment;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Ordering;
-import edu.cmu.cs.lti.collections.ValueComparableMap;
+import edu.cmu.cs.lti.collections.BidirectionalValueSortedMap;
 import edu.cmu.cs.lti.how.model.script.ScriptCluster;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterLeaveNode;
 import edu.cmu.cs.lti.how.model.script.ScriptClusterNode;
@@ -37,11 +36,9 @@ public class ScriptAlignmentCluster {
 
     private Map<String, double[]> event2Rep;
 
-//    private Alignment[][] allAlignments;
+//    private TreeMap<Pair<Integer, Integer>, Pair<Double, Alignment>> sortedAlignments = new ValueComparableMap<>(Ordering.natural().reverse());
 
-    private TreeMap<Pair<Integer, Integer>, Pair<Double, Alignment>> sortedAlignments = new ValueComparableMap<>(Ordering.natural().reverse());
-
-//    private PriorityQueue<Alignment>[] allAlignments;
+    private BidirectionalValueSortedMap<Pair<Integer, Integer>, Pair<Double, Alignment>> sortedAlignments = new BidirectionalValueSortedMap<>();
 
     private double cutoff = 0.5;
 
@@ -70,7 +67,10 @@ public class ScriptAlignmentCluster {
 //        int temp = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+
 //            temp--;
+//            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+//            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
 //            if (temp < 0) {
 //                break;
 //            }
@@ -92,7 +92,6 @@ public class ScriptAlignmentCluster {
             info("Number of deleted nodes " + numDeleted);
         }
         info("Cut off at " + lastMax);
-
         info("Number of deleted nodes  " + numDeleted);
 
         List<ScriptClusterNode> clusteredNodes = new ArrayList<ScriptClusterNode>();
@@ -108,66 +107,78 @@ public class ScriptAlignmentCluster {
     }
 
     public double cluster(List<ScriptClusterNode> allScripts, boolean[] deleted) {
-        Map.Entry<Pair<Integer, Integer>, Pair<Double, Alignment>> best;
+        Pair<Double, Alignment> bestAlignmentResult;
+        List<Pair<Integer, Integer>> pairs = new ArrayList<>();
+
         while (true) {
-            best = sortedAlignments.pollFirstEntry();
-            //the second key might have already been merged
-            if (best == null || !deleted[best.getKey().getRight()]) {
-                break;
+            Map.Entry<Pair<Double, Alignment>, Collection<Pair<Integer, Integer>>> best = sortedAlignments.pollLastEntry();
+            if (best == null) {
+                return -1;
+            } else {
+                bestAlignmentResult = best.getKey();
+                for (Pair<Integer, Integer> pair : best.getValue()) {
+                    //might have already been merged
+                    if (!deleted[pair.getRight()] && !deleted[pair.getLeft()]) {
+                        pairs.add(pair);
+                    }
+                }
+                if (!pairs.isEmpty()) {
+                    break;
+                }
             }
         }
 
-        if (best == null) {
-            return -1;
-        }
-
-        int mergei = best.getKey().getLeft();
-        int mergej = best.getKey().getRight();
-        Alignment bestAlignment = best.getValue().getRight();
-        double score = best.getValue().getLeft();
-        System.err.println("Current best " + score);
-        System.err.println("[Script " + mergei + "]" + allScripts.get(mergei));
-        System.err.println("[Script " + mergej + "]" + allScripts.get(mergej));
-
-        allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
-        deleted[mergej] = true;
-        System.err.println(mergej + " is deleted ");
-        updateAlignment(allScripts, mergei, deleted);
-
-        return score;
+        merge(allScripts, deleted, pairs, bestAlignmentResult.getRight(), bestAlignmentResult.getLeft());
+        return bestAlignmentResult.getLeft();
     }
 
-//    private Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> linearBest(List<ScriptClusterNode> allScripts, boolean[] deleted, double limit) {
-//        double maxScore = Double.MIN_VALUE;
-//        int mergei = -1, mergej = -1;
-//        Alignment bestAlignment = null;
-//        for (int i = 0; i < allAlignments.length - 1; i++) {
-//            if (deleted[i]) {
-//                continue;
-//            }
-//            for (int j = i + 1; j < allAlignments.length; j++) {
-//                if (deleted[j]) {
-//                    continue;
-//                }
-//                Alignment alignment = allAlignments[i][j];
-//                double[][] seq0 = allScripts.get(i).getSequence();
-//                double[][] seq1 = allScripts.get(j).getSequence();
-//                int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
-//                double score = alignment.getAlignmentScore() / longerLen;
-//
-//                if (score > maxScore) {
-//                    maxScore = score;
-//                    mergei = i;
-//                    mergej = j;
-//                    bestAlignment = alignment;
-//                    if (score >= limit) {
-//                        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, score));
-//                    }
-//                }
-//            }
-//        }
-//        return Pair.of(Pair.of(mergei, mergej), Pair.of(bestAlignment, maxScore));
-//    }
+    private void merge(List<ScriptClusterNode> allScripts, boolean[] deleted, List<Pair<Integer, Integer>> mergePairs, Alignment bestAlignment, double score) {
+        System.err.println("Current best " + score);
+        List<Set<Integer>> mergeClosureSets = new ArrayList<>();
+
+        for (Pair<Integer, Integer> mergePair : mergePairs) {
+            int mergei = mergePair.getLeft();
+            int mergej = mergePair.getRight();
+            System.err.println("[Script " + mergei + "]" + allScripts.get(mergei));
+            System.err.println("[Script " + mergej + "]" + allScripts.get(mergej));
+
+            boolean existed = false;
+            for (Set<Integer> mergeSet : mergeClosureSets) {
+                if (mergeSet.contains(mergei) || mergeSet.contains(mergej)) {
+                    mergeSet.add(mergei);
+                    mergeSet.add(mergej);
+                    existed = true;
+                    break;
+                }
+            }
+
+            if (!existed) {
+                TreeSet<Integer> mergeSet = new TreeSet<>();
+                mergeSet.add(mergei);
+                mergeSet.add(mergej);
+                mergeClosureSets.add(mergeSet);
+            }
+        }
+
+        for (Set<Integer> mergeSet : mergeClosureSets) {
+            int previous = -1;
+            for (int merge : mergeSet) {
+                if (previous == -1) {
+                    previous = merge;
+                } else {
+                    System.err.println("Merging " + previous + " and " + merge);
+                    allScripts.set(previous, new ScriptClusterNonTerminalNode(allScripts.get(previous), allScripts.get(merge), bestAlignment));
+                    deleted[merge] = true;
+                    allScripts.set(merge, null);
+                    System.err.println(merge + " is deleted ");
+                }
+            }
+            if (previous != -1) {
+                updateAlignment(allScripts, previous, deleted);
+            }
+        }
+    }
+
 
     private void updateAlignment(List<ScriptClusterNode> allScripts, int indexToUpdate, boolean[] deleted) {
         logger.info("Update pairwise related to " + indexToUpdate);
@@ -180,7 +191,6 @@ public class ScriptAlignmentCluster {
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
                 sortedAlignments.put(Pair.of(i, indexToUpdate), Pair.of(score, alignment));
-//            allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
             }
         }
 
@@ -192,13 +202,12 @@ public class ScriptAlignmentCluster {
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
                 sortedAlignments.put(Pair.of(indexToUpdate, j), Pair.of(score, alignment));
-//                allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
             }
         }
     }
 
     private void calAllPair(List<ScriptClusterNode> allScripts) {
-        logger.info("Calculate pairwise alignment score all " + allScripts.size() + " scripts");
+        logger.info("Calculate pairwise alignment score for all " + allScripts.size() + " scripts");
 //        allAlignments = new Alignment[allScripts.size()][allScripts.size()];
         for (int i = 0; i < allScripts.size() - 1; i++) {
             if (i % 100 == 0) {
@@ -213,7 +222,6 @@ public class ScriptAlignmentCluster {
                 double score = alignment.getAlignmentScore() / longerLen;
 
                 sortedAlignments.put(Pair.of(i, j), Pair.of(score, alignment));
-//                allAlignments[i][j] = alignment;
             }
         }
     }
