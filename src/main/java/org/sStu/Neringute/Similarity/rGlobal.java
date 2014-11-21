@@ -55,7 +55,7 @@ public class rGlobal
         /**
          * Get three lines, representing this alignment.
          */
-        public CharSequence[] getAlignmentStrings(boolean show_ends) {
+        public String[] getAlignmentStrings(boolean show_ends) {
             return getAlignment(c, r, show_ends);
         }
 
@@ -343,7 +343,7 @@ public class rGlobal
         Iterator iter = alignments.set.iterator();
         while (iter.hasNext()) {
             Alignment item = (Alignment) iter.next();
-            CharSequence[] A = item.getAlignmentStrings(SHOW_ENDS);
+            String[] A = item.getAlignmentStrings(SHOW_ENDS);
             r[i++] = new org.sStu.Neringute.Similarity.AlignmentImp(A, item.Score);
         }
         return r;

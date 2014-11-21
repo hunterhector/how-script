@@ -41,7 +41,6 @@ public class ScriptAlignmentCluster {
 
     private TreeMap<Pair<Integer, Integer>, Pair<Double, Alignment>> sortedAlignments = new ValueComparableMap<>(Ordering.natural().reverse());
 
-
 //    private PriorityQueue<Alignment>[] allAlignments;
 
     private double cutoff = 0.5;
@@ -67,8 +66,14 @@ public class ScriptAlignmentCluster {
         List<ScriptClusterNode> allScripts = new LinkedList<>();
 
         info("Add script nodes");
+
+//        int temp = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+//            temp--;
+//            if (temp < 0) {
+//                break;
+//            }
         }
 
         boolean[] deleted = new boolean[allScripts.size()];
@@ -103,8 +108,18 @@ public class ScriptAlignmentCluster {
     }
 
     public double cluster(List<ScriptClusterNode> allScripts, boolean[] deleted) {
-//        Pair<Pair<Integer, Integer>, Pair<Alignment, Double>> best = linearBest(allScripts, deleted, lastMax);
-        Map.Entry<Pair<Integer, Integer>, Pair<Double, Alignment>> best = sortedAlignments.pollFirstEntry();
+        Map.Entry<Pair<Integer, Integer>, Pair<Double, Alignment>> best;
+        while (true) {
+            best = sortedAlignments.pollFirstEntry();
+            //the second key might have already been merged
+            if (best == null || !deleted[best.getKey().getRight()]) {
+                break;
+            }
+        }
+
+        if (best == null) {
+            return -1;
+        }
 
         int mergei = best.getKey().getLeft();
         int mergej = best.getKey().getRight();
@@ -116,6 +131,7 @@ public class ScriptAlignmentCluster {
 
         allScripts.set(mergei, new ScriptClusterNonTerminalNode(allScripts.get(mergei), allScripts.get(mergej), bestAlignment));
         deleted[mergej] = true;
+        System.err.println(mergej + " is deleted ");
         updateAlignment(allScripts, mergei, deleted);
 
         return score;
@@ -163,7 +179,6 @@ public class ScriptAlignmentCluster {
                 double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
-
                 sortedAlignments.put(Pair.of(i, indexToUpdate), Pair.of(score, alignment));
 //            allAlignments[i][indexToUpdate] = align(allScripts.get(i), allScripts.get(indexToUpdate));
             }
@@ -176,7 +191,6 @@ public class ScriptAlignmentCluster {
                 double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
-
                 sortedAlignments.put(Pair.of(indexToUpdate, j), Pair.of(score, alignment));
 //                allAlignments[indexToUpdate][j] = align(allScripts.get(indexToUpdate), allScripts.get(j));
             }

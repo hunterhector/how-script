@@ -203,7 +203,7 @@ public class Global
     /**
      * Get alignment starting from the cell a_i, a_j
      */
-    public CharSequence[] getAlignment(int a_i, int a_j, boolean show_ends) {
+    public String[] getAlignment(int a_i, int a_j, boolean show_ends) {
         byte[] w = new byte[m + n + 1];
         int N = 0;
 
@@ -297,8 +297,8 @@ public class Global
                     break;
             }
         }
-        return new CharSequence[]{
-                A1, AL, A2};
+        return new String[]{
+                A1.toString(), AL.toString(), A2.toString()};
     }
 
     public org.sStu.Alignment getBestAlignment() {

@@ -1,5 +1,6 @@
 package org.sStu.Neringute.Similarity;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.sStu.Alignment;
 
 /**
@@ -12,14 +13,14 @@ import org.sStu.Alignment;
  */
 
 public class AlignmentImp
-        implements Alignment {
+        implements Alignment, Comparable {
 
-    CharSequence[] sequences;
-    CharSequence middle;
+    String[] sequences;
+    String middle;
     double score;
 
-    public AlignmentImp(CharSequence[] al, double _score) {
-        sequences = new CharSequence[2];
+    public AlignmentImp(String[] al, double _score) {
+        sequences = new String[2];
         sequences[0] = al[0];
         sequences[1] = al[2];
         middle = al[1];
@@ -43,4 +44,11 @@ public class AlignmentImp
         return "\n" + sequences[0] + "\n" + middle + "\n" + sequences[1];
     }
 
+    @Override
+    public int compareTo(Object o) {
+        AlignmentImp theOther = (AlignmentImp) o;
+        return new CompareToBuilder()
+                .append(this.sequences, theOther.sequences)
+                .toComparison();
+    }
 }
