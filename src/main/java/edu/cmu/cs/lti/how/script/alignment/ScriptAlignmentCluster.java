@@ -190,7 +190,9 @@ public class ScriptAlignmentCluster {
                 double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
-                sortedAlignments.put(Pair.of(i, indexToUpdate), Pair.of(score, alignment));
+                if (score > cutoff) {
+                    sortedAlignments.put(Pair.of(i, indexToUpdate), Pair.of(score, alignment));
+                }
             }
         }
 
@@ -201,7 +203,10 @@ public class ScriptAlignmentCluster {
                 double[][] seq1 = allScripts.get(indexToUpdate).getSequence();
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
-                sortedAlignments.put(Pair.of(indexToUpdate, j), Pair.of(score, alignment));
+
+                if (score > cutoff) {
+                    sortedAlignments.put(Pair.of(indexToUpdate, j), Pair.of(score, alignment));
+                }
             }
         }
     }
@@ -221,7 +226,9 @@ public class ScriptAlignmentCluster {
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
 
-                sortedAlignments.put(Pair.of(i, j), Pair.of(score, alignment));
+                if (score > cutoff) {
+                    sortedAlignments.put(Pair.of(i, j), Pair.of(score, alignment));
+                }
             }
         }
     }
@@ -258,7 +265,6 @@ public class ScriptAlignmentCluster {
                 continue;
             }
             String[] parts = line.trim().split("\t", 5);
-
             filename2Events.put(parts[0], parts[4]);
         }
 
