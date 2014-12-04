@@ -42,10 +42,11 @@ public class AlignmentReader {
         for (int i = 0; i < n; i++) {
             StringBuilder sb = new StringBuilder();
             for (String[] alignment : alignments) {
+                sb.append('"');
                 sb.append(alignment[i]);
-                sb.append("\t,\t");
+                sb.append('"');
+                sb.append(",");
             }
-            sb.append("\n");
             writeline(w, "", sb.toString());
         }
         w.close();
