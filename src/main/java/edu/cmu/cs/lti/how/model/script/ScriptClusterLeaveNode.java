@@ -44,7 +44,6 @@ public class ScriptClusterLeaveNode implements ScriptClusterNode {
         return true;
     }
 
-
     public String[] getEvents() {
         return events;
     }

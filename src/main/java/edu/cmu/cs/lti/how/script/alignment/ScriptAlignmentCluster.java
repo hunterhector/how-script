@@ -64,16 +64,16 @@ public class ScriptAlignmentCluster {
 
         info("Add script nodes");
 
-//        int temp = 5;
+        int temp = 5;
         for (String scriptName : allScriptNames) {
             allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
 
-//            temp--;
-//            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
-//            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
-//            if (temp < 0) {
-//                break;
-//            }
+            temp--;
+            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+            allScripts.add(new ScriptClusterLeaveNode(filename2Events.get(scriptName), event2Rep));
+            if (temp < 0) {
+                break;
+            }
         }
 
         boolean[] deleted = new boolean[allScripts.size()];
@@ -94,7 +94,7 @@ public class ScriptAlignmentCluster {
         info("Cut off at " + lastMax);
         info("Number of deleted nodes  " + numDeleted);
 
-        List<ScriptClusterNode> clusteredNodes = new ArrayList<ScriptClusterNode>();
+        List<ScriptClusterNode> clusteredNodes = new ArrayList<>();
         for (int i = 0; i < allScripts.size(); i++) {
             if (!deleted[i]) {
                 clusteredNodes.add(allScripts.get(i));
@@ -225,6 +225,9 @@ public class ScriptAlignmentCluster {
                 double[][] seq1 = allScripts.get(j).getSequence();
                 int longerLen = seq0.length > seq1.length ? seq0.length : seq1.length;
                 double score = alignment.getAlignmentScore() / longerLen;
+
+                System.out.println(score);
+                System.out.println(cutoff);
 
                 if (score > cutoff) {
                     sortedAlignments.put(Pair.of(i, j), Pair.of(score, alignment));
