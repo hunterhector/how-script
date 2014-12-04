@@ -57,6 +57,7 @@ public class AlignmentReader {
         for (String event : node.getEvents()) {
             writeline(w, "", event);
         }
+        w.close();
     }
 
     public void check(ScriptClusterNode node, int depth) throws IOException {
