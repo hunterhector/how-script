@@ -52,7 +52,7 @@ public class AlignmentReader {
     }
 
     public void writeNode(ScriptClusterLeaveNode node) throws IOException {
-        Writer w = new FileWriter(new File(outDir, basename + "_" + counter));
+        Writer w = new FileWriter(new File(outDir, "single_"+basename + "_" + counter));
         counter++;
         for (String event : node.getEvents()) {
             writeline(w, "", event);
