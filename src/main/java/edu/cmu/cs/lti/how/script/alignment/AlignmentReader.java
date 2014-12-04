@@ -31,7 +31,7 @@ public class AlignmentReader {
     }
 
     public void writeAlignment(List<String[]> alignments, int n) throws IOException {
-        Writer w = new FileWriter(new File(outDir, basename + "_" + counter));
+        Writer w = new FileWriter(new File(outDir, basename + "_" + counter + ".csv"));
         counter++;
 
 //        System.out.println("Dumping");
@@ -52,7 +52,7 @@ public class AlignmentReader {
     }
 
     public void writeNode(ScriptClusterLeaveNode node) throws IOException {
-        Writer w = new FileWriter(new File(outDir, "single_"+basename + "_" + counter));
+        Writer w = new FileWriter(new File(outDir, "single_" + basename + "_" + counter));
         counter++;
         for (String event : node.getEvents()) {
             writeline(w, "", event);
@@ -116,7 +116,7 @@ public class AlignmentReader {
             ScriptClusterLeaveNode lNode = (ScriptClusterLeaveNode) node;
             for (int i = 0; i < n; i++) {
                 if (from[i] >= 0) {
-                    events[i] = lNode.getEvents()[from[i]];
+                    events[i] = lNode.getEvents()[from[i]].trim();
                 } else {
                     events[i] = "-";
                 }
